@@ -1,0 +1,4123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexusOS</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #05080f;
+    color: white;
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+#desktop {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    background:
+        radial-gradient(circle at 50% 45%, rgba(0, 140, 255, 0.13), transparent 40%),
+        radial-gradient(circle at 15% 80%, rgba(80, 0, 255, 0.08), transparent 35%),
+        linear-gradient(135deg, #05080f, #07111f 50%, #03060b);
+}
+
+/* subtle grid */
+
+#desktop::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+
+    background-size: 50px 50px;
+    pointer-events: none;
+}
+
+/* =========================
+   DESKTOP ICONS
+========================= */
+
+.desktop-icons {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.desktop-icon {
+    width: 80px;
+    text-align: center;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+
+    transition: 0.15s;
+}
+
+.desktop-icon:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.desktop-icon .icon {
+    font-size: 34px;
+    margin-bottom: 6px;
+}
+
+.desktop-icon span {
+    font-size: 12px;
+}
+
+/* =========================
+   WINDOWS
+========================= */
+
+.window {
+    position: absolute;
+
+    width: 650px;
+    height: 420px;
+
+    top: 15%;
+    left: 25%;
+
+    background: rgba(8, 13, 23, 0.94);
+    border: 1px solid rgba(100, 180, 255, 0.25);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,0.6),
+        0 0 35px rgba(0,120,255,0.08);
+
+    backdrop-filter: blur(18px);
+
+    overflow: hidden;
+
+    display: none;
+}
+
+/* =========================
+   RECYCLE BIN
+========================= */
+
+.recyclebin {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.recycle-toolbar {
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 15px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+
+    font-size: 12px;
+    color: #aaa;
+}
+
+.recycle-toolbar button {
+    border: 1px solid rgba(255,255,255,0.08);
+
+    background: rgba(255,255,255,0.05);
+
+    color: white;
+
+    padding: 7px 10px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 11px;
+}
+
+.recycle-toolbar button:hover {
+    background: rgba(80,160,255,0.15);
+}
+
+.recycle-files {
+    display: grid;
+
+    grid-template-columns: repeat(4, 100px);
+
+    gap: 22px;
+
+    padding: 25px;
+}
+
+.recycle-file {
+    text-align: center;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+}
+
+.recycle-file:hover {
+    background: rgba(80,160,255,0.12);
+}
+
+.recycle-file-icon {
+    font-size: 38px;
+
+    margin-bottom: 8px;
+}
+
+.recycle-file-name {
+    font-size: 12px;
+
+    word-break: break-word;
+}
+
+.titlebar {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 12px;
+
+    background: rgba(255,255,255,0.035);
+
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+
+    cursor: move;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.window-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.window-button {
+    width: 27px;
+    height: 25px;
+
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    color: #aaa;
+
+    transition: 0.15s;
+}
+
+.window-button:hover {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.window-button.close:hover {
+    background: #e5484d;
+    color: white;
+}
+
+.window-content {
+    height: calc(100% - 42px);
+    overflow: hidden;
+}
+
+/* =========================
+   FILE EXPLORER
+========================= */
+
+.explorer-toolbar {
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 15px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.path {
+    flex: 1;
+
+    padding: 7px 12px;
+
+    background: rgba(255,255,255,0.05);
+
+    border-radius: 6px;
+
+    font-size: 12px;
+
+    color: #aaa;
+}
+
+.files {
+    display: grid;
+
+    grid-template-columns: repeat(4, 100px);
+
+    gap: 22px;
+
+    padding: 25px;
+}
+
+.file {
+    text-align: center;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+}
+
+.file:hover {
+    background: rgba(80,160,255,0.12);
+}
+
+.file-icon {
+    font-size: 38px;
+    margin-bottom: 8px;
+}
+
+.file-name {
+    font-size: 12px;
+}
+
+/* =========================
+   TERMINAL
+========================= */
+
+.terminal {
+    background: #020509;
+
+    height: 100%;
+
+    padding: 20px;
+
+    font-family: Consolas, monospace;
+
+    color: #7cffb2;
+
+    font-size: 13px;
+}
+
+.terminal-line {
+    margin-bottom: 7px;
+}
+
+.terminal-input {
+    display: flex;
+}
+
+.terminal-input span {
+    margin-right: 8px;
+}
+
+.terminal-input input {
+    flex: 1;
+
+    background: transparent;
+
+    border: none;
+    outline: none;
+
+    color: #7cffb2;
+
+    font-family: inherit;
+}
+
+/* =========================
+   NOTEPAD
+========================= */
+
+#notepadText {
+    width: 100%;
+    height: 100%;
+
+    resize: none;
+    border: none;
+    outline: none;
+
+    background: transparent;
+    color: white;
+
+    padding: 20px;
+
+    font-family: Consolas, monospace;
+    font-size: 14px;
+
+    overflow-y: scroll;
+
+    /* Remove Firefox scrollbar */
+    scrollbar-width: none;
+
+    /* Remove IE/Edge legacy scrollbar */
+    -ms-overflow-style: none;
+}
+
+/* Remove Chrome / Chromium scrollbar */
+
+#notepadText::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+#notepadText::-webkit-scrollbar-track {
+    display: none;
+}
+
+#notepadText::-webkit-scrollbar-thumb {
+    display: none;
+}
+
+/* =========================
+   NEXUS PYTHON
+========================= */
+
+.python-content {
+    height: calc(100% - 42px);
+
+    display: flex;
+    flex-direction: column;
+
+    background: #05080f;
+}
+
+.python-toolbar {
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 0 10px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+
+    background: rgba(255,255,255,0.025);
+}
+
+.python-toolbar button {
+    padding: 7px 13px;
+
+    border: 1px solid rgba(100,180,255,0.2);
+
+    border-radius: 6px;
+
+    background: rgba(80,160,255,0.08);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    transition: 0.15s;
+}
+
+.python-toolbar button:hover {
+    background: rgba(80,160,255,0.18);
+}
+
+#pythonStatus {
+    margin-left: auto;
+
+    font-size: 11px;
+
+    color: #6dffb0;
+}
+
+#python.python-loading,
+#python.python-loading * {
+    cursor: wait !important;
+}
+
+.python-editor-area {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-height: 0;
+}
+
+#pythonEditor {
+    flex: 1;
+
+    width: 100%;
+
+    resize: none;
+
+    border: none;
+    outline: none;
+
+    padding: 18px;
+
+    background: #03060b;
+
+    color: #e8f1ff;
+
+    font-family: Consolas, "Courier New", monospace;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    tab-size: 4;
+}
+
+.python-output {
+    height: 125px;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+
+    background: #020509;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.python-output-title {
+    padding: 7px 12px;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+
+    color: #64748b;
+
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+#pythonOutput {
+    flex: 1;
+
+    margin: 0;
+
+    padding: 10px 12px;
+
+    overflow-y: auto;
+
+    color: #7cffb2;
+
+    font-family: Consolas, monospace;
+
+    font-size: 12px;
+
+    white-space: pre-wrap;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings {
+    padding: 25px;
+}
+
+.setting {
+    padding: 18px;
+
+    margin-bottom: 12px;
+
+    background: rgba(255,255,255,0.035);
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    border-radius: 9px;
+}
+
+.setting h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.setting p {
+    font-size: 12px;
+    color: #888;
+}
+
+/* =========================
+   TASK MANAGER
+========================= */
+
+.taskmanager {
+    height: 100%;
+    padding: 18px;
+}
+
+.taskmanager-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 14px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.taskmanager-header span:last-child {
+    font-size: 11px;
+    color: #777;
+    font-weight: normal;
+}
+
+.taskmanager-table {
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.task-row {
+    display: grid;
+    grid-template-columns: 1fr 80px 100px;
+
+    align-items: center;
+
+    min-height: 42px;
+
+    padding: 0 14px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+
+    font-size: 12px;
+}
+
+.task-row:last-child {
+    border-bottom: none;
+}
+
+.task-header {
+    min-height: 34px;
+
+    background: rgba(255,255,255,0.04);
+
+    color: #777;
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+.taskmanager-stats {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.resource-card {
+    padding: 15px;
+
+    border-radius: 9px;
+
+    background: rgba(255,255,255,0.035);
+
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.resource-title {
+    font-size: 10px;
+
+    color: #777;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 8px;
+}
+
+.resource-value {
+    font-size: 22px;
+
+    font-weight: 500;
+}
+
+
+
+/* =========================
+   TASKBAR
+========================= */
+
+#taskbar {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 12px;
+
+    background: rgba(5,9,16,0.85);
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter: blur(20px);
+
+    z-index: 10000;
+}
+
+.start-button {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 9px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+}
+
+.start-button:hover {
+    background: rgba(255,255,255,0.09);
+}
+
+.taskbar-apps {
+    display: flex;
+
+    gap: 5px;
+
+    margin-left: 8px;
+}
+
+.task-app {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+}
+
+.task-app:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.task-app.active {
+    background: rgba(80, 160, 255, 0.15);
+
+    box-shadow:
+        inset 0 -2px 0 rgba(100, 180, 255, 0.8);
+}
+
+.task-app.minimized {
+    background: rgba(255,255,255,0.04);
+
+    box-shadow:
+        inset 0 -2px 0 rgba(255,255,255,0.25);
+}
+
+.task-app.minimized:hover {
+    background: rgba(255,255,255,0.09);
+}
+
+.task-app.active:hover {
+    background: rgba(80, 160, 255, 0.22);
+}
+
+.system-tray {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    font-size: 12px;
+
+    color: #aaa;
+}
+
+.clock {
+    color: white;
+}
+
+/* =========================
+   START MENU
+========================= */
+
+#startMenu {
+    position: absolute;
+
+    left: 12px;
+    bottom: 68px;
+
+    width: 360px;
+    height: 470px;
+
+    background: rgba(8,13,23,0.96);
+
+    border: 1px solid rgba(120,180,255,0.18);
+
+    border-radius: 14px;
+
+    backdrop-filter: blur(25px);
+
+    box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+
+    padding: 18px;
+
+    z-index: 9999;
+
+    display: none;
+}
+
+.start-header {
+    font-size: 18px;
+    font-weight: 600;
+
+    margin-bottom: 20px;
+}
+
+.start-search {
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border-radius: 7px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    background: rgba(255,255,255,0.05);
+
+    color: white;
+
+    outline: none;
+
+    margin-bottom: 20px;
+}
+
+.apps-title {
+    font-size: 11px;
+
+    color: #777;
+
+    margin-bottom: 10px;
+}
+
+.start-app {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 11px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    transition: 0.15s;
+}
+
+.start-app:hover {
+    background: rgba(255,255,255,0.07);
+}
+
+.start-app-icon {
+    font-size: 20px;
+}
+
+/* =========================
+   SYSTEM STATUS
+========================= */
+
+.status {
+    position: absolute;
+
+    right: 25px;
+    top: 25px;
+
+    padding: 9px 13px;
+
+    border-radius: 8px;
+
+    background: rgba(20,255,140,0.06);
+
+    border: 1px solid rgba(20,255,140,0.12);
+
+    font-size: 11px;
+
+    color: #6dffb0;
+
+    letter-spacing: 1px;
+}
+/* =========================
+   BOOT SCREEN
+========================= */
+
+#bootScreen {
+    position: fixed;
+    inset: 0;
+
+    z-index: 999999;
+
+    background: #02050a;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    animation: bootFadeOut 1s ease forwards;
+    animation-delay: 5s;
+}
+
+.boot-content {
+    width: 360px;
+    text-align: center;
+}
+
+.boot-logo {
+    width: 80px;
+    height: 80px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(100,180,255,0.5);
+    border-radius: 20px;
+
+    font-size: 42px;
+    font-weight: 600;
+
+    color: white;
+
+    box-shadow:
+        0 0 20px rgba(0,140,255,0.25);
+
+    opacity: 0;
+
+    animation: logoAppear 1s ease forwards;
+}
+
+.boot-title {
+    font-size: 27px;
+    letter-spacing: 8px;
+
+    opacity: 0;
+
+    animation: textAppear 0.8s ease forwards;
+    animation-delay: 0.7s;
+}
+
+.boot-subtitle {
+    margin-top: 7px;
+
+    font-size: 10px;
+    letter-spacing: 4px;
+
+    color: #64748b;
+
+    opacity: 0;
+
+    animation: textAppear 0.8s ease forwards;
+    animation-delay: 1s;
+}
+
+.boot-loader {
+    width: 100%;
+    height: 3px;
+
+    margin-top: 45px;
+
+    background: rgba(255,255,255,0.08);
+
+    overflow: hidden;
+
+    border-radius: 5px;
+
+    opacity: 0;
+
+    animation: textAppear 0.5s ease forwards;
+    animation-delay: 1.4s;
+}
+
+.boot-progress {
+    height: 100%;
+    width: 0%;
+
+    background: white;
+
+    box-shadow:
+        0 0 12px rgba(100,180,255,0.8);
+
+    animation: bootProgress 3s ease forwards;
+    animation-delay: 1.5s;
+}
+
+.boot-status {
+    margin-top: 13px;
+
+    font-family: Consolas, monospace;
+
+    font-size: 10px;
+
+    color: #64748b;
+
+    letter-spacing: 1px;
+
+    opacity: 0;
+
+    animation: textAppear 0.5s ease forwards;
+    animation-delay: 1.5s;
+}
+
+
+/* =========================
+   BOOT ANIMATIONS
+========================= */
+
+@keyframes logoAppear {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.75);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+@keyframes textAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+@keyframes bootProgress {
+
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 100%;
+    }
+
+}
+
+@keyframes bootFadeOut {
+
+    0% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+}
+/* =========================
+   NEXUS CONTEXT MENU
+========================= */
+
+#contextMenu {
+    position: fixed;
+
+    width: 230px;
+
+    padding: 6px;
+
+    background: rgba(10, 15, 25, 0.96);
+
+    border: 1px solid rgba(120, 180, 255, 0.2);
+
+    border-radius: 9px;
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,0.55),
+        0 0 25px rgba(0,120,255,0.08);
+
+    backdrop-filter: blur(18px);
+
+    z-index: 999999;
+
+    display: none;
+}
+
+.context-item {
+    height: 36px;
+
+    padding: 0 10px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
+    color: #dce7f5;
+
+    cursor: pointer;
+}
+
+.context-item span:first-child {
+    width: 20px;
+
+    text-align: center;
+
+    font-size: 15px;
+}
+
+.context-item:hover {
+    background: rgba(80, 160, 255, 0.13);
+}
+
+.context-separator {
+    height: 1px;
+
+    margin: 5px 6px;
+
+    background: rgba(255,255,255,0.07);
+}
+
+/* =====================================================
+   NEXUS UI ANIMATIONS
+===================================================== */
+
+/* -------------------------
+   WINDOW OPEN
+------------------------- */
+
+@keyframes windowOpen {
+
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+}
+
+
+/* -------------------------
+   WINDOW CLOSE
+------------------------- */
+
+@keyframes windowClose {
+
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
+    }
+
+}
+
+
+/* -------------------------
+   WINDOW
+------------------------- */
+
+.window {
+    transform-origin: center;
+}
+
+
+/* -------------------------
+   START MENU
+------------------------- */
+
+@keyframes startMenuOpen {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+#startMenu {
+    transform-origin: bottom left;
+}
+
+
+/* -------------------------
+   CONTEXT MENU
+------------------------- */
+
+@keyframes contextMenuOpen {
+
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+#contextMenu {
+    transform-origin: top left;
+}
+
+
+/* -------------------------
+   DESKTOP ICONS
+------------------------- */
+
+@keyframes desktopIconAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.desktop-icon {
+    animation: desktopIconAppear 0.45s ease forwards;
+}
+
+
+/* -------------------------
+   TASKBAR
+------------------------- */
+
+@keyframes taskbarAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+#taskbar {
+    animation: taskbarAppear 0.6s ease forwards;
+}
+
+/* =========================
+   NEXUS DISPLAY SETTINGS
+========================= */
+
+#displaySettings {
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px solid rgba(120, 180, 255, 0.15);
+    border-radius: 12px;
+    background: rgba(5, 10, 20, 0.45);
+    box-shadow:
+        0 0 25px rgba(40, 120, 255, 0.08),
+        inset 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+#displaySettings h3 {
+    margin-bottom: 6px;
+}
+
+#displaySettings p {
+    opacity: 0.65;
+    margin-bottom: 18px;
+}
+
+
+/* Wallpaper button container */
+
+#displaySettings > div {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+
+/* Wallpaper buttons */
+
+#displaySettings button {
+    position: relative;
+
+    padding: 13px 16px;
+
+    border: 1px solid rgba(120, 180, 255, 0.18);
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(40, 80, 130, 0.25),
+            rgba(10, 20, 35, 0.55)
+        );
+
+    color: #dcecff;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+
+    overflow: hidden;
+}
+
+
+/* Hover */
+
+#displaySettings button:hover {
+
+    transform: translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(60, 130, 210, 0.35),
+            rgba(20, 40, 70, 0.7)
+        );
+
+    border-color: rgba(120, 190, 255, 0.5);
+
+    box-shadow:
+        0 0 14px rgba(70, 150, 255, 0.18);
+}
+
+
+/* Click */
+
+#displaySettings button:active {
+
+    transform: scale(0.97);
+
+    box-shadow:
+        0 0 8px rgba(70, 150, 255, 0.15);
+
+}
+
+
+/* Little glow sweep */
+
+#displaySettings button::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.08),
+            transparent
+        );
+
+    transition: left 0.35s ease;
+
+}
+
+
+#displaySettings button:hover::before {
+
+    left: 100%;
+
+}
+
+/* =========================
+   SETTINGS SCROLLING
+========================= */
+
+#settings .window-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.settings {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+
+/* Display page */
+
+.settings.display-page {
+    height: 100%;
+    overflow-y: auto;
+}
+
+
+/* Display header */
+
+.display-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+
+/* Back button */
+
+.display-back {
+    padding: 8px 13px;
+
+    border: 1px solid rgba(120, 180, 255, 0.2);
+    border-radius: 8px;
+
+    background: rgba(20, 40, 65, 0.45);
+
+    color: #cfe6ff;
+
+    font-family: inherit;
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.display-back:hover {
+    background: rgba(50, 100, 160, 0.35);
+    border-color: rgba(120, 190, 255, 0.45);
+    transform: translateX(-2px);
+}
+
+
+/* Wallpaper grid */
+
+.wallpaper-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+
+/* Wallpaper buttons */
+
+.wallpaper-options button {
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 14px;
+
+    border: 1px solid rgba(120, 180, 255, 0.18);
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(40, 80, 130, 0.25),
+            rgba(10, 20, 35, 0.55)
+        );
+
+    color: #dcecff;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+.wallpaper-options button:hover {
+
+    transform: translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(60, 130, 210, 0.35),
+            rgba(20, 40, 70, 0.7)
+        );
+
+    border-color: rgba(120, 190, 255, 0.5);
+
+    box-shadow:
+        0 0 14px rgba(70, 150, 255, 0.18);
+}
+
+
+.wallpaper-options button:active {
+    transform: scale(0.97);
+}
+
+/* =========================
+   DISPLAY SETTING HOVER
+========================= */
+
+.settings > .setting:first-child {
+    cursor: pointer;
+    transition:
+        transform 0.18s ease,
+        background 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.settings > .setting:first-child:hover {
+    transform: translateX(5px);
+
+    background: rgba(40, 100, 160, 0.18);
+
+    border-color: rgba(100, 180, 255, 0.4);
+
+    box-shadow:
+        0 0 18px rgba(60, 150, 255, 0.12);
+}
+
+.settings > .setting:first-child:active {
+    transform: translateX(3px) scale(0.98);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- BOOT SCREEN -->
+
+<div id="bootScreen">
+
+    <div class="boot-content">
+
+        <div class="boot-logo">N</div>
+
+        <div class="boot-title">
+            NEXUS
+        </div>
+
+        <div class="boot-subtitle">
+            OPERATING SYSTEM
+        </div>
+
+        <div class="boot-loader">
+            <div class="boot-progress"></div>
+        </div>
+
+        <div class="boot-status" id="bootStatus">
+            INITIALIZING CORE
+        </div>
+
+    </div>
+
+</div>
+
+<!-- NEXUS RIGHT CLICK MENU -->
+
+<div id="contextMenu">
+
+    <div class="context-item" onclick="refreshDesktop()">
+        <span>↻</span>
+        <span>Refresh</span>
+    </div>
+
+    <div class="context-separator"></div>
+
+    <div class="context-item" onclick="createFolder()">
+        <span>📁</span>
+        <span>New Folder</span>
+    </div>
+
+    <div class="context-item" onclick="createTextFile()">
+        <span>📄</span>
+        <span>New Text File</span>
+    </div>
+
+    <div class="context-separator"></div>
+
+    <div class="context-item" onclick="openWindow('settings')">
+        <span>🎨</span>
+        <span>Personalize</span>
+    </div>
+
+    <div class="context-item" onclick="openWindow('settings')">
+        <span>⚙️</span>
+        <span>Settings</span>
+    </div>
+
+    <div class="desktop-icon" onclick="openRecycleBin()">
+        <div class="icon" id="recycleBinIcon">🗑️</div>
+        <span>Recycle Bin</span>
+    </div>
+
+    <div class="context-separator"></div>
+
+    <div class="context-item" onclick="openWindow('terminal')">
+        <span>💻</span>
+        <span>Open Terminal</span>
+    </div>
+
+</div>
+
+<div id="desktop">
+
+    <div class="status">
+        ● NEXUS ONLINE
+    </div>
+
+    <!-- DESKTOP ICONS -->
+
+    <div class="desktop-icons">
+
+        <div class="desktop-icon" onclick="openExplorer()">
+            <div class="icon">📁</div>
+            <span>File Explorer</span>
+        </div>
+
+        <div class="desktop-icon" onclick="openWindow('terminal')">
+            <div class="icon">💻</div>
+            <span>Terminal</span>
+        </div>
+
+        <div class="desktop-icon" onclick="openWindow('notepad')">
+            <div class="icon">📝</div>
+            <span>Notepad</span>
+        </div>
+
+        <div class="desktop-icon" onclick="openWindow('settings')">
+            <div class="icon">⚙️</div>
+            <span>Settings</span>
+        </div>
+
+        <div class="desktop-icon" onclick="openWindow('python')">
+            <div class="icon">🐍</div>
+            <span>Python</span>
+        </div>
+
+    </div>
+
+
+    <!-- FILE EXPLORER -->
+
+    <div class="window" id="explorer">
+
+        <div class="titlebar" onmousedown="startDrag(event, 'explorer')">
+
+            <div class="title">
+                📁 File Explorer
+            </div>
+
+            <div class="window-buttons">
+
+                <div class="window-button"
+                     onclick="minimizeWindow('explorer')">
+                    −
+                </div>
+
+                <div class="window-button close"
+                     onclick="closeWindow('explorer')">
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="window-content">
+
+            <div class="explorer-toolbar">
+
+                <div>←</div>
+                <div>→</div>
+
+                <div class="path">
+                    C:\Users\Guest
+                </div>
+
+            </div>
+
+            <div class="files" id="fileGrid"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TERMINAL -->
+
+    <div class="window" id="terminal">
+
+        <div class="titlebar" onmousedown="startDrag(event, 'terminal')">
+
+            <div class="title">
+                💻 NEXUS Terminal
+            </div>
+
+            <div class="window-buttons">
+
+                <div class="window-button"
+                     onclick="minimizeWindow('terminal')">
+                    −
+                </div>
+
+                <div class="window-button close"
+                     onclick="closeWindow('terminal')">
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="window-content">
+
+            <div class="terminal">
+
+                <div class="terminal-line">
+                    NEXUS Terminal [Version 0.1]
+                </div>
+
+                <div class="terminal-line">
+                    Type "help" for available commands.
+                </div>
+
+                <br>
+
+                <div class="terminal-line">
+                    C:\Users\Guest>
+                </div>
+
+                <div class="terminal-input">
+
+                    <span>C:\Users\Guest&gt;</span>
+
+                    <input
+                        id="terminalInput"
+                        autocomplete="off"
+                        onkeydown="terminalCommand(event)"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PYTHON -->
+
+    <div class="window" id="python">
+
+        <div class="titlebar" onmousedown="startDrag(event, 'python')">
+
+            <div class="title">
+                🐍 NEXUS Python 3.14
+            </div>
+
+            <div class="window-buttons">
+
+                <div class="window-button"
+                     onclick="minimizeWindow('python')">
+                    −
+                </div>
+
+                <div class="window-button close"
+                     onclick="closeWindow('python')">
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="python-content">
+
+            <div class="python-toolbar">
+
+                <button onclick="runPythonCode()">
+                    ▶ Run
+                </button>
+
+                <button onclick="clearPythonOutput()">
+                    Clear
+                </button>
+
+                <span id="pythonStatus">
+                    Python loading...
+                </span>
+
+            </div>
+
+            <div class="python-editor-area">
+
+                <textarea
+                    id="pythonEditor"
+                    spellcheck="false"
+                    placeholder="# Write Python code here...
+    print('Hello from NEXUS!')"
+                ></textarea>
+
+                <div class="python-output">
+
+                    <div class="python-output-title">
+                        OUTPUT
+                    </div>
+
+                    <pre id="pythonOutput"></pre>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- NOTEPAD -->
+
+    <div class="window" id="notepad">
+
+        <div class="titlebar" onmousedown="startDrag(event, 'notepad')">
+
+            <div class="title">
+                📝 Notepad
+            </div>
+
+            <div class="window-buttons">
+
+                <div class="window-button"
+                     onclick="minimizeWindow('notepad')">
+                    −
+                </div>
+
+                <div class="window-button close"
+                     onclick="closeWindow('notepad')">
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="window-content">
+
+            <textarea id="notepadText"
+placeholder="Start typing..."></textarea>
+
+        </div>
+
+    </div>
+
+
+    <!-- SETTINGS -->
+
+    <div class="window" id="settings">
+
+        <div class="titlebar" onmousedown="startDrag(event, 'settings')">
+
+            <div class="title">
+                ⚙️ Settings
+            </div>
+
+            <div class="window-buttons">
+
+                <div class="window-button"
+                     onclick="minimizeWindow('settings')">
+                    −
+                </div>
+
+                <div class="window-button close"
+                     onclick="closeWindow('settings')">
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="window-content">
+
+            <div class="settings">
+
+                <div class="setting" onclick="openDisplaySettings()">
+
+                    <h3>🖥️ Display</h3>
+                    <p>Configure your NEXUS desktop.</p>
+
+                </div>
+
+                <div id="displaySettings" style="display: none;">
+
+                    <div class="display-header">
+                        <button class="display-back" onclick="closeDisplaySettings()">
+                            ← Back
+                        </button>
+
+                        <div>
+                            <h3>🖥️ Display Settings</h3>
+                            <p>Choose your NEXUS wallpaper.</p>
+                        </div>
+                    </div>
+
+                    <div class="wallpaper-options">
+
+                        <button onclick="setWallpaper('default')">
+                            <span>🌌</span>
+                            <span>NEXUS</span>
+                        </button>
+
+                        <button onclick="setWallpaper('blue')">
+                            <span>🔵</span>
+                            <span>Blue</span>
+                        </button>
+
+                        <button onclick="setWallpaper('purple')">
+                            <span>🟣</span>
+                            <span>Purple</span>
+                        </button>
+
+                        <button onclick="setWallpaper('dark')">
+                            <span>⚫</span>
+                            <span>Dark</span>
+                        </button>
+
+                        <button onclick="setWallpaper('sunset')">
+                            <span>🌅</span>
+                            <span>Sunset</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="setting">
+                    <h3>🎨 Personalization</h3>
+                    <p>Change wallpaper, theme and accent color.</p>
+                </div>
+
+                <div class="setting">
+                    <h3>🔊 Sound</h3>
+                    <p>Manage system audio.</p>
+                </div>
+
+                <div class="setting">
+                    <h3>ℹ️ System</h3>
+                    <p>NEXUS OS v0.1 • Build 260817</p>
+                </div>
+
+                <div id="displaySettings" style="display:none;">
+
+                    <h3>🖥️ Display Settings</h3>
+                    <p>Choose a desktop background.</p>
+
+                    <div class="wallpaper-options">
+
+                        <button onclick="setWallpaper('default')">
+                            🌌 NEXUS
+                        </button>
+
+                        <button onclick="setWallpaper('blue')">
+                            🔵 Blue
+                        </button>
+
+                        <button onclick="setWallpaper('purple')">
+                            🟣 Purple
+                        </button>
+
+                        <button onclick="setWallpaper('dark')">
+                            ⚫ Dark
+                        </button>
+
+                        <button onclick="setWallpaper('sunset')">
+                            🌅 Sunset
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TASK MANAGER -->
+
+    <div class="window" id="taskmanager">
+
+        <div class="titlebar" onmousedown="startDrag(event, 'taskmanager')">
+
+            <div class="title">
+                📊 NEXUS Task Manager
+            </div>
+
+            <div class="window-buttons">
+
+                <div class="window-button"
+                     onclick="minimizeWindow('taskmanager')">
+                    −
+                </div>
+
+                <div class="window-button close"
+                     onclick="closeWindow('taskmanager')">
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="window-content">
+
+            <div class="taskmanager">
+
+                <div class="taskmanager-header">
+                    <span>Processes</span>
+                    <span id="taskProcessCount">4 processes</span>
+                </div>
+
+                <div class="taskmanager-table">
+
+                    <div class="task-row task-header">
+                        <span>Process</span>
+                        <span>CPU</span>
+                        <span>Memory</span>
+                    </div>
+
+                    <div class="task-row">
+                        <span>🖥️ NEXUS Desktop</span>
+                        <span id="cpuDesktop">2%</span>
+                        <span>48 MB</span>
+                    </div>
+
+                    <div class="task-row">
+                        <span>📁 File Explorer</span>
+                        <span id="cpuExplorer">1%</span>
+                        <span>24 MB</span>
+                    </div>
+
+                    <div class="task-row">
+                        <span>💻 NEXUS Terminal</span>
+                        <span id="cpuTerminal">0%</span>
+                        <span>18 MB</span>
+                    </div>
+
+                    <div class="task-row">
+                        <span>📝 Notepad</span>
+                        <span id="cpuNotepad">0%</span>
+                        <span>16 MB</span>
+                    </div>
+
+                </div>
+
+                <div class="taskmanager-stats">
+
+                    <div class="resource-card">
+
+                        <div class="resource-title">
+                            CPU
+                        </div>
+
+                        <div class="resource-value"
+                             id="taskCpu">
+                            12%
+                        </div>
+
+                    </div>
+
+                    <div class="resource-card">
+
+                        <div class="resource-title">
+                            MEMORY
+                        </div>
+
+                        <div class="resource-value"
+                             id="taskMemory">
+                            42%
+                        </div>
+
+                    </div>
+
+                    <div class="resource-card">
+
+                        <div class="resource-title">
+                            PROCESSES
+                        </div>
+
+                        <div class="resource-value"
+                             id="taskProcesses">
+                            4
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RECYCLE BIN -->
+
+    <div class="window" id="recyclebin">
+
+        <div class="titlebar" onmousedown="startDrag(event, 'recyclebin')">
+
+            <div class="title">
+                🗑️ Recycle Bin
+            </div>
+
+            <div class="window-buttons">
+
+                <div class="window-button"
+                     onclick="minimizeWindow('recyclebin')">
+                    −
+                </div>
+
+                <div class="window-button close"
+                     onclick="closeWindow('recyclebin')">
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="window-content">
+
+            <div class="recyclebin">
+
+                <div class="recycle-toolbar">
+
+                    <span id="recycleCount">
+                        Recycle Bin is empty
+                    </span>
+
+                    <button onclick="emptyRecycleBin()">
+                        Empty Recycle Bin
+                    </button>
+
+                </div>
+
+                <div class="recycle-files" id="recycleFiles">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- START MENU -->
+
+    <div id="startMenu">
+
+        <div class="start-header">
+            NEXUS
+        </div>
+
+        <input
+            class="start-search"
+            placeholder="Search apps..."
+        >
+
+        <div class="apps-title">
+            PINNED
+        </div>
+
+        <div class="start-app"
+             onclick="openExplorer()"; toggleStart()>
+
+            <div class="start-app-icon">📁</div>
+            File Explorer
+
+        </div>
+
+        <div class="start-app"
+             onclick="openWindow('terminal'); toggleStart()">
+
+            <div class="start-app-icon">💻</div>
+            Terminal
+
+        </div>
+
+        <div class="start-app"
+             onclick="openWindow('notepad'); toggleStart()">
+
+            <div class="start-app-icon">📝</div>
+            Notepad
+
+        </div>
+
+        <div class="start-app"
+             onclick="openWindow('settings'); toggleStart()">
+
+            <div class="start-app-icon">⚙️</div>
+            Settings
+
+        </div>
+
+        <div class="start-app"
+             onclick="openWindow('taskmanager'); toggleStart()">
+
+            <div class="start-app-icon">📊</div>
+            Task Manager
+
+        </div>
+
+    </div>
+
+
+    <!-- TASKBAR -->
+
+    <div id="taskbar">
+
+        <div
+            class="start-button"
+            onclick="toggleStart()"
+        >
+            ◈
+        </div>
+
+        <div class="taskbar-apps">
+
+            <div
+                class="task-app"
+                id="task-explorer"
+                onclick="toggleTaskbarWindow('explorer')"
+            >
+                📁
+            </div>
+
+            <div
+                class="task-app"
+                id="task-terminal"
+                onclick="toggleTaskbarWindow('terminal')"
+            >
+                💻
+            </div>
+
+            <div
+                class="task-app"
+                id="task-notepad"
+                onclick="toggleTaskbarWindow('notepad')"
+            >
+                📝
+            </div>
+
+            <div
+                class="task-app"
+                id="task-settings"
+                onclick="toggleTaskbarWindow('settings')"
+            >
+                ⚙️
+            </div>
+
+            <div
+                class="task-app"
+                id="task-python"
+                onclick="toggleTaskbarWindow('python')"
+            >
+                🐍
+            </div>
+
+        </div>
+
+        <div class="system-tray">
+
+            <span>⌁</span>
+            <span>🔊</span>
+            <span>▣</span>
+
+            <span class="clock" id="clock">
+                00:00
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v314.0.3/full/pyodide.js"></script>
+
+
+<script>
+
+/* =========================
+   WINDOW MANAGEMENT
+========================= */
+
+let zIndex = 10;
+
+/* =========================
+   NEXUS PYTHON ENGINE
+========================= */
+
+let pyodide = null;
+let pythonLoading = false;
+
+
+/* Load Python */
+
+async function initializePython() {
+
+    if (pyodide || pythonLoading)
+        return;
+
+    pythonLoading = true;
+
+    document.getElementById("python")
+        .classList.add("python-loading");
+
+    const status =
+        document.getElementById("pythonStatus");
+
+    status.textContent =
+        "Loading Python 3.14...";
+
+    try {
+
+        pyodide = await loadPyodide();
+
+        status.textContent =
+            "Python 3.14.2 READY";
+
+        status.style.color =
+            "#6dffb0";
+
+    }
+
+    catch (error) {
+
+        status.textContent =
+            "Python FAILED";
+
+        status.style.color =
+            "#ff6d6d";
+
+        console.error(error);
+
+    }
+
+    pythonLoading = false;
+
+    document.getElementById("python")
+        .classList.remove("python-loading");
+
+}
+
+/* =========================
+   RUN PYTHON
+========================= */
+
+async function runPythonCode() {
+
+    const editor =
+        document.getElementById("pythonEditor");
+
+    const output =
+        document.getElementById("pythonOutput");
+
+    const status =
+        document.getElementById("pythonStatus");
+
+    const code =
+        editor.value;
+
+    if (!pyodide) {
+
+        output.textContent =
+            "Python is still loading...";
+
+        await initializePython();
+
+    }
+
+    if (!pyodide)
+        return;
+
+
+    output.textContent = "";
+
+    status.textContent =
+        "Running...";
+
+
+    try {
+
+        /* Capture Python stdout */
+
+        pyodide.setStdout({
+
+            batched: text => {
+
+                output.textContent += text;
+
+            }
+
+        });
+
+
+        const result =
+            await pyodide.runPythonAsync(code);
+
+
+        /* Show returned expression */
+
+        if (
+            result !== undefined &&
+            result !== null
+        ) {
+
+            output.textContent +=
+                String(result);
+
+        }
+
+
+        status.textContent =
+            "Python 3.14.2 READY";
+
+    }
+
+    catch (error) {
+
+        output.textContent =
+            error.toString();
+
+        status.textContent =
+            "Execution error";
+
+        status.style.color =
+            "#ff6d6d";
+
+        return;
+
+    }
+
+    status.style.color =
+        "#6dffb0";
+
+}
+
+function clearPythonOutput() {
+
+    document.getElementById(
+        "pythonOutput"
+    ).textContent = "";
+
+}
+
+// =========================
+// SAVE PYTHON CODE
+// =========================
+
+const PYTHON_CODE_KEY = "nexus_python_code";
+
+function savePythonCode() {
+    const editor = document.getElementById("pythonEditor");
+
+    localStorage.setItem(
+        PYTHON_CODE_KEY,
+        editor.value
+    );
+}
+
+function loadPythonCode() {
+    const editor = document.getElementById("pythonEditor");
+
+    const savedCode =
+        localStorage.getItem(PYTHON_CODE_KEY);
+
+    if (savedCode !== null) {
+        editor.value = savedCode;
+    }
+}
+
+document
+    .getElementById("pythonEditor")
+    .addEventListener("input", savePythonCode);
+
+const windowStates = {};
+
+document.querySelectorAll(".window").forEach(window => {
+    windowStates[window.id] = "closed";
+});
+
+/* =========================
+   OPEN WINDOW
+========================= */
+
+function openWindow(id) {
+
+    const window = document.getElementById(id);
+
+    windowStates[id] = "open";
+
+    if (id === "python") {
+        loadPythonCode()
+        initializePython();
+    }
+
+    window.style.display = "block";
+
+    window.style.animation =
+        "windowOpen 0.18s ease forwards";
+
+    zIndex++;
+
+    window.style.zIndex = zIndex;
+
+    updateTaskbarState(id);
+}
+
+
+/* =========================
+   CLOSE WINDOW
+========================= */
+
+function closeWindow(id) {
+
+    const window = document.getElementById(id);
+
+    windowStates[id] = "closed";
+
+    window.style.display = "none";
+
+    updateTaskbarState(id);
+}
+
+
+/* =========================
+   MINIMIZE WINDOW
+========================= */
+
+function minimizeWindow(id) {
+
+    const window = document.getElementById(id);
+
+    windowStates[id] = "minimized";
+
+    window.style.display = "none";
+
+    updateTaskbarState(id);
+}
+
+
+/* =========================
+   TASKBAR BUTTON
+========================= */
+
+function toggleTaskbarWindow(id) {
+
+    const state = windowStates[id];
+
+    // App is minimized → restore it
+    if (state === "minimized") {
+
+        openWindow(id);
+
+        return;
+
+    }
+
+    // App is open → minimize it
+    if (state === "open") {
+
+        minimizeWindow(id);
+
+        return;
+
+    }
+
+    // App is closed → open it
+    if (state === "closed") {
+
+        openWindow(id);
+
+        return;
+
+    }
+
+}
+
+
+/* =========================
+   TASKBAR STATE
+========================= */
+
+function updateTaskbarState(id) {
+
+    const taskbarButton =
+        document.getElementById("task-" + id);
+
+    if (!taskbarButton) return;
+
+
+    /* Remove previous states */
+
+    taskbarButton.classList.remove(
+        "active",
+        "minimized"
+    );
+
+
+    /* Window is open */
+
+    if (windowStates[id] === "open") {
+
+        taskbarButton.classList.add("active");
+
+    }
+
+
+    /* Window is minimized */
+
+    else if (windowStates[id] === "minimized") {
+
+        taskbarButton.classList.add("minimized");
+
+    }
+
+}
+
+/* Bring window forward */
+
+document.querySelectorAll(".window").forEach(window => {
+
+    window.addEventListener("mousedown", () => {
+
+        zIndex++;
+
+        window.style.zIndex = zIndex;
+
+    });
+
+});
+
+
+/* =========================
+   DRAGGING
+========================= */
+
+let dragging = null;
+let offsetX = 0;
+let offsetY = 0;
+
+function startDrag(event, id) {
+
+    const window = document.getElementById(id);
+
+    dragging = window;
+
+    offsetX =
+        event.clientX - window.offsetLeft;
+
+    offsetY =
+        event.clientY - window.offsetTop;
+
+    zIndex++;
+
+    window.style.zIndex = zIndex;
+
+    document.addEventListener("mousemove", drag);
+
+    document.addEventListener("mouseup", stopDrag);
+
+}
+
+function drag(event) {
+
+    if (!dragging) return;
+
+    dragging.style.left =
+        (event.clientX - offsetX) + "px";
+
+    dragging.style.top =
+        (event.clientY - offsetY) + "px";
+
+}
+
+function stopDrag() {
+
+    dragging = null;
+
+    document.removeEventListener("mousemove", drag);
+
+    document.removeEventListener("mouseup", stopDrag);
+
+}
+
+
+/* =========================
+   START MENU
+========================= */
+
+function toggleStart() {
+
+    const menu =
+        document.getElementById("startMenu");
+
+    if (menu.style.display === "block") {
+
+        menu.style.display = "none";
+
+    }
+
+    else {
+
+        menu.style.display = "block";
+
+        menu.style.animation =
+            "startMenuOpen 0.16s ease forwards";
+
+    }
+
+}
+
+
+/* =========================
+   CLOCK
+========================= */
+
+function updateClock() {
+
+    const now = new Date();
+
+    let hours = now.getHours();
+
+    let minutes =
+        String(now.getMinutes()).padStart(2, "0");
+
+    const ampm =
+        hours >= 12 ? "PM" : "AM";
+
+    hours =
+        hours % 12 || 12;
+
+    document.getElementById("clock").textContent =
+        `${hours}:${minutes} ${ampm}`;
+
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
+
+
+/* =========================
+   TERMINAL
+========================= */
+
+function terminalCommand(event) {
+
+    if (event.key !== "Enter")
+        return;
+
+    const input =
+        document.getElementById("terminalInput");
+
+    const command =
+        input.value.trim().toLowerCase();
+
+    const terminal =
+        document.querySelector(".terminal");
+
+    const output =
+        document.createElement("div");
+
+    output.className = "terminal-line";
+
+    if (command === "help") {
+
+        output.innerHTML =
+            `Available commands:<br>
+            help<br>
+            clear<br>
+            systeminfo<br>
+            echo [text]`;
+
+    }
+
+    else if (command === "clear") {
+
+        terminal.innerHTML = "";
+
+    }
+
+    else if (command === "systeminfo") {
+
+        output.innerHTML =
+            `NEXUS OS v0.1<br>
+            CPU: Virtual Processor<br>
+            RAM: 12 GB<br>
+            Storage: 477 GB<br>
+            Status: ONLINE`;
+
+    }
+
+    else if (command.startsWith("echo ")) {
+
+        output.textContent =
+            command.substring(5);
+
+    }
+
+    else if (command === "") {
+
+        output.textContent = "";
+
+    }
+
+    else {
+
+        output.textContent =
+            `'${command}' is not recognized. Type "help".`;
+
+    }
+
+    terminal.insertBefore(
+        output,
+        document.querySelector(".terminal-input")
+    );
+
+    input.value = "";
+
+}
+
+/* =========================
+   NEXUS RIGHT CLICK MENU
+========================= */
+
+const contextMenu =
+    document.getElementById("contextMenu");
+
+
+/* Disable Chrome's context menu */
+
+document.getElementById("desktop")
+    .addEventListener("contextmenu", function(event) {
+
+        event.preventDefault();
+
+        let x = event.clientX;
+        let y = event.clientY;
+
+        const menuWidth = 230;
+        const menuHeight = 330;
+
+        /* Keep menu inside screen */
+
+        if (x + menuWidth > window.innerWidth) {
+            x = window.innerWidth - menuWidth - 8;
+        }
+
+        if (y + menuHeight > window.innerHeight) {
+            y = window.innerHeight - menuHeight - 8;
+        }
+
+        contextMenu.style.left = x + "px";
+        contextMenu.style.top = y + "px";
+
+        contextMenu.style.display = "block";
+
+        contextMenu.style.animation =
+            "contextMenuOpen 0.12s ease forwards";
+
+    });
+
+
+/* Hide menu when clicking elsewhere */
+
+document.addEventListener("click", function(event) {
+
+    if (!contextMenu.contains(event.target)) {
+
+        contextMenu.style.display = "none";
+
+    }
+
+});
+
+
+/* Hide menu with Escape */
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+
+        contextMenu.style.display = "none";
+
+    }
+
+});
+
+
+/* =========================
+   MENU ACTIONS
+========================= */
+
+function refreshDesktop() {
+
+    contextMenu.style.display = "none";
+
+    location.reload();
+
+}
+
+
+function createFolder() {
+
+    contextMenu.style.display = "none";
+
+    alert("New Folder — filesystem coming soon!");
+
+}
+
+
+function createTextFile() {
+
+    contextMenu.style.display = "none";
+
+    openWindow("notepad");
+
+}
+
+/* =====================================================
+   NEXUS VIRTUAL FILESYSTEM
+===================================================== */
+
+const FILESYSTEM_KEY = "nexus_filesystem";
+
+let currentPath = [];
+
+
+/* =====================================================
+   DEFAULT FILESYSTEM
+===================================================== */
+
+const defaultFileSystem = {
+    type: "folder",
+    name: "Guest",
+    children: [
+        {
+            type: "folder",
+            name: "Desktop",
+            children: []
+        },
+        {
+            type: "folder",
+            name: "Documents",
+            children: []
+        },
+        {
+            type: "folder",
+            name: "Downloads",
+            children: []
+        },
+        {
+            type: "folder",
+            name: "Pictures",
+            children: []
+        },
+        {
+            type: "file",
+            name: "Welcome.txt",
+            content:
+                "Welcome to NEXUS OS!\n\nThis file exists inside your virtual filesystem."
+        }
+    ]
+};
+
+
+/* =====================================================
+   LOAD FILESYSTEM
+===================================================== */
+
+function loadFileSystem() {
+
+    const saved =
+        localStorage.getItem(FILESYSTEM_KEY);
+
+    if (saved) {
+
+        return JSON.parse(saved);
+
+    }
+
+    localStorage.setItem(
+        FILESYSTEM_KEY,
+        JSON.stringify(defaultFileSystem)
+    );
+
+    return structuredClone(defaultFileSystem);
+}
+
+
+let fileSystem = loadFileSystem();
+
+
+/* =====================================================
+   SAVE FILESYSTEM
+===================================================== */
+
+function saveFileSystem() {
+
+    localStorage.setItem(
+        FILESYSTEM_KEY,
+        JSON.stringify(fileSystem)
+    );
+
+}
+
+
+/* =====================================================
+   FIND CURRENT FOLDER
+===================================================== */
+
+function getCurrentFolder() {
+
+    let folder = fileSystem;
+
+    for (const name of currentPath) {
+
+        folder =
+            folder.children.find(
+                item =>
+                    item.type === "folder" &&
+                    item.name === name
+            );
+
+    }
+
+    return folder;
+}
+
+
+/* =====================================================
+   RENDER FILE EXPLORER
+===================================================== */
+
+function renderFileExplorer() {
+
+    const grid =
+        document.getElementById("fileGrid");
+
+    if (!grid) return;
+
+    grid.innerHTML = "";
+
+    const folder =
+        getCurrentFolder();
+
+    folder.children.forEach(item => {
+
+        const element =
+            document.createElement("div");
+
+        element.className = "file";
+
+        const icon =
+            item.type === "folder"
+            ? "📁"
+            : "📄";
+
+        element.innerHTML = `
+            <div class="file-icon">
+                ${icon}
+            </div>
+
+            <div class="file-name">
+                ${item.name}
+            </div>
+        `;
+
+        /* Double click */
+
+        element.addEventListener(
+            "dblclick",
+            () => {
+
+                if (item.type === "folder") {
+
+                    currentPath.push(item.name);
+
+                    updateExplorerPath();
+
+                    renderFileExplorer();
+
+                }
+
+                else {
+
+                    openTextFile(item);
+
+                }
+
+            }
+        );
+
+
+        /* Right click */
+
+        element.addEventListener(
+            "contextmenu",
+            event => {
+
+                event.preventDefault();
+
+                showFileItemMenu(
+                    event,
+                    item
+                );
+
+            }
+        );
+
+
+        grid.appendChild(element);
+
+    });
+
+}
+
+
+/* =====================================================
+   EXPLORER PATH
+===================================================== */
+
+function updateExplorerPath() {
+
+    const path =
+        document.querySelector(".path");
+
+    if (!path) return;
+
+    path.textContent =
+        "C:\\Users\\" +
+        ["Guest", ...currentPath]
+            .join("\\");
+}
+
+
+/* =====================================================
+   OPEN FILE EXPLORER
+===================================================== */
+
+function openExplorer() {
+
+    currentPath = [];
+
+    updateExplorerPath();
+
+    renderFileExplorer();
+
+    openWindow("explorer");
+
+}
+
+
+/* =====================================================
+   OPEN TEXT FILE
+===================================================== */
+
+function openTextFile(file) {
+
+    openWindow("notepad");
+
+    document.getElementById(
+        "notepadText"
+    ).value = file.content || "";
+
+}
+
+
+/* =====================================================
+   CREATE FOLDER
+===================================================== */
+
+function createFolder() {
+
+    const folder =
+        getCurrentFolder();
+
+    let name =
+        prompt("Folder name:");
+
+    if (!name) return;
+
+    name = name.trim();
+
+    if (!name) return;
+
+    if (
+        folder.children.some(
+            item => item.name === name
+        )
+    ) {
+
+        alert("An item with that name already exists.");
+
+        return;
+
+    }
+
+    folder.children.push({
+
+        type: "folder",
+
+        name: name,
+
+        children: []
+
+    });
+
+    saveFileSystem();
+
+    renderFileExplorer();
+
+    contextMenu.style.display = "none";
+
+}
+
+
+/* =====================================================
+   CREATE TEXT FILE
+===================================================== */
+
+function createTextFile() {
+
+    const folder =
+        getCurrentFolder();
+
+    let name =
+        prompt("File name:", "New Text File.txt");
+
+    if (!name) return;
+
+    name = name.trim();
+
+    if (!name) return;
+
+    if (
+        folder.children.some(
+            item => item.name === name
+        )
+    ) {
+
+        alert("An item with that name already exists.");
+
+        return;
+
+    }
+
+    folder.children.push({
+
+        type: "file",
+
+        name: name,
+
+        content: ""
+
+    });
+
+    saveFileSystem();
+
+    renderFileExplorer();
+
+    contextMenu.style.display = "none";
+
+}
+
+
+/* =====================================================
+   DELETE ITEM
+===================================================== */
+
+function deleteItem(item) {
+
+    const folder =
+        getCurrentFolder();
+
+    const index =
+        folder.children.indexOf(item);
+
+    if (index === -1) return;
+
+    if (
+        !confirm(
+            `Delete "${item.name}"?`
+        )
+    ) return;
+
+    folder.children.splice(index, 1);
+
+    saveFileSystem();
+
+    renderFileExplorer();
+
+}
+
+
+/* =====================================================
+   RENAME ITEM
+===================================================== */
+
+function renameItem(item) {
+
+    const newName =
+        prompt(
+            "New name:",
+            item.name
+        );
+
+    if (!newName) return;
+
+    const folder =
+        getCurrentFolder();
+
+    if (
+        folder.children.some(
+            other =>
+                other !== item &&
+                other.name === newName
+        )
+    ) {
+
+        alert(
+            "An item with that name already exists."
+        );
+
+        return;
+
+    }
+
+    item.name =
+        newName.trim();
+
+    saveFileSystem();
+
+    renderFileExplorer();
+
+}
+
+
+/* =====================================================
+   FILE ITEM CONTEXT MENU
+===================================================== */
+
+function showFileItemMenu(event, item) {
+
+    contextMenu.innerHTML = `
+
+        <div
+            class="context-item"
+            onclick="renameSelectedItem()"
+        >
+            <span>✏️</span>
+            <span>Rename</span>
+        </div>
+
+        <div
+            class="context-item"
+            onclick="deleteSelectedItem()"
+        >
+            <span>🗑️</span>
+            <span>Delete</span>
+        </div>
+
+    `;
+
+    selectedItem = item;
+
+    let x = event.clientX;
+    let y = event.clientY;
+
+    contextMenu.style.left =
+        x + "px";
+
+    contextMenu.style.top =
+        y + "px";
+
+    contextMenu.style.display =
+        "block";
+
+}
+
+
+let selectedItem = null;
+
+
+function renameSelectedItem() {
+
+    if (!selectedItem) return;
+
+    renameItem(selectedItem);
+
+    selectedItem = null;
+
+    contextMenu.style.display =
+        "none";
+
+}
+
+
+function deleteSelectedItem() {
+
+    if (!selectedItem) return;
+
+    deleteItem(selectedItem);
+
+    selectedItem = null;
+
+    contextMenu.style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+renderFileExplorer();
+
+/* =====================================================
+   NEXUS WINDOWS KEY
+===================================================== */
+
+document.addEventListener("keydown", function(event) {
+
+    /*
+       Windows key
+       event.key = "Meta"
+    */
+
+    if (event.key === "Meta") {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        toggleStart();
+
+    }
+
+});
+
+/* =========================
+   NEXUS TASK MANAGER
+========================= */
+
+function updateTaskManager() {
+
+    const taskManager =
+        document.getElementById("taskmanager");
+
+    if (!taskManager) return;
+
+    const processes = Object.keys(windowStates)
+        .filter(id => windowStates[id] !== "closed");
+
+    const processCount =
+        processes.length + 1;
+
+    /* Fake NEXUS resource usage */
+
+    const desktopCPU =
+        Math.floor(Math.random() * 4) + 1;
+
+    const explorerCPU =
+        windowStates.explorer === "open"
+            ? Math.floor(Math.random() * 4)
+            : 0;
+
+    const terminalCPU =
+        windowStates.terminal === "open"
+            ? Math.floor(Math.random() * 3)
+            : 0;
+
+    const notepadCPU =
+        windowStates.notepad === "open"
+            ? Math.floor(Math.random() * 2)
+            : 0;
+
+    const totalCPU =
+        desktopCPU +
+        explorerCPU +
+        terminalCPU +
+        notepadCPU;
+
+    document.getElementById("cpuDesktop").textContent =
+        desktopCPU + "%";
+
+    document.getElementById("cpuExplorer").textContent =
+        explorerCPU + "%";
+
+    document.getElementById("cpuTerminal").textContent =
+        terminalCPU + "%";
+
+    document.getElementById("cpuNotepad").textContent =
+        notepadCPU + "%";
+
+    document.getElementById("taskCpu").textContent =
+        totalCPU + "%";
+
+    document.getElementById("taskMemory").textContent =
+        (38 + Math.floor(Math.random() * 8)) + "%";
+
+    document.getElementById("taskProcesses").textContent =
+        processCount;
+
+    document.getElementById("taskProcessCount").textContent =
+        processCount + " processes";
+}
+
+setInterval(updateTaskManager, 1000);
+
+/* =====================================================
+   NEXUS RECYCLE BIN
+===================================================== */
+
+const RECYCLE_BIN_KEY = "nexus_recycle_bin";
+
+
+/* Load recycle bin */
+
+function loadRecycleBin() {
+
+    const saved =
+        localStorage.getItem(RECYCLE_BIN_KEY);
+
+    if (saved) {
+
+        return JSON.parse(saved);
+
+    }
+
+    return [];
+}
+
+
+let recycleBin =
+    loadRecycleBin();
+
+
+/* Save recycle bin */
+
+function saveRecycleBin() {
+
+    localStorage.setItem(
+        RECYCLE_BIN_KEY,
+        JSON.stringify(recycleBin)
+    );
+
+}
+
+
+/* Open recycle bin */
+
+function openRecycleBin() {
+
+    renderRecycleBin();
+
+    openWindow("recyclebin");
+
+}
+
+
+/* Render recycle bin */
+
+function renderRecycleBin() {
+
+    const container =
+        document.getElementById("recycleFiles");
+
+    const count =
+        document.getElementById("recycleCount");
+
+    if (!container || !count)
+        return;
+
+    container.innerHTML = "";
+
+
+    if (recycleBin.length === 0) {
+
+        count.textContent =
+            "Recycle Bin is empty";
+
+        container.innerHTML = `
+            <div style="
+                grid-column: 1 / -1;
+                text-align: center;
+                color: #666;
+                padding: 60px;
+                font-size: 13px;
+            ">
+                🗑️<br><br>
+                Recycle Bin is empty
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    count.textContent =
+        `${recycleBin.length} item${
+            recycleBin.length === 1 ? "" : "s"
+        }`;
+
+
+    recycleBin.forEach(item => {
+
+        const element =
+            document.createElement("div");
+
+        element.className =
+            "recycle-file";
+
+
+        element.innerHTML = `
+
+            <div class="recycle-file-icon">
+                ${item.type === "folder" ? "📁" : "📄"}
+            </div>
+
+            <div class="recycle-file-name">
+                ${item.name}
+            </div>
+
+        `;
+
+
+        element.addEventListener(
+            "dblclick",
+            () => restoreRecycleItem(item)
+        );
+
+
+        element.addEventListener(
+            "contextmenu",
+            event => {
+
+                event.preventDefault();
+
+                if (
+                    confirm(
+                        `Restore "${item.name}"?`
+                    )
+                ) {
+
+                    restoreRecycleItem(item);
+
+                }
+
+            }
+        );
+
+
+        container.appendChild(element);
+
+    });
+
+}
+
+
+/* =====================================================
+   MOVE ITEM TO RECYCLE BIN
+===================================================== */
+
+function moveToRecycleBin(item, parentFolder) {
+
+    const index =
+        parentFolder.children.indexOf(item);
+
+    if (index === -1)
+        return;
+
+
+    parentFolder.children.splice(
+        index,
+        1
+    );
+
+
+    recycleBin.push({
+
+        ...structuredClone(item),
+
+        originalPath:
+            [...currentPath],
+
+        deletedAt:
+            Date.now()
+
+    });
+
+
+    saveFileSystem();
+
+    saveRecycleBin();
+
+    renderFileExplorer();
+
+    updateRecycleBinIcon();
+
+}
+
+
+/* =====================================================
+   RESTORE ITEM
+===================================================== */
+
+function restoreRecycleItem(item) {
+
+    const index =
+        recycleBin.indexOf(item);
+
+    if (index === -1)
+        return;
+
+
+    /*
+       Restore to the folder it originally came from.
+    */
+
+    let folder =
+        fileSystem;
+
+
+    for (const name of item.originalPath || []) {
+
+        const next =
+            folder.children.find(
+                child =>
+                    child.type === "folder" &&
+                    child.name === name
+            );
+
+
+        if (!next) {
+
+            alert(
+                "The original folder no longer exists."
+            );
+
+            return;
+
+        }
+
+
+        folder = next;
+
+    }
+
+
+    /* Prevent duplicate names */
+
+    if (
+        folder.children.some(
+            child =>
+                child.name === item.name
+        )
+    ) {
+
+        alert(
+            `"${item.name}" already exists in that folder.`
+        );
+
+        return;
+
+    }
+
+
+    const restored = {
+        ...item
+    };
+
+
+    delete restored.originalPath;
+    delete restored.deletedAt;
+
+
+    folder.children.push(restored);
+
+
+    recycleBin.splice(
+        index,
+        1
+    );
+
+
+    saveFileSystem();
+
+    saveRecycleBin();
+
+    renderFileExplorer();
+
+    renderRecycleBin();
+
+    updateRecycleBinIcon();
+
+}
+
+
+/* =====================================================
+   EMPTY RECYCLE BIN
+===================================================== */
+
+function emptyRecycleBin() {
+
+    if (recycleBin.length === 0)
+        return;
+
+
+    if (
+        !confirm(
+            "Permanently delete everything in the Recycle Bin?"
+        )
+    )
+        return;
+
+
+    recycleBin = [];
+
+
+    saveRecycleBin();
+
+    renderRecycleBin();
+
+    updateRecycleBinIcon();
+
+}
+
+
+/* =====================================================
+   RECYCLE BIN ICON
+===================================================== */
+
+function updateRecycleBinIcon() {
+
+    const icon =
+        document.getElementById("recycleBinIcon");
+
+    if (!icon)
+        return;
+
+
+    if (recycleBin.length > 0) {
+
+        icon.textContent = "🗑️";
+
+    }
+
+    else {
+
+        icon.textContent = "🗑️";
+
+    }
+
+}
+
+
+updateRecycleBinIcon();
+
+/* =========================
+   AUTO-SAVE PYTHON EDITOR
+========================= */
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const editor =
+        document.getElementById("pythonEditor");
+
+    if (!editor) return;
+
+    editor.addEventListener("input", savePythonCode);
+
+});
+
+// =========================
+// NEXUS DISPLAY SETTINGS
+// =========================
+
+function openDisplaySettings() {
+
+    const display =
+        document.getElementById("displaySettings");
+
+    if (!display) return;
+
+    display.style.display =
+        display.style.display === "none"
+            ? "block"
+            : "none";
+
+}
+
+
+// =========================
+// CHANGE WALLPAPER
+// =========================
+
+function setWallpaper(type) {
+
+    const desktop =
+        document.getElementById("desktop");
+
+    if (!desktop) return;
+
+    if (type === "default") {
+
+        desktop.style.background =
+            "radial-gradient(circle at center, #17233d 0%, #080c14 55%, #03050a 100%)";
+
+    }
+
+    else if (type === "blue") {
+
+        desktop.style.background =
+            "linear-gradient(135deg, #061a35, #0b4f78, #06101f)";
+
+    }
+
+    else if (type === "purple") {
+
+        desktop.style.background =
+            "linear-gradient(135deg, #18072e, #54258a, #0b0618)";
+
+    }
+
+    else if (type === "dark") {
+
+        desktop.style.background =
+            "linear-gradient(135deg, #050505, #111111, #020202)";
+
+    }
+
+    else if (type === "sunset") {
+
+        desktop.style.background =
+            "linear-gradient(135deg, #24102e, #8c3f55, #d4774d, #25101c)";
+
+    }
+
+    localStorage.setItem(
+        "nexus_wallpaper",
+        type
+    );
+
+}
+
+
+// =========================
+// LOAD SAVED WALLPAPER
+// =========================
+
+function loadWallpaper() {
+
+    const saved =
+        localStorage.getItem("nexus_wallpaper");
+
+    if (saved) {
+
+        setWallpaper(saved);
+
+    }
+
+}
+
+loadWallpaper();
+
+function setWallpaper(type) {
+
+    const desktop = document.getElementById("desktop");
+
+    if (type === "default") {
+        desktop.style.background =
+            "radial-gradient(circle at center, #17233d 0%, #080c14 55%, #03050a 100%)";
+    }
+
+    if (type === "blue") {
+        desktop.style.background =
+            "linear-gradient(135deg, #061a35, #0b4f78, #06101f)";
+    }
+
+    if (type === "purple") {
+        desktop.style.background =
+            "linear-gradient(135deg, #18072e, #54258a, #0b0618)";
+    }
+
+    if (type === "dark") {
+        desktop.style.background =
+            "linear-gradient(135deg, #050505, #111111, #020202)";
+    }
+
+    if (type === "sunset") {
+        desktop.style.background =
+            "linear-gradient(135deg, #24102e, #8c3f55, #d4774d, #25101c)";
+    }
+
+    localStorage.setItem("nexus_wallpaper", type);
+}
+
+function openDisplaySettings() {
+
+    document.querySelector(".settings").classList.add("display-page");
+
+    document.querySelectorAll(".settings > .setting").forEach(setting => {
+        setting.style.display = "none";
+    });
+
+    document.getElementById("displaySettings").style.display = "block";
+
+}
+
+
+function closeDisplaySettings() {
+
+    document.querySelector(".settings").classList.remove("display-page");
+
+    document.getElementById("displaySettings").style.display = "none";
+
+    document.querySelectorAll(".settings > .setting").forEach(setting => {
+        setting.style.display = "block";
+    });
+
+}
+
+</script>
+
+</body>
+</html>
