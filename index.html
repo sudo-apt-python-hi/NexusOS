@@ -3,9 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NexusOS</title>
+<title>SigmaOS</title>
+<link rel="icon" href="sigma.ico" type="image/x-icon">
 
 <style>
+
+#ONLYONERED {
+    color: orangered;
+}
 * {
     margin: 0;
     padding: 0;
@@ -37,7 +42,9 @@ body {
         linear-gradient(135deg, #05080f, #07111f 50%, #03060b);
 }
 
-/* subtle grid */
+/* =========================
+   NEXUS DESKTOP GRID
+========================= */
 
 #desktop::before {
     content: "";
@@ -49,31 +56,63 @@ body {
         linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
 
     background-size: 50px 50px;
+
     pointer-events: none;
+
+    opacity: 1;
+
+    transition: opacity 0.25s ease;
+}
+
+/* Grid OFF */
+
+#desktop.grid-off::before {
+    opacity: 0;
 }
 
 /* =========================
    DESKTOP ICONS
 ========================= */
 
+/* =========================
+   DESKTOP ICONS GRID LAYOUT
+========================= */
+
 .desktop-icons {
     position: absolute;
     top: 25px;
     left: 25px;
+    right: 25px;
+    bottom: 80px;
 
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
+    display: grid;
+
+    grid-template-rows: repeat(auto-fill, 95px);
+    grid-auto-flow: column;
+    grid-auto-columns: 100px;
+
+    gap: 15px;
+
+    align-content: start;
+
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .desktop-icon {
-    width: 80px;
+    width: 100px;
+    min-height: 80px;
+
     text-align: center;
     cursor: pointer;
     padding: 8px;
     border-radius: 8px;
 
     transition: 0.15s;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .desktop-icon:hover {
@@ -263,6 +302,8 @@ body {
 .window-content {
     height: calc(100% - 42px);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 /* =========================
@@ -298,14 +339,15 @@ body {
 
 .files {
     display: grid;
-
     grid-template-columns: repeat(4, 100px);
-
     gap: 22px;
-
     padding: 25px;
+    
+    /* Enable vertical scrolling */
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(100% - 48px);
 }
-
 .file {
     text-align: center;
 
@@ -935,9 +977,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    animation: bootFadeOut 1s ease forwards;
-    animation-delay: 5s;
 }
 
 .boot-content {
@@ -948,37 +987,35 @@ body {
 .boot-logo {
     width: 80px;
     height: 80px;
-
     margin: 0 auto 18px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border: 1px solid rgba(100,180,255,0.5);
-    border-radius: 20px;
-
-    font-size: 42px;
-    font-weight: 600;
-
-    color: white;
-
-    box-shadow:
-        0 0 20px rgba(0,140,255,0.25);
+    box-shadow: none;
+    background: transparent;
+    border: none;
 
     opacity: 0;
-
     animation: logoAppear 1s ease forwards;
+}
+
+.boot-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .boot-title {
     font-size: 27px;
-    letter-spacing: 8px;
+    letter-spacing: 4px;
 
     opacity: 0;
 
     animation: textAppear 0.8s ease forwards;
     animation-delay: 0.7s;
+
 }
 
 .boot-subtitle {
@@ -1601,33 +1638,818 @@ body {
     transform: translateX(3px) scale(0.98);
 }
 
+/* =========================
+   NEXUS LOCK SCREEN
+========================= */
+
+#lockScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #17233d 0%,
+            #080c14 55%,
+            #03050a 100%
+        );
+
+    color: white;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+}
+
+
+/* Subtle background glow */
+
+#lockScreen::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(70,150,255,0.12),
+            transparent 70%
+        );
+
+    filter: blur(30px);
+
+}
+
+
+/* Main content */
+
+.lock-content {
+
+    position: relative;
+
+    width: 340px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    animation:
+        lockScreenAppear 0.7s ease forwards;
+
+}
+
+
+/* Logo */
+
+.lock-logo {
+
+    width: 82px;
+    height: 82px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    border: 1px solid rgba(130,190,255,0.4);
+
+    border-radius: 20px;
+
+    background:
+        rgba(30,70,120,0.25);
+
+    box-shadow:
+        0 0 35px rgba(50,140,255,0.2),
+        inset 0 0 20px rgba(255,255,255,0.03);
+
+    font-size: 38px;
+    font-weight: 600;
+
+}
+
+
+/* Title */
+
+.lock-title {
+
+    font-size: 28px;
+
+    letter-spacing: 4px;
+
+    font-weight: 600;
+
+}
+
+
+/* Subtitle */
+
+.lock-subtitle {
+
+    margin-top: 4px;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    opacity: 0.45;
+
+}
+
+
+/* Time */
+
+.lock-time {
+
+    margin-top: 55px;
+
+    font-size: 48px;
+
+    font-weight: 300;
+
+    letter-spacing: 2px;
+
+}
+
+
+/* Date */
+
+.lock-date {
+
+    margin-top: 5px;
+
+    font-size: 13px;
+
+    opacity: 0.55;
+
+}
+
+
+/* Login */
+
+.lock-login {
+
+    margin-top: 35px;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 260px;
+
+    gap: 10px;
+
+}
+
+
+/* Password box */
+
+.lock-login input {
+
+    padding: 12px 15px;
+
+    border-radius: 9px;
+
+    border: 1px solid rgba(130,190,255,0.2);
+
+    outline: none;
+
+    background:
+        rgba(10,20,35,0.65);
+
+    color: white;
+
+    text-align: center;
+
+    font-family: inherit;
+
+}
+
+
+.lock-login input:focus {
+
+    border-color:
+        rgba(100,180,255,0.6);
+
+    box-shadow:
+        0 0 15px rgba(50,140,255,0.15);
+
+}
+
+
+/* Unlock button */
+
+.lock-login button {
+
+    padding: 11px;
+
+    border-radius: 9px;
+
+    border: 1px solid rgba(120,190,255,0.25);
+
+    background:
+        rgba(40,100,160,0.35);
+
+    color: #dcecff;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        box-shadow 0.15s ease;
+
+}
+
+
+.lock-login button:hover {
+
+    transform: translateY(-2px);
+
+    background:
+        rgba(60,130,210,0.45);
+
+    box-shadow:
+        0 0 18px rgba(60,150,255,0.2);
+
+}
+
+
+.lock-login button:active {
+
+    transform: scale(0.97);
+
+}
+
+
+/* Error */
+
+#lockError {
+
+    height: 16px;
+
+    font-size: 11px;
+
+    color: #ff6d6d;
+
+}
+
+
+/* Animations */
+
+@keyframes lockScreenAppear {
+
+    from {
+
+        opacity: 0;
+        transform: translateY(12px);
+
+    }
+
+    to {
+
+        opacity: 1;
+        transform: translateY(0);
+
+    }
+
+}
+
+/* =========================
+   NEXUS BOOT LOGIN
+========================= */
+
+#bootScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #17233d 0%,
+            #080c14 55%,
+            #03050a 100%
+        );
+
+    color: white;
+}
+
+.boot-content {
+    width: 360px;
+    text-align: center;
+}
+
+.boot-title {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 4px;
+
+    color: #ffffff;
+}
+
+.boot-subtitle {
+    margin-top: 6px;
+
+    font-size: 10px;
+    letter-spacing: 2px;
+
+    color: #6f91ad;
+}
+
+.boot-status {
+    margin-top: 35px;
+
+    font-size: 11px;
+    letter-spacing: 3px;
+
+    color: #6dafff;
+}
+
+.boot-login {
+    margin-top: 22px;
+}
+
+#bootPassword {
+    width: 230px;
+
+    padding: 12px 14px;
+
+    border: 1px solid rgba(100, 180, 255, 0.35);
+    border-radius: 8px;
+
+    outline: none;
+
+    background: rgba(10, 20, 35, 0.8);
+
+    color: white;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+#bootPassword:focus {
+    border-color: #6dbfff;
+
+    box-shadow:
+        0 0 15px rgba(80, 170, 255, 0.25);
+}
+
+#bootPassword::placeholder {
+    color: #60758a;
+}
+
+.boot-login button {
+    display: block;
+
+    width: 258px;
+
+    margin: 10px auto 0;
+
+    padding: 11px;
+
+    border: 1px solid rgba(100, 180, 255, 0.45);
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(60, 140, 220, 0.25),
+            rgba(30, 80, 150, 0.15)
+        );
+
+    color: #a9dcff;
+
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        background 0.2s;
+}
+
+.boot-login button:hover {
+    transform: translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(70, 160, 240, 0.4),
+            rgba(40, 100, 180, 0.25)
+        );
+
+    box-shadow:
+        0 0 20px rgba(70, 160, 255, 0.25);
+}
+
+.boot-login button:active {
+    transform: translateY(0);
+}
+
+#bootError {
+    min-height: 18px;
+
+    margin-top: 10px;
+
+    color: #ff6d6d;
+
+    font-size: 11px;
+}
+
+/* =========================
+   DESKTOP GRID TOGGLE
+========================= */
+
+.grid-setting {
+    margin-top: 20px;
+    padding: 15px;
+
+    border: 1px solid rgba(120,180,255,0.12);
+    border-radius: 9px;
+
+    background: rgba(255,255,255,0.025);
+}
+
+.grid-setting label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.grid-setting input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+
+    accent-color: #5caeff;
+
+    cursor: pointer;
+}
+
+.grid-setting p {
+    margin-top: 5px;
+    margin-left: 26px;
+
+    font-size: 11px;
+    color: #777;
+}
+
+/* Disabled Nexus Original setting */
+
+.grid-setting.disabled {
+    opacity: 0.45;
+}
+
+.grid-setting.disabled label {
+    cursor: not-allowed;
+}
+
+.grid-setting.disabled input {
+    cursor: not-allowed;
+}
+
+/* =========================
+   NEXUS HTML STUDIO
+========================= */
+
+#htmlstudio {
+    width: 900px;
+    height: 600px;
+}
+
+.htmlstudio-content {
+    height: calc(100% - 42px);
+    display: flex;
+    flex-direction: column;
+    background: #101010;
+}
+
+.htmlstudio-toolbar {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 12px;
+
+    background: #1a1a1a;
+    border-bottom: 1px solid #333;
+}
+
+.htmlstudio-toolbar button {
+    padding: 6px 14px;
+
+    border: 1px solid #444;
+    border-radius: 5px;
+
+    background: #252525;
+    color: white;
+
+    cursor: pointer;
+}
+
+.htmlstudio-toolbar button:hover {
+    background: #333;
+}
+
+#htmlStatus {
+    margin-left: auto;
+    font-size: 12px;
+    color: #aaa;
+}
+
+.htmlstudio-area {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    min-height: 0;
+}
+
+#htmlEditor {
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    resize: none;
+
+    border: none;
+    border-right: 1px solid #333;
+
+    outline: none;
+
+    padding: 14px;
+
+    background: #111;
+    color: #e6e6e6;
+
+    font-family: Consolas, monospace;
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+.html-preview-container {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    min-height: 0;
+
+    background: white;
+}
+
+.html-preview-title {
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 12px;
+
+    background: #1a1a1a;
+    color: #aaa;
+
+    font-size: 11px;
+    letter-spacing: 1px;
+
+    border-bottom: 1px solid #333;
+}
+
+#htmlPreview {
+    flex: 1;
+
+    width: 100%;
+    border: none;
+
+    background: white;
+}
+
+/* =========================
+   WINDOW MAXIMIZE
+========================= */
+
+.window {
+    transition:
+        top 0.25s ease,
+        left 0.25s ease,
+        width 0.25s ease,
+        height 0.25s ease,
+        border-radius 0.25s ease;
+}
+
+.window.maximized {
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 100% !important;
+    height: calc(100% - 58px) !important;
+
+    border-radius: 0;
+}
+
+/* Maximize / Restore button */
+
+.window-button.maximize {
+    font-size: 13px;
+    line-height: 1;
+}
+
+.window-button.maximize {
+    font-size: 13px !important;
+    line-height: 1 !important;
+}
+
+/* =========================
+   WINDOW CLOSE / MINIMIZE
+========================= */
+
+@keyframes windowFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.97) translateY(8px);
+    }
+}
+
+.window.closing,
+.window.minimizing {
+    animation: windowFadeOut 0.2s ease forwards;
+    pointer-events: none;
+}
+
+/* =========================
+   GLOBAL WINDOW EXIT ANIMATION
+========================= */
+
+.window.exiting {
+    animation: windowClose 0.2s ease forwards !important;
+    pointer-events: none;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    cursor: default;
+}
+
+/* =========================
+   FIRST INSTALLATION SCREEN
+========================= */
+
+#installationScreen {
+    position: fixed;
+    inset: 0;
+
+    z-index: 1000000;
+
+    background: #02050a;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #dce7f5;
+
+    font-family: Consolas, "Courier New", monospace;
+}
+
+.install-content {
+    width: min(700px, 85vw);
+}
+
+#installText {
+    font-size: 16px;
+    line-height: 1.8;
+
+    white-space: pre-wrap;
+
+    min-height: 200px;
+}
+
+.install-progress-container {
+    width: 100%;
+    height: 3px;
+
+    margin-top: 25px;
+
+    background: rgba(255,255,255,0.08);
+
+    overflow: hidden;
+
+    opacity: 0;
+
+    transition: opacity 0.4s ease;
+}
+
+.install-progress-container.visible {
+    opacity: 1;
+}
+
+#installProgress {
+    width: 0%;
+    height: 100%;
+
+    background: #dce7f5;
+
+    box-shadow: 0 0 12px rgba(100,180,255,0.7);
+
+    transition: width 0.15s linear;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- BOOT SCREEN -->
+<!-- FIRST TIME INSTALLATION -->
+
+<div id="installationScreen">
+
+    <div class="install-content">
+
+        <div id="installText"></div>
+
+        <div class="install-progress-container"
+             id="installProgressContainer">
+
+            <div id="installProgress"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- NEXUS BOOT / LOGIN SCREEN -->
 
 <div id="bootScreen">
 
     <div class="boot-content">
 
-        <div class="boot-logo">N</div>
+        <div class="boot-logo"><img src="startup-s.png" width="72" height="72"></div>
 
-        <div class="boot-title">
-            NEXUS
-        </div>
+        <div class="boot-title"><a href="https://github.com/sudo-apt-python-hi/NexusOS/tree/main" target="_blank">
+            SigmaOS
+        </a></div>
 
         <div class="boot-subtitle">
-            OPERATING SYSTEM
+            Your SOS for Windows Bloat
         </div>
 
-        <div class="boot-loader">
-            <div class="boot-progress"></div>
+        <div class="boot-status">
+            SYSTEM LOCKED
         </div>
 
-        <div class="boot-status" id="bootStatus">
-            INITIALIZING CORE
+        <div class="boot-login">
+
+            <input
+                type="password"
+                id="bootPassword"
+                placeholder="Enter password"
+                maxlength="4"
+                autocomplete="off"
+            >
+
+            <button type="button" onclick="unlockNexus()">
+                UNLOCK
+            </button>
+
+            <div id="bootError"></div>
+
         </div>
 
     </div>
@@ -1638,9 +2460,9 @@ body {
 
 <div id="contextMenu">
 
-    <div class="context-item" onclick="refreshDesktop()">
-        <span>↻</span>
-        <span>Refresh</span>
+    <div class="context-item" id="ONLYONERED" onclick="refreshDesktop()">
+        <span>⏻</span>
+        <span>Sign Out</span>
     </div>
 
     <div class="context-separator"></div>
@@ -1684,15 +2506,15 @@ body {
 <div id="desktop">
 
     <div class="status">
-        ● NEXUS ONLINE
+        ● SIGMAOS ONLINE
     </div>
 
     <!-- DESKTOP ICONS -->
 
-    <div class="desktop-icons">
+    <div class="desktop-icons" id="desktopIcons">
 
         <div class="desktop-icon" onclick="openExplorer()">
-            <div class="icon">📁</div>
+            <div class="icon">🗃️</div>
             <span>File Explorer</span>
         </div>
 
@@ -1726,7 +2548,7 @@ body {
         <div class="titlebar" onmousedown="startDrag(event, 'explorer')">
 
             <div class="title">
-                📁 File Explorer
+                🗃️ File Explorer
             </div>
 
             <div class="window-buttons">
@@ -1749,7 +2571,7 @@ body {
 
             <div class="explorer-toolbar">
 
-                <div>←</div>
+                <div class="nav-btn" onclick="navigateBack()">←</div>
                 <div>→</div>
 
                 <div class="path">
@@ -1772,7 +2594,7 @@ body {
         <div class="titlebar" onmousedown="startDrag(event, 'terminal')">
 
             <div class="title">
-                💻 NEXUS Terminal
+                💻 SIGMA Terminal
             </div>
 
             <div class="window-buttons">
@@ -1796,7 +2618,7 @@ body {
             <div class="terminal">
 
                 <div class="terminal-line">
-                    NEXUS Terminal [Version 0.1]
+                    SIGMA Terminal [Version 0.1]
                 </div>
 
                 <div class="terminal-line">
@@ -1834,7 +2656,7 @@ body {
         <div class="titlebar" onmousedown="startDrag(event, 'python')">
 
             <div class="title">
-                🐍 NEXUS Python 3.14
+                🐍 SIGMA Python 3.14
             </div>
 
             <div class="window-buttons">
@@ -1877,7 +2699,7 @@ body {
                     id="pythonEditor"
                     spellcheck="false"
                     placeholder="# Write Python code here...
-    print('Hello from NEXUS!')"
+    print('Hello from SIGMA!')"
                 ></textarea>
 
                 <div class="python-output">
@@ -1887,6 +2709,87 @@ body {
                     </div>
 
                     <pre id="pythonOutput"></pre>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- HTML STUDIO -->
+
+    <div class="window" id="htmlstudio">
+
+        <div class="titlebar"
+             onmousedown="startDrag(event, 'htmlstudio')">
+
+            <div class="title">
+                🌐 SIGMA HTML Studio
+            </div>
+
+            <div class="window-buttons">
+
+                <div class="window-button"
+                     onclick="minimizeWindow('htmlstudio')">
+                    −
+                </div>
+
+                <div class="window-button close"
+                     onclick="closeWindow('htmlstudio')">
+                    ×
+                </div>
+
+            </div>
+        </div>
+
+        <div class="htmlstudio-content">
+
+            <div class="htmlstudio-toolbar">
+
+                <button onclick="runHTMLCode()">
+                    ▶ Run
+                </button>
+
+                <button onclick="clearHTMLCode()">
+                    Clear
+                </button>
+
+                <span id="htmlStatus">
+                    Ready
+                </span>
+
+            </div>
+
+            <div class="htmlstudio-area">
+
+                <textarea
+                    id="htmlEditor"
+                    spellcheck="false"
+                    placeholder="<!DOCTYPE html>
+    <html>
+    <head>
+        <title>My Website</title>
+    </head>
+    <body>
+
+        <h1>Hello from SIGMA!</h1>
+
+    </body>
+    </html>"
+                ></textarea>
+
+                <div class="html-preview-container">
+
+                    <div class="html-preview-title">
+                        PREVIEW
+                    </div>
+
+                    <iframe
+                        id="htmlPreview"
+                        sandbox="allow-scripts allow-modals"
+                    ></iframe>
 
                 </div>
 
@@ -1965,8 +2868,8 @@ placeholder="Start typing..."></textarea>
 
                 <div class="setting" onclick="openDisplaySettings()">
 
-                    <h3>🖥️ Display</h3>
-                    <p>Configure your NEXUS desktop.</p>
+                    <h3>🎨 Personalization</h3>
+                    <p>Personalize your SIGMA desktop.</p>
 
                 </div>
 
@@ -1978,8 +2881,8 @@ placeholder="Start typing..."></textarea>
                         </button>
 
                         <div>
-                            <h3>🖥️ Display Settings</h3>
-                            <p>Choose your NEXUS wallpaper.</p>
+                            <h3>🎨 Personalization Settings</h3>
+                            <p>Choose your SIGMA wallpaper.</p>
                         </div>
                     </div>
 
@@ -1987,7 +2890,7 @@ placeholder="Start typing..."></textarea>
 
                         <button onclick="setWallpaper('default')">
                             <span>🌌</span>
-                            <span>NEXUS</span>
+                            <span>SIGMA Original</span>
                         </button>
 
                         <button onclick="setWallpaper('blue')">
@@ -2012,11 +2915,29 @@ placeholder="Start typing..."></textarea>
 
                     </div>
 
+                    <div class="grid-setting" id="gridSetting">
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                id="gridToggle"
+                                onchange="toggleDesktopGrid()"
+                            >
+
+                            <span>Show desktop grid</span>
+                        </label>
+
+                        <p>
+                            Show the subtle grid pattern over the wallpaper.
+                        </p>
+
+                    </div>
+
                 </div>
 
                 <div class="setting">
-                    <h3>🎨 Personalization</h3>
-                    <p>Change wallpaper, theme and accent color.</p>
+                    <h3>🖥️ Display</h3>
+                    <p>Configure your display.</p>
                 </div>
 
                 <div class="setting">
@@ -2026,37 +2947,8 @@ placeholder="Start typing..."></textarea>
 
                 <div class="setting">
                     <h3>ℹ️ System</h3>
-                    <p>NEXUS OS v0.1 • Build 260817</p>
+                    <p>SIGMA OS v0.1 • Build 260817</p>
                 </div>
-
-                <div id="displaySettings" style="display:none;">
-
-                    <h3>🖥️ Display Settings</h3>
-                    <p>Choose a desktop background.</p>
-
-                    <div class="wallpaper-options">
-
-                        <button onclick="setWallpaper('default')">
-                            🌌 NEXUS
-                        </button>
-
-                        <button onclick="setWallpaper('blue')">
-                            🔵 Blue
-                        </button>
-
-                        <button onclick="setWallpaper('purple')">
-                            🟣 Purple
-                        </button>
-
-                        <button onclick="setWallpaper('dark')">
-                            ⚫ Dark
-                        </button>
-
-                        <button onclick="setWallpaper('sunset')">
-                            🌅 Sunset
-                        </button>
-
-                    </div>
 
                 </div>
 
@@ -2073,7 +2965,7 @@ placeholder="Start typing..."></textarea>
         <div class="titlebar" onmousedown="startDrag(event, 'taskmanager')">
 
             <div class="title">
-                📊 NEXUS Task Manager
+                📊 SIGMA Task Manager
             </div>
 
             <div class="window-buttons">
@@ -2110,19 +3002,19 @@ placeholder="Start typing..."></textarea>
                     </div>
 
                     <div class="task-row">
-                        <span>🖥️ NEXUS Desktop</span>
+                        <span>🖥️ SIGMA Desktop</span>
                         <span id="cpuDesktop">2%</span>
                         <span>48 MB</span>
                     </div>
 
                     <div class="task-row">
-                        <span>📁 File Explorer</span>
+                        <span>🗃️ File Explorer</span>
                         <span id="cpuExplorer">1%</span>
                         <span>24 MB</span>
                     </div>
 
                     <div class="task-row">
-                        <span>💻 NEXUS Terminal</span>
+                        <span>💻 SIGMA Terminal</span>
                         <span id="cpuTerminal">0%</span>
                         <span>18 MB</span>
                     </div>
@@ -2241,7 +3133,7 @@ placeholder="Start typing..."></textarea>
     <div id="startMenu">
 
         <div class="start-header">
-            NEXUS
+            SIGMA
         </div>
 
         <input
@@ -2254,9 +3146,9 @@ placeholder="Start typing..."></textarea>
         </div>
 
         <div class="start-app"
-             onclick="openExplorer()"; toggleStart()>
+             onclick="openExplorer(); toggleStart()">
 
-            <div class="start-app-icon">📁</div>
+            <div class="start-app-icon">🗃️</div>
             File Explorer
 
         </div>
@@ -2574,12 +3466,88 @@ document.querySelectorAll(".window").forEach(window => {
 });
 
 /* =========================
+   NEXUS HTML STUDIO
+========================= */
+
+function runHTMLCode() {
+
+    const editor =
+        document.getElementById("htmlEditor");
+
+    const preview =
+        document.getElementById("htmlPreview");
+
+    const status =
+        document.getElementById("htmlStatus");
+
+    if (!editor || !preview) return;
+
+    const code = editor.value;
+
+    status.textContent = "Running...";
+
+    preview.srcdoc = code;
+
+    setTimeout(() => {
+        status.textContent = "Preview running";
+    }, 150);
+}
+
+document.getElementById("htmlEditor").addEventListener("keydown", function(event) {
+
+    if (event.key === "Tab") {
+
+        event.preventDefault();
+
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+
+        // Insert 4 spaces
+        this.value =
+            this.value.substring(0, start) +
+            "    " +
+            this.value.substring(end);
+
+        // Move cursor after the 4 spaces
+        this.selectionStart = this.selectionEnd = start + 4;
+    }
+
+});
+
+
+function clearHTMLCode() {
+
+    const editor =
+        document.getElementById("htmlEditor");
+
+    const preview =
+        document.getElementById("htmlPreview");
+
+    const status =
+        document.getElementById("htmlStatus");
+
+    if (editor) {
+        editor.value = "";
+    }
+
+    if (preview) {
+        preview.srcdoc = "";
+    }
+
+    if (status) {
+        status.textContent = "Ready";
+    }
+}
+
+/* =========================
    OPEN WINDOW
 ========================= */
 
 function openWindow(id) {
 
     const window = document.getElementById(id);
+
+    playNexusSFX("open");
 
     windowStates[id] = "open";
 
@@ -2609,9 +3577,16 @@ function closeWindow(id) {
 
     const window = document.getElementById(id);
 
+    playNexusSFX("close")
+
     windowStates[id] = "closed";
 
-    window.style.display = "none";
+    window.style.animation = "windowClose 0.18s ease forwards";
+
+    setTimeout(() => {
+        window.style.display = "none";
+        window.style.animation = "";
+    }, 180);
 
     updateTaskbarState(id);
 }
@@ -2625,9 +3600,16 @@ function minimizeWindow(id) {
 
     const window = document.getElementById(id);
 
+    playNexusSFX("minimize")
+
     windowStates[id] = "minimized";
 
-    window.style.display = "none";
+    window.style.animation = "windowClose 0.18s ease forwards";
+
+    setTimeout(() => {
+        window.style.display = "none";
+        window.style.animation = "";
+    }, 180); 
 
     updateTaskbarState(id);
 }
@@ -2877,7 +3859,7 @@ function terminalCommand(event) {
     else if (command === "systeminfo") {
 
         output.innerHTML =
-            `NEXUS OS v0.1<br>
+            `SIGMA OS v0.1<br>
             CPU: Virtual Processor<br>
             RAM: 12 GB<br>
             Storage: 477 GB<br>
@@ -2921,21 +3903,35 @@ function terminalCommand(event) {
 const contextMenu =
     document.getElementById("contextMenu");
 
+const defaultContextMenuHTML = contextMenu.innerHTML;
+
+let contextMenuSource = null;
 
 /* Disable Chrome's context menu */
 
 document.getElementById("desktop")
     .addEventListener("contextmenu", function(event) {
 
+        // If an icon was right-clicked, let the icon's own
+        // context-menu handler deal with it.
+        if (event.target.closest(".desktop-icon")) {
+            return;
+        }
+
         event.preventDefault();
+
+        // Restore the normal desktop / Sign Out menu
+        contextMenu.innerHTML = defaultContextMenuHTML;
+
+        contextMenuSource = "desktop";
+
+        selectedItem = null;
 
         let x = event.clientX;
         let y = event.clientY;
 
         const menuWidth = 230;
         const menuHeight = 330;
-
-        /* Keep menu inside screen */
 
         if (x + menuWidth > window.innerWidth) {
             x = window.innerWidth - menuWidth - 8;
@@ -2952,7 +3948,6 @@ document.getElementById("desktop")
 
         contextMenu.style.animation =
             "contextMenuOpen 0.12s ease forwards";
-
     });
 
 
@@ -2995,21 +3990,51 @@ function refreshDesktop() {
 }
 
 
+/* =====================================================
+   CREATE FOLDER (SYNCED WITH DESKTOP & EXPLORER)
+===================================================== */
+
 function createFolder() {
+    let name = prompt("Folder name:");
+
+    if (!name) return;
+
+    name = name.trim();
+
+    if (!name) return;
+    // Determine where the folder should be created
+    const targetFolder =
+        contextMenuSource === "desktop"
+            ? getDesktopFolder()
+            : getCurrentFolder();
+
+    // Safety check
+    if (!targetFolder || !targetFolder.children) {
+        console.error("Could not find folder to create item in.");
+        playNexusSFX("error");
+        alert("Error: Could not find the current folder.");
+        return;
+    }
+
+    // Prevent duplicate names
+    if (targetFolder.children.some(item => item.name === name)) {
+        playNexusSFX("error");
+        alert("An item with that name already exists.");
+        return;
+    }
+
+    // Add the new folder
+    targetFolder.children.push({
+        type: "folder",
+        name: name,
+        children: []
+    });
+
+    // Save and refresh both views
+    saveFileSystem();
+    renderFileExplorer();
 
     contextMenu.style.display = "none";
-
-    alert("New Folder — filesystem coming soon!");
-
-}
-
-
-function createTextFile() {
-
-    contextMenu.style.display = "none";
-
-    openWindow("notepad");
-
 }
 
 /* =====================================================
@@ -3027,33 +4052,99 @@ let currentPath = [];
 
 const defaultFileSystem = {
     type: "folder",
-    name: "Guest",
+    name: "/",
     children: [
         {
-            type: "folder",
-            name: "Desktop",
-            children: []
-        },
-        {
-            type: "folder",
-            name: "Documents",
-            children: []
-        },
-        {
-            type: "folder",
-            name: "Downloads",
-            children: []
-        },
-        {
-            type: "folder",
-            name: "Pictures",
-            children: []
-        },
-        {
-            type: "file",
-            name: "Welcome.txt",
-            content:
-                "Welcome to NEXUS OS!\n\nThis file exists inside your virtual filesystem."
+            type: "drive",
+            name: "LocalDrive",
+            children: [
+                {
+                    type: "folder",
+                    name: "Applications",
+                    children: [
+                        {
+                            type: "app",
+                            name: "File Explorer",
+                            icon: "🗃️",
+                            appId: "explorer"
+                        },
+                        {
+                            type: "app",
+                            name: "Terminal",
+                            icon: "💻",
+                            appId: "terminal"
+                        },
+                        {
+                            type: "app",
+                            name: "Notepad",
+                            icon: "📝",
+                            appId: "notepad"
+                        },
+                        {
+                            type: "app",
+                            name: "Settings",
+                            icon: "⚙️",
+                            appId: "settings"
+                        },
+                        {
+                            type: "app",
+                            name: "Python",
+                            icon: "🐍",
+                            appId: "python"
+                        },
+                        {
+                            type: "app",
+                            name: "HTML Studio",
+                            icon: "🌐",
+                            appId: "htmlstudio"
+                        }
+                    ]
+                },
+
+                {
+                    type: "folder",
+                    name: "Users",
+                    children: [
+                        {
+                            type: "folder",
+                            name: "Guest",
+                            children: [
+                                {
+                                    type: "folder",
+                                    name: "Desktop",
+                                    children: [
+                                        {
+                                            type: "folder",
+                                            name: "hello",
+                                            children: []
+                                        }
+                                    ]
+                                },
+                                {
+                                    type: "folder",
+                                    name: "Documents",
+                                    children: []
+                                },
+                                {
+                                    type: "folder",
+                                    name: "Downloads",
+                                    children: []
+                                },
+                                {
+                                    type: "folder",
+                                    name: "Pictures",
+                                    children: []
+                                },
+                                {
+                                    type: "file",
+                                    name: "Welcome.txt",
+                                    content: "Welcome to SIGMA OS!\n\nThis file exists inside your virtual filesystem."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 };
@@ -3085,6 +4176,258 @@ function loadFileSystem() {
 
 let fileSystem = loadFileSystem();
 
+/* =====================================================
+   NEXUS DESKTOP ↔ FILESYSTEM SYNC
+===================================================== */
+
+function getDesktopFolder() {
+    const localDrive = fileSystem.children.find(
+        item => item.type === "drive" && item.name === "LocalDrive"
+    );
+    if (!localDrive) return null;
+
+    const usersFolder = localDrive.children.find(
+        item => item.type === "folder" && item.name === "Users"
+    );
+    if (!usersFolder) return null;
+
+    const guestFolder = usersFolder.children.find(
+        item => item.type === "folder" && item.name === "Guest"
+    );
+    if (!guestFolder) return null;
+
+    return guestFolder.children.find(
+        item => item.type === "folder" && item.name === "Desktop"
+    );
+}
+
+
+/* Protected System Folders and Applications */
+const PROTECTED_NAMES = ["Desktop", "Documents", "Downloads", "Pictures"];
+const SYSTEM_APPS = [
+    { name: "File Explorer", type: "app", icon: "🗃️", action: () => openExplorer() },
+    { name: "Terminal", type: "app", icon: "💻", action: () => openWindow('terminal') },
+    { name: "Notepad", type: "app", icon: "📝", action: () => openWindow('notepad') },
+    { name: "Settings", type: "app", icon: "⚙️", action: () => openWindow('settings') },
+    { name: "Python", type: "app", icon: "🐍", action: () => openWindow('python') },
+    { name: "HTML Studio", type: "app", icon: "🌐", action: () => openWindow('htmlstudio') }
+];
+
+/* =====================================================
+   NEXUS DESKTOP ↔ FILESYSTEM SYNC
+===================================================== */
+
+function renderDesktopIcons() {
+    const container = document.getElementById("desktopIcons");
+    const desktopFolder = getDesktopFolder();
+
+    if (!container || !desktopFolder) return;
+
+    /* Clear existing icons */
+    container.innerHTML = "";
+
+    /* 1. Render System Apps on Desktop */
+    SYSTEM_APPS.forEach(app => {
+        const icon = document.createElement("div");
+        icon.className = "desktop-icon";
+        icon.innerHTML = `
+            <div class="icon">${app.icon}</div>
+            <span>${app.name}</span>
+        `;
+        
+        icon.addEventListener("click", app.action);
+        
+        /* Delete protection alert for system apps */
+        icon.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            showFileItemMenu(e, { name: app.name, isSystem: true });
+        });
+
+        container.appendChild(icon);
+    });
+
+    /* 2. Render Desktop Folder Files and Folders */
+    desktopFolder.children.forEach(item => {
+        const icon = document.createElement("div");
+        icon.className = "desktop-icon";
+        let iconSymbol;
+
+        if (item.type === "drive") {
+            iconSymbol = "💽";
+        } else if (item.type === "folder") {
+            iconSymbol = "📁";
+        } else if (item.type === "app") {
+            iconSymbol = item.icon || "📦";
+        } else {
+            iconSymbol = "📄";
+        }
+
+        icon.innerHTML = `
+            <div class="icon">${iconSymbol}</div>
+            <span>${item.name}</span>
+        `;
+
+        icon.addEventListener("dblclick", () => {
+            if (item.type === "folder" || item.type === "drive"){
+                openExplorer();
+                currentPath = [
+                    "LocalDrive",
+                    "Users",
+                    "Guest",
+                    "Desktop",
+                    item.name
+                ];
+                updateExplorerPath();
+                renderFileExplorer();
+            } else {
+                openTextFile(item);
+            }
+        });
+
+        icon.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            showFileItemMenu(e, item);
+        });
+
+        container.appendChild(icon);
+    });
+}
+
+/* =====================================================
+   RENDER FILE EXPLORER
+===================================================== */
+
+function renderFileExplorer() {
+    const grid = document.getElementById("fileGrid");
+    if (!grid) return;
+
+    grid.innerHTML = "";
+
+    const folder = getCurrentFolder();
+
+    // Safety check
+    if (!folder || !folder.children) {
+        console.error("Current folder is invalid:", folder);
+        return;
+    }
+
+    /* Render Virtual Filesystem Items */
+    folder.children.forEach(item => {
+        const element = document.createElement("div");
+        element.className = "file";
+
+        let icon;
+
+        if (item.type === "drive") {
+            icon = "💽";
+        } else if (item.type === "folder") {
+            icon = "📁";
+        } else if (item.type === "app") {
+            icon = item.icon || "📦";
+        } else {
+            icon = "📄";
+        }
+
+        element.innerHTML = `
+            <div class="file-icon">${icon}</div>
+            <div class="file-name">${item.name}</div>
+        `;
+
+        element.addEventListener("dblclick", () => {
+
+            // Drives and folders can both be opened
+            if (item.type === "folder" || item.type === "drive") {
+                currentPath.push(item.name);
+                updateExplorerPath();
+                renderFileExplorer();
+
+            } else if (item.type === "app") {
+                openWindow(item.appId);
+
+            } else if (item.name.endsWith(".py")) {
+                openWindow("python");
+
+            } else if (item.name.endsWith(".html")) {
+                openWindow("htmlstudio");
+
+            } else {
+                openTextFile(item);
+            }
+        });
+
+        element.addEventListener("contextmenu", (event) => {
+            event.preventDefault();
+            showFileItemMenu(event, item);
+        });
+
+        grid.appendChild(element);
+    });
+}
+
+/* =====================================================
+   DELETE ITEM WITH PROTECTED ALERTS
+===================================================== */
+
+function deleteItem(item) {
+
+    // Protect all built-in NexusOS applications
+    if (
+        item.type === "app" ||
+        item.isSystem === true ||
+        PROTECTED_NAMES.includes(item.name)
+    ) {
+        playNexusSFX("error");
+        alert("Error: The folder or app you tried to delete is protected.");
+        return;
+    }
+
+    // First check the Desktop folder
+    const desktopFolder = getDesktopFolder();
+
+    let folder = null;
+    let index = -1;
+
+    if (desktopFolder) {
+        index = desktopFolder.children.indexOf(item);
+
+        if (index !== -1) {
+            folder = desktopFolder;
+        }
+    }
+
+    // If it wasn't on the Desktop, check the current Explorer folder
+    if (!folder) {
+
+        const currentFolder = getCurrentFolder();
+
+        if (currentFolder && currentFolder.children) {
+            index = currentFolder.children.indexOf(item);
+
+            if (index !== -1) {
+                folder = currentFolder;
+            }
+        }
+    }
+
+    // Item wasn't found anywhere we checked
+    if (!folder || index === -1) {
+        console.warn("Could not find item to delete:", item);
+        return;
+    }
+
+    // Confirm deletion
+    if (!confirm(`Delete "${item.name}"?`)) return;
+
+    // Remove it
+    folder.children.splice(index, 1);
+
+    // Save shared filesystem
+    saveFileSystem();
+
+    // Refresh File Explorer
+    renderFileExplorer();
+}
+
 
 /* =====================================================
    SAVE FILESYSTEM
@@ -3097,6 +4440,8 @@ function saveFileSystem() {
         JSON.stringify(fileSystem)
     );
 
+    renderDesktopIcons();
+
 }
 
 
@@ -3105,109 +4450,34 @@ function saveFileSystem() {
 ===================================================== */
 
 function getCurrentFolder() {
+    if (!currentPath || currentPath.length === 0) {
+        return fileSystem;
+    }
 
     let folder = fileSystem;
 
-    for (const name of currentPath) {
+    for (const pathItem of currentPath) {
+        const pathName =
+            typeof pathItem === "string"
+                ? pathItem
+                : pathItem.name;
 
-        folder =
-            folder.children.find(
-                item =>
-                    item.type === "folder" &&
-                    item.name === name
-            );
+        if (!folder.children) {
+            return null;
+        }
 
+        folder = folder.children.find(
+            item =>
+                item.name === pathName &&
+                (item.type === "folder" || item.type === "drive")
+        );
+
+        if (!folder) {
+            return null;
+        }
     }
 
     return folder;
-}
-
-
-/* =====================================================
-   RENDER FILE EXPLORER
-===================================================== */
-
-function renderFileExplorer() {
-
-    const grid =
-        document.getElementById("fileGrid");
-
-    if (!grid) return;
-
-    grid.innerHTML = "";
-
-    const folder =
-        getCurrentFolder();
-
-    folder.children.forEach(item => {
-
-        const element =
-            document.createElement("div");
-
-        element.className = "file";
-
-        const icon =
-            item.type === "folder"
-            ? "📁"
-            : "📄";
-
-        element.innerHTML = `
-            <div class="file-icon">
-                ${icon}
-            </div>
-
-            <div class="file-name">
-                ${item.name}
-            </div>
-        `;
-
-        /* Double click */
-
-        element.addEventListener(
-            "dblclick",
-            () => {
-
-                if (item.type === "folder") {
-
-                    currentPath.push(item.name);
-
-                    updateExplorerPath();
-
-                    renderFileExplorer();
-
-                }
-
-                else {
-
-                    openTextFile(item);
-
-                }
-
-            }
-        );
-
-
-        /* Right click */
-
-        element.addEventListener(
-            "contextmenu",
-            event => {
-
-                event.preventDefault();
-
-                showFileItemMenu(
-                    event,
-                    item
-                );
-
-            }
-        );
-
-
-        grid.appendChild(element);
-
-    });
-
 }
 
 
@@ -3216,16 +4486,14 @@ function renderFileExplorer() {
 ===================================================== */
 
 function updateExplorerPath() {
-
-    const path =
-        document.querySelector(".path");
-
+    const path = document.querySelector(".path");
     if (!path) return;
 
-    path.textContent =
-        "C:\\Users\\" +
-        ["Guest", ...currentPath]
-            .join("\\");
+    if (currentPath.length === 0) {
+        path.textContent = "/";
+    } else {
+        path.textContent = "/" + currentPath.join("/");
+    }
 }
 
 
@@ -3234,15 +4502,10 @@ function updateExplorerPath() {
 ===================================================== */
 
 function openExplorer() {
-
-    currentPath = [];
-
-    updateExplorerPath();
-
-    renderFileExplorer();
-
     openWindow("explorer");
-
+    currentPath = []; // Start at root '/'
+    updateExplorerPath();
+    renderFileExplorer();
 }
 
 
@@ -3261,53 +4524,7 @@ function openTextFile(file) {
 }
 
 
-/* =====================================================
-   CREATE FOLDER
-===================================================== */
 
-function createFolder() {
-
-    const folder =
-        getCurrentFolder();
-
-    let name =
-        prompt("Folder name:");
-
-    if (!name) return;
-
-    name = name.trim();
-
-    if (!name) return;
-
-    if (
-        folder.children.some(
-            item => item.name === name
-        )
-    ) {
-
-        alert("An item with that name already exists.");
-
-        return;
-
-    }
-
-    folder.children.push({
-
-        type: "folder",
-
-        name: name,
-
-        children: []
-
-    });
-
-    saveFileSystem();
-
-    renderFileExplorer();
-
-    contextMenu.style.display = "none";
-
-}
 
 
 /* =====================================================
@@ -3359,33 +4576,6 @@ function createTextFile() {
 }
 
 
-/* =====================================================
-   DELETE ITEM
-===================================================== */
-
-function deleteItem(item) {
-
-    const folder =
-        getCurrentFolder();
-
-    const index =
-        folder.children.indexOf(item);
-
-    if (index === -1) return;
-
-    if (
-        !confirm(
-            `Delete "${item.name}"?`
-        )
-    ) return;
-
-    folder.children.splice(index, 1);
-
-    saveFileSystem();
-
-    renderFileExplorer();
-
-}
 
 
 /* =====================================================
@@ -3436,6 +4626,9 @@ function renameItem(item) {
 ===================================================== */
 
 function showFileItemMenu(event, item) {
+
+    event.preventDefault();
+    event.stopPropagation();
 
     contextMenu.innerHTML = `
 
@@ -3510,6 +4703,8 @@ function deleteSelectedItem() {
 ===================================================== */
 
 renderFileExplorer();
+
+renderDesktopIcons();
 
 /* =====================================================
    NEXUS WINDOWS KEY
@@ -4045,6 +5240,8 @@ function setWallpaper(type) {
 // LOAD SAVED WALLPAPER
 // =========================
 
+
+
 function loadWallpaper() {
 
     const saved =
@@ -4057,6 +5254,8 @@ function loadWallpaper() {
     }
 
 }
+
+const NEXUS_GRID_KEY = "nexus_grid_enabled";
 
 loadWallpaper();
 
@@ -4090,6 +5289,8 @@ function setWallpaper(type) {
     }
 
     localStorage.setItem("nexus_wallpaper", type);
+
+    loadGridSetting();
 }
 
 function openDisplaySettings() {
@@ -4116,6 +5317,776 @@ function closeDisplaySettings() {
     });
 
 }
+
+// =========================
+// NEXUS BOOT PASSWORD
+// =========================
+
+const NEXUS_PASSWORD = "1234";
+
+let nexusUnlocked = false;
+
+function unlockNexus() {
+    console.log("UNLOCK FUNCTION CALLED:", document.getElementById("bootPassword").value);
+
+    // Already unlocked? Do nothing.
+    if (nexusUnlocked) return;
+
+    const input = document.getElementById("bootPassword");
+    const error = document.getElementById("bootError");
+    const bootScreen = document.getElementById("bootScreen");
+
+    // Get exactly what the user typed
+    const enteredPassword = input.value;
+
+    // WRONG PASSWORD
+    if (enteredPassword !== NEXUS_PASSWORD) {
+
+        playNexusSFX("error")
+
+        error.textContent = "Incorrect password";
+
+        input.value = "";
+        input.focus();
+
+        const content =
+            document.querySelector(".boot-content");
+
+        content.style.animation = "none";
+
+        void content.offsetWidth;
+
+        content.style.animation =
+            "bootShake 0.3s ease";
+
+        return;
+    }
+
+    // CORRECT PASSWORD
+    nexusUnlocked = true;
+
+    playNexusSFX("success")
+
+    error.textContent = "";
+
+    input.disabled = true;
+
+    bootScreen.style.transition =
+        "opacity 0.6s ease";
+
+    bootScreen.style.opacity = "0";
+
+    setTimeout(() => {
+
+        bootScreen.style.display = "none";
+
+    }, 600);
+}
+
+
+// =========================
+// ENTER KEY
+// =========================
+
+document.addEventListener("keydown", function(event) {
+
+    const bootScreen =
+        document.getElementById("bootScreen");
+
+    // Ignore keyboard input if boot screen is gone
+    if (
+        !bootScreen ||
+        bootScreen.style.display === "none"
+    ) {
+        return;
+    }
+
+    if (
+        event.key === "Enter" &&
+        document.activeElement.id === "bootPassword"
+    ) {
+
+        event.preventDefault();
+
+        unlockNexus();
+
+    }
+
+});
+
+
+// =========================
+// BOOT SHAKE
+// =========================
+
+const bootStyle =
+    document.createElement("style");
+
+bootStyle.textContent = `
+
+@keyframes bootShake {
+
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-8px);
+    }
+
+    75% {
+        transform: translateX(8px);
+    }
+
+}
+
+`;
+
+document.head.appendChild(bootStyle);
+
+
+// =========================
+// FOCUS PASSWORD
+// =========================
+
+window.addEventListener("load", () => {
+
+    const password =
+        document.getElementById("bootPassword");
+
+    if (password) {
+        password.focus();
+    }
+
+});
+
+// =========================
+// NEXUS DESKTOP GRID
+// =========================
+
+
+function toggleDesktopGrid() {
+
+    const desktop =
+        document.getElementById("desktop");
+
+    const checkbox =
+        document.getElementById("gridToggle");
+
+    if (!desktop || !checkbox)
+        return;
+
+    const enabled =
+        checkbox.checked;
+
+    desktop.classList.toggle(
+        "grid-off",
+        !enabled
+    );
+
+    localStorage.setItem(
+        NEXUS_GRID_KEY,
+        enabled
+    );
+
+}
+
+
+// =========================
+// LOAD GRID SETTING
+// =========================
+
+function loadGridSetting() {
+
+    const desktop =
+        document.getElementById("desktop");
+
+    const checkbox =
+        document.getElementById("gridToggle");
+
+    const setting =
+        document.getElementById("gridSetting");
+
+    if (!desktop || !checkbox || !setting)
+        return;
+
+
+    const saved =
+        localStorage.getItem(NEXUS_GRID_KEY);
+
+
+    /*
+       Nexus Original:
+       Grid is ALWAYS enabled.
+       Checkbox is disabled.
+    */
+
+    const wallpaper =
+        localStorage.getItem("nexus_wallpaper") || "default";
+
+
+    if (wallpaper === "default") {
+
+        checkbox.checked = true;
+
+        checkbox.disabled = true;
+
+        setting.classList.add("disabled");
+
+        desktop.classList.remove("grid-off");
+
+        return;
+
+    }
+
+
+    /*
+       Other wallpapers:
+       User can toggle the grid.
+    */
+
+    checkbox.disabled = false;
+
+    setting.classList.remove("disabled");
+
+
+    if (saved === null) {
+
+        checkbox.checked = true;
+
+    }
+
+    else {
+
+        checkbox.checked =
+            saved === "true";
+
+    }
+
+
+    desktop.classList.toggle(
+        "grid-off",
+        !checkbox.checked
+    );
+
+}
+
+loadGridSetting();
+
+// =========================
+// NEXUS SOUND ENGINE
+// =========================
+
+const NEXUS_SFX_VOLUME_KEY = "nexus_sfx_volume";
+
+let nexusSFXVolume =
+    parseFloat(
+        localStorage.getItem(NEXUS_SFX_VOLUME_KEY)
+    );
+
+if (isNaN(nexusSFXVolume)) {
+    nexusSFXVolume = 0.35;
+}
+
+
+// =========================
+// PLAY NEXUS SFX
+// =========================
+
+function playNexusSFX(type) {
+
+    const audioContext =
+        new (window.AudioContext ||
+             window.webkitAudioContext)();
+
+    const gain =
+        audioContext.createGain();
+
+    const oscillator =
+        audioContext.createOscillator();
+
+    gain.gain.value =
+        nexusSFXVolume;
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+
+    // -------------------------
+    // CLICK
+    // -------------------------
+
+    if (type === "click") {
+
+        oscillator.type = "sine";
+
+        oscillator.frequency.setValueAtTime(
+            520,
+            audioContext.currentTime
+        );
+
+        oscillator.frequency.exponentialRampToValueAtTime(
+            760,
+            audioContext.currentTime + 0.07
+        );
+
+        gain.gain.setValueAtTime(
+            nexusSFXVolume,
+            audioContext.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime + 0.08
+        );
+
+        oscillator.start();
+        oscillator.stop(
+            audioContext.currentTime + 0.08
+        );
+    }
+
+
+    // -------------------------
+    // OPEN WINDOW
+    // -------------------------
+
+    else if (type === "open") {
+
+        oscillator.type = "sine";
+
+        oscillator.frequency.setValueAtTime(
+            300,
+            audioContext.currentTime
+        );
+
+        oscillator.frequency.exponentialRampToValueAtTime(
+            650,
+            audioContext.currentTime + 0.12
+        );
+
+        gain.gain.setValueAtTime(
+            nexusSFXVolume * 0.7,
+            audioContext.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime + 0.14
+        );
+
+        oscillator.start();
+        oscillator.stop(
+            audioContext.currentTime + 0.14
+        );
+    }
+
+
+    // -------------------------
+    // CLOSE WINDOW
+    // -------------------------
+
+    else if (type === "close") {
+
+        oscillator.type = "sine";
+
+        oscillator.frequency.setValueAtTime(
+            650,
+            audioContext.currentTime
+        );
+
+        oscillator.frequency.exponentialRampToValueAtTime(
+            280,
+            audioContext.currentTime + 0.12
+        );
+
+        gain.gain.setValueAtTime(
+            nexusSFXVolume * 0.7,
+            audioContext.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime + 0.14
+        );
+
+        oscillator.start();
+        oscillator.stop(
+            audioContext.currentTime + 0.14
+        );
+    }
+
+    // -------------------------
+    // MINIMIZE WINDOW
+    // -------------------------
+
+    else if (type === "minimize") {
+
+        oscillator.type = "sine";
+
+        // Lower, faster pitch drop for minimizing
+        oscillator.frequency.setValueAtTime(
+            500,
+            audioContext.currentTime
+        );
+
+        oscillator.frequency.exponentialRampToValueAtTime(
+            200,
+            audioContext.currentTime + 0.09
+        );
+
+        gain.gain.setValueAtTime(
+            nexusSFXVolume * 0.5,
+            audioContext.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime + 0.1
+        );
+
+        oscillator.start();
+        oscillator.stop(
+            audioContext.currentTime + 0.1
+        );
+    }
+
+
+    // -------------------------
+    // ERROR
+    // -------------------------
+
+    else if (type === "error") {
+
+        oscillator.type = "square";
+
+        oscillator.frequency.setValueAtTime(
+            180,
+            audioContext.currentTime
+        );
+
+        gain.gain.setValueAtTime(
+            nexusSFXVolume * 0.45,
+            audioContext.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime + 0.12
+        );
+
+        oscillator.start();
+        oscillator.stop(
+            audioContext.currentTime + 0.12
+        );
+    }
+
+
+    // -------------------------
+    // SUCCESS
+    // -------------------------
+
+    else if (type === "success") {
+
+        oscillator.type = "sine";
+
+        oscillator.frequency.setValueAtTime(
+            440,
+            audioContext.currentTime
+        );
+
+        oscillator.frequency.setValueAtTime(
+            660,
+            audioContext.currentTime + 0.08
+        );
+
+        oscillator.frequency.setValueAtTime(
+            880,
+            audioContext.currentTime + 0.16
+        );
+
+        gain.gain.setValueAtTime(
+            nexusSFXVolume * 0.6,
+            audioContext.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime + 0.25
+        );
+
+        oscillator.start();
+        oscillator.stop(
+            audioContext.currentTime + 0.25
+        );
+    }
+
+}
+
+// =========================
+// NEXUS BUTTON SFX
+// =========================
+
+document.addEventListener("click", function(event) {
+
+    const button =
+        event.target.closest("button");
+
+    if (!button)
+        return;
+
+    playNexusSFX("click");
+
+});
+
+function navigateBack() {
+    if (currentPath.length > 0) {
+        currentPath.pop();
+        updateExplorerPath();
+        renderFileExplorer();
+    }
+}
+
+function getApplicationsFolder() {
+    const localDrive = fileSystem.children.find(
+        item => item.type === "drive" && item.name === "LocalDrive"
+    );
+    if (!localDrive) return null;
+
+    return localDrive.children.find(
+        item => item.type === "folder" && item.name === "Applications"
+    ) || null;
+}
+
+// =========================
+// NEXUS MAXIMIZE BUTTONS
+// =========================
+
+document.querySelectorAll(".window").forEach(win => {
+
+    const buttons = win.querySelector(".window-buttons");
+
+    if (!buttons) return;
+
+    // Create maximize button
+    const maximizeButton = document.createElement("div");
+
+    maximizeButton.className = "window-button maximize";
+    maximizeButton.textContent = "□";
+
+    maximizeButton.onclick = function () {
+
+        win.classList.toggle("maximized");
+
+        if (win.classList.contains("maximized")) {
+            maximizeButton.innerHTML = "❐";
+        } else {
+            maximizeButton.innerHTML = "□";
+        }
+
+    };
+
+    // Put it BEFORE the close button
+    const closeButton = buttons.querySelector(".close");
+
+    if (closeButton) {
+        buttons.insertBefore(maximizeButton, closeButton);
+    } else {
+        buttons.appendChild(maximizeButton);
+    }
+
+});
+
+// =========================
+// GLOBAL WINDOW EXIT ANIMATION
+// =========================
+
+document.addEventListener("click", function (event) {
+
+    const button = event.target.closest(".window-button");
+
+    if (!button) return;
+
+    const windowElement = button.closest(".window");
+
+    if (!windowElement) return;
+
+    // Close button
+    if (button.classList.contains("close")) {
+
+        windowElement.classList.add("exiting");
+
+        setTimeout(() => {
+            windowElement.classList.remove("exiting");
+        }, 200);
+
+    }
+
+    // Minimize button
+    if (button.classList.contains("minimize")) {
+
+        windowElement.classList.add("exiting");
+
+        setTimeout(() => {
+            windowElement.classList.remove("exiting");
+        }, 200);
+
+    }
+
+});
+
+// =========================
+// SIGMAOS FIRST INSTALLATION
+// =========================
+
+const SIGMA_INSTALLED_KEY = "sigmaos_installed";
+
+async function typeInstallText(text, speed = 45) {
+
+    const output = document.getElementById("installText");
+
+    for (const character of text) {
+
+        output.textContent += character;
+
+        await new Promise(resolve =>
+            setTimeout(resolve, speed)
+        );
+    }
+}
+
+
+function wait(ms) {
+
+    return new Promise(resolve =>
+        setTimeout(resolve, ms)
+    );
+}
+
+
+async function runInstallation() {
+
+    const installScreen =
+        document.getElementById("installationScreen");
+
+    const bootScreen =
+        document.getElementById("bootScreen");
+
+    const output =
+        document.getElementById("installText");
+
+    const progressContainer =
+        document.getElementById(
+            "installProgressContainer"
+        );
+
+    const progress =
+        document.getElementById("installProgress");
+
+    // The first thing the player sees
+    await wait(1200);
+
+    await typeInstallText("Hello.", 180);
+
+    await wait(1800);
+
+
+    // Begin installation
+    output.textContent = "";
+
+    await typeInstallText(
+        "Preparing SigmaOS...",
+        45
+    );
+
+    await wait(900);
+
+
+    output.textContent += "\n\nInstalling core components";
+
+    progressContainer.classList.add("visible");
+
+
+    // Installation progress
+    for (let i = 0; i <= 100; i++) {
+
+        progress.style.width = i + "%";
+
+        await wait(28);
+    }
+
+
+    await wait(700);
+
+    output.textContent +=
+        "\n\nConfiguring system...";
+
+    await wait(1800);
+
+
+    // Finish
+    output.textContent = "";
+
+    await typeInstallText(
+        "Installation finished.\n\nPassword: 1234",
+        45
+    );
+
+    progressContainer.style.opacity = "0";
+
+    await wait(3000);
+
+
+    // Save that installation has happened
+    localStorage.setItem(
+        SIGMA_INSTALLED_KEY,
+        "true"
+    );
+
+
+    // Fade installation away
+    installScreen.style.transition =
+        "opacity 0.8s ease";
+
+    installScreen.style.opacity = "0";
+
+
+    await wait(800);
+
+    installScreen.style.display = "none";
+    bootScreen.style.opacity = "1";
+}
+
+
+function initializeSigmaOS() {
+
+    const installScreen =
+        document.getElementById("installationScreen");
+
+    const bootScreen =
+        document.getElementById("bootScreen");
+
+
+    // Already installed?
+    if (
+        localStorage.getItem(SIGMA_INSTALLED_KEY)
+        === "true"
+    ) {
+
+        installScreen.style.display = "none";
+
+        bootScreen.style.display = "flex";
+
+        return;
+    }
+
+
+    // First launch
+    runInstallation();
+}
+
+
+initializeSigmaOS();
 
 </script>
 
