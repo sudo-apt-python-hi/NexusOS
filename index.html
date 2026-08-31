@@ -1444,6 +1444,8 @@ body {
 
     opacity: 0;
     animation: logoAppear 1s ease forwards;
+
+    font-size: 80px;
 }
 
 .boot-logo img {
@@ -4435,6 +4437,310 @@ a {
 
 }
 
+.sigma-photos-content {
+
+    width: 100%;
+    height: calc(100% - 40px);
+
+    background: #808080;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+#sigmaPhotoImage {
+
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+
+    display: none;
+}
+
+.sigma-store-page {
+
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    padding: 28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(20, 20, 30, 0.98),
+            rgba(10, 10, 18, 0.98)
+        );
+
+    color: white;
+
+    overflow-y: auto;
+}
+
+
+.sigma-store-header {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 6px;
+
+    margin-bottom: 28px;
+
+}
+
+
+.sigma-store-heading {
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+
+}
+
+
+.sigma-store-subheading {
+
+    margin-top: 4px;
+
+    font-size: 14px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.55
+        );
+
+}
+
+
+.sigma-store-app-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 20px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.055
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.09
+        );
+
+    box-shadow:
+        0 12px 35px
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease;
+
+}
+
+
+.sigma-store-app-card:hover {
+
+    transform:
+        translateY(-2px);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.075
+        );
+
+    border-color:
+        rgba(
+            255,
+            255,
+            255,
+            0.16
+        );
+
+}
+
+
+.sigma-store-app-icon {
+
+    width: 64px;
+    height: 64px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    font-size: 34px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+}
+
+
+.sigma-store-app-info {
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+.sigma-store-app-name {
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+}
+
+
+.sigma-store-app-description {
+
+    margin-top: 5px;
+
+    font-size: 13px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.62
+        );
+
+}
+
+
+.sigma-store-app-version {
+
+    margin-top: 8px;
+
+    font-size: 11px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.38
+        );
+
+}
+
+
+.sigma-store-install-button {
+
+    border: none;
+
+    padding:
+        10px 20px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.12
+        );
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.12s ease,
+        background 0.12s ease;
+
+}
+
+
+.sigma-store-install-button:hover {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.19
+        );
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.sigma-store-install-button:active {
+
+    transform:
+        scale(0.96);
+
+}
+
 </style>
 </head>
 
@@ -4469,7 +4775,7 @@ a {
 
     <div class="boot-content">
 
-        <div class="boot-logo"><img src="startup-s.png" width="72" height="72"></div>
+        <div class="boot-logo">Σ</div>
 
         <div class="boot-title"><a href="https://github.com/sudo-apt-python-hi/NexusOS/tree/main" target="_blank">
             SigmaOS
@@ -4589,6 +4895,111 @@ a {
 
     </div>
 
+    <!-- ABLE-TO-INSTALL APPS FIRST -->
+
+    <div
+        class="window"
+        id="calculator"
+        style="
+            width: 360px;
+            height: 520px;
+        "
+    >
+
+        <div
+            class="titlebar"
+            onmousedown="
+                startDrag(
+                    event,
+                    'calculator'
+                )
+            "
+        >
+
+            <div class="title">
+                🧮 Sigma Calculator
+            </div>
+
+            <div class="window-buttons">
+
+                <div
+                    class="window-button close"
+                    onclick="
+                        closeWindow(
+                            'calculator'
+                        )
+                    "
+                >
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="calculatorDisplay"
+            style="
+                height: 90px;
+                background: #111;
+                color: white;
+                font-size: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                padding: 15px;
+                overflow: hidden;
+            "
+        >
+            0
+        </div>
+
+
+        <div
+            style="
+                display: grid;
+                grid-template-columns:
+                    repeat(4, 1fr);
+                gap: 8px;
+                padding: 12px;
+                height: calc(100% - 90px);
+                background: #222;
+            "
+        >
+
+            <button onclick="calculatorInput('7')">7</button>
+            <button onclick="calculatorInput('8')">8</button>
+            <button onclick="calculatorInput('9')">9</button>
+            <button onclick="calculatorInput('/')">÷</button>
+
+            <button onclick="calculatorInput('4')">4</button>
+            <button onclick="calculatorInput('5')">5</button>
+            <button onclick="calculatorInput('6')">6</button>
+            <button onclick="calculatorInput('*')">×</button>
+
+            <button onclick="calculatorInput('1')">1</button>
+            <button onclick="calculatorInput('2')">2</button>
+            <button onclick="calculatorInput('3')">3</button>
+            <button onclick="calculatorInput('-')">−</button>
+
+            <button onclick="calculatorInput('0')">0</button>
+            <button onclick="calculatorInput('.')">.</button>
+            <button onclick="calculatorClear()">C</button>
+            <button onclick="calculatorInput('+')">+</button>
+
+            <button
+                onclick="calculatorEquals()"
+                style="
+                    grid-column: span 4;
+                "
+            >
+                =
+            </button>
+
+        </div>
+
+    </div>
 
     <!-- FILE EXPLORER -->
 
@@ -4848,6 +5259,100 @@ a {
 
     </div>
 
+    <div
+        class="window"
+        id="sigmaStore"
+        style="
+            width: 800px;
+            height: 550px;
+        "
+    >
+
+        <div
+            class="titlebar"
+            onmousedown="
+                startDrag(
+                    event,
+                    'sigmaStore'
+                )
+            "
+        >
+
+            <div class="title">
+                🛍️ ΣStore
+            </div>
+
+            <div class="window-buttons">
+
+                <div
+                    class="window-button close"
+                    onclick="
+                        closeWindow(
+                            'sigmaStore'
+                        )
+                    "
+                >
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="sigma-store-page">
+
+            <div class="sigma-store-header">
+
+                <div class="sigma-store-heading">
+                    ΣStore
+                </div>
+
+                <div class="sigma-store-subheading">
+                    Apps for SigmaOS
+                </div>
+
+            </div>
+
+
+            <div class="sigma-store-app-card">
+
+                <div class="sigma-store-app-icon">
+                    🧮
+                </div>
+
+
+                <div class="sigma-store-app-info">
+
+                    <div class="sigma-store-app-name">
+                        Sigma Calculator
+                    </div>
+
+                    <div class="sigma-store-app-description">
+                        A fast and simple calculator
+                        built for SigmaOS.
+                    </div>
+
+                    <div class="sigma-store-app-version">
+                        Version 1.0
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="sigma-store-install-button"
+                    id="calculatorStoreButton"
+                    onclick="toggleCalculatorInstall()"
+                >
+                    Install
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
 
     <!-- NOTEPAD -->
 
@@ -5002,6 +5507,42 @@ placeholder="Start typing..."></textarea>
                 </div>
 
             </div>
+
+        </div>
+
+    </div>
+
+    <div class="window" id="sigmaPhotosViewer">
+
+        <div
+            class="titlebar"
+            onmousedown="startDrag(event, 'sigmaPhotosViewer')"
+        >
+
+            <div class="title">
+                🖼️ Sigma Photos Viewer
+            </div>
+
+            <div class="window-buttons">
+
+                <div
+                    class="window-button close"
+                    onclick="closeWindow('sigmaPhotosViewer')"
+                >
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="sigma-photos-content">
+
+            <img
+                id="sigmaPhotoImage"
+                alt="Image"
+            >
 
         </div>
 
@@ -5415,38 +5956,39 @@ placeholder="Start typing..."></textarea>
             value="50"
         >
 
-        <div
-            id="brightnessPopup"
-            class="brightness-popup"
-        >
 
-            <div class="brightness-popup-header">
-
-                <span>
-                    🔆 Brightness
-                </span>
-
-                <span
-                    id="brightnessPopupValue"
-                >
-                    100
-                </span>
-
-            </div>
-
-
-            <input
-                id="brightnessPopupSlider"
-                type="range"
-                min="0"
-                max="100"
-                value="100"
-            >
-
-        </div>
 
     </div>
 
+    <div
+        id="brightnessPopup"
+        class="brightness-popup"
+    >
+
+        <div class="brightness-popup-header">
+
+            <span>
+                🔆 Brightness
+            </span>
+
+            <span
+                id="brightnessPopupValue"
+            >
+                100
+            </span>
+
+        </div>
+
+
+        <input
+            id="brightnessPopupSlider"
+            type="range"
+            min="0"
+            max="100"
+            value="100"
+        >
+
+    </div>
 
     <!-- TASKBAR -->
 
@@ -5537,6 +6079,9 @@ placeholder="Start typing..."></textarea>
 
 <script src="https://cdn.jsdelivr.net/pyodide/v314.0.3/full/pyodide.js"></script>
 
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+</script>
 
 <script>
 
@@ -5830,6 +6375,14 @@ function openWindow(id) {
     if (id === "python") {
         loadPythonCode()
         initializePython();
+    }
+
+    if (
+        id === "sigmaStore"
+    ) {
+
+        updateCalculatorStoreButton();
+
     }
 
     window.style.display = "block";
@@ -6670,6 +7223,13 @@ const defaultFileSystem = {
                             name: "HTML Studio",
                             icon: "🌐",
                             appId: "htmlstudio"
+                        },
+                        {
+                            type: "app",
+                            name: "ΣStore",
+                            icon: "🛍️",
+                            appId: "sigmaStore",
+                            isSystem: true
                         }
                     ]
                 },
@@ -6783,7 +7343,57 @@ const SYSTEM_APPS = [
     { name: "Notepad", type: "app", icon: "📝", action: () => openWindow('notepad') },
     { name: "Settings", type: "app", icon: "⚙️", action: () => openWindow('settings') },
     { name: "Python", type: "app", icon: "🐍", action: () => openWindow('python') },
-    { name: "HTML Studio", type: "app", icon: "🌐", action: () => openWindow('htmlstudio') }
+    { name: "HTML Studio", type: "app", icon: "🌐", action: () => openWindow('htmlstudio') },
+    {name: "ΣStore", type: "app", icon: "🛍️", action: () => openWindow("sigmaStore")}
+];
+
+const SIGMA_INSTALLED_APPS_KEY =
+    "sigmaos_installed_apps";
+
+
+function getInstalledApps() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                SIGMA_INSTALLED_APPS_KEY
+            )
+        ) || [];
+
+    } catch {
+
+        return [];
+
+    }
+
+}
+
+
+function saveInstalledApps(
+    apps
+) {
+
+    localStorage.setItem(
+        SIGMA_INSTALLED_APPS_KEY,
+        JSON.stringify(apps)
+    );
+
+}
+
+const SIGMA_STORE_APPS = [
+
+    {
+        id: "calculator",
+
+        name: "Sigma Calculator",
+
+        icon: "🧮",
+
+        appId: "calculator"
+
+    }
+
 ];
 
 /* =====================================================
@@ -6818,6 +7428,61 @@ function renderDesktopIcons() {
 
         container.appendChild(icon);
     });
+
+    const installedApps =
+        getInstalledApps();
+
+
+    SIGMA_STORE_APPS.forEach(
+        app => {
+
+            if (
+                !installedApps.includes(
+                    app.id
+                )
+            ) {
+                return;
+            }
+
+
+            const icon =
+                document.createElement(
+                    "div"
+                );
+
+            icon.className =
+                "desktop-icon";
+
+
+            icon.innerHTML = `
+                <div class="icon">
+                    ${app.icon}
+                </div>
+
+                <span>
+                    ${app.name}
+                </span>
+            `;
+
+
+            icon.addEventListener(
+                "click",
+                () => {
+
+                    openWindow(
+                        app.appId
+                    );
+
+                }
+            );
+
+
+            container.appendChild(
+                icon
+            );
+
+        }
+    );
 
     /* 2. Render Desktop Folder Files and Folders */
     desktopFolder.children.forEach(item => {
@@ -6920,11 +7585,28 @@ function renderFileExplorer() {
             } else if (item.name.endsWith(".py")) {
                 openWindow("python");
 
-            } else if (item.name.endsWith(".html")) {
-                openWindow("htmlstudio");
+            } else if (
+                item.name.endsWith(".html")
+            ) {
+
+                openWindow(
+                    "htmlstudio"
+                );
+
+            } else if (
+                item.type === "image"
+            ) {
+
+                openSigmaPhotosViewer(
+                    item
+                );
 
             } else {
-                openTextFile(item);
+
+                openTextFile(
+                    item
+                );
+
             }
         });
 
@@ -8291,6 +8973,8 @@ function updateSigmaVolume(
 
 }
 
+const NEXUS_BRIGHTNESS_KEY =
+    "nexus_brightness";
 
 const brightnessPopupSlider =
     document.getElementById(
@@ -8308,54 +8992,97 @@ const brightnessOverlay =
     );
 
 
+// =========================
+// APPLY BRIGHTNESS
+// =========================
+
 function updateSigmaBrightness(
     value
 ) {
 
-    brightnessPopupSlider.value =
+    value =
+        Number(value);
+
+    nexusBrightness =
         value;
 
     brightnessPopupValue.textContent =
         value;
 
-
     const darkness =
         1 -
         (
-            Number(
-                value
-            ) / 100
+            value / 100
         );
 
-
     brightnessOverlay.style.opacity =
-        darkness *
-        0.75;
-
+        darkness * 0.75;
 }
 
+
+// =========================
+// SLIDER
+// =========================
 
 brightnessPopupSlider.addEventListener(
     "input",
     () => {
 
+        const value =
+            Number(
+                brightnessPopupSlider.value
+            );
+
         updateSigmaBrightness(
-            brightnessPopupSlider.value
+            value
+        );
+
+        localStorage.setItem(
+            NEXUS_BRIGHTNESS_KEY,
+            value
         );
 
     }
 );
 
 
+// =========================
+// LOAD SAVED BRIGHTNESS
+// =========================
+
+let nexusBrightness =
+    Number(
+        localStorage.getItem(
+            NEXUS_BRIGHTNESS_KEY
+        )
+    );
+
+if (
+    !Number.isFinite(
+        nexusBrightness
+    )
+) {
+    nexusBrightness = 100;
+}
+
+
+// Set the slider ONCE when loading
+
+brightnessPopupSlider.value =
+    nexusBrightness;
+
+updateSigmaBrightness(
+    nexusBrightness
+);
+
+
 function toggleBrightnessPopup() {
-  // Replace 'brightnessMenu' with the actual ID of your popup container in the HTML
-  const popup = document.getElementById('brightnessMenu'); 
-  
-  if (popup.style.display === 'none' || popup.style.display === '') {
-    popup.style.display = 'block'; // Shows the menu
-  } else {
-    popup.style.display = 'none';  // Hides the menu
-  }
+
+    const popup =
+        document.getElementById("brightnessPopup");
+
+    popup.classList.toggle("open");
+
 }
 
 
@@ -8978,6 +9705,22 @@ function getSearchIcon(
 
     }
 
+    else if (
+        item.type === "image" ||
+        item.name.toLowerCase().endsWith(".png") ||
+        item.name.toLowerCase().endsWith(".jpg") ||
+        item.name.toLowerCase().endsWith(".jpeg") ||
+        item.name.toLowerCase().endsWith(".webp")
+    ) {
+
+        openSigmaPhotosViewer(item);
+
+    } else {
+
+        openTextFile(item);
+
+    }
+
 
     return "📦";
 
@@ -9344,6 +10087,536 @@ document.addEventListener(
 
     }
 );
+
+const SIGMA_IMAGE_DB =
+    "SigmaOSImages";
+
+const SIGMA_IMAGE_STORE =
+    "images";
+
+
+function openSigmaImageDB() {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const request =
+                indexedDB.open(
+                    SIGMA_IMAGE_DB,
+                    1
+                );
+
+            request.onupgradeneeded =
+                () => {
+
+                    const db =
+                        request.result;
+
+                    if (
+                        !db.objectStoreNames.contains(
+                            SIGMA_IMAGE_STORE
+                        )
+                    ) {
+
+                        db.createObjectStore(
+                            SIGMA_IMAGE_STORE
+                        );
+
+                    }
+
+                };
+
+
+            request.onsuccess =
+                () => {
+
+                    resolve(
+                        request.result
+                    );
+
+                };
+
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+}
+
+
+async function saveSigmaImage(
+    imageId,
+    blob
+) {
+
+    const db =
+        await openSigmaImageDB();
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const transaction =
+                db.transaction(
+                    SIGMA_IMAGE_STORE,
+                    "readwrite"
+                );
+
+            transaction
+                .objectStore(
+                    SIGMA_IMAGE_STORE
+                )
+                .put(
+                    blob,
+                    imageId
+                );
+
+            transaction.oncomplete =
+                () => {
+
+                    db.close();
+
+                    resolve();
+
+                };
+
+            transaction.onerror =
+                () => {
+
+                    db.close();
+
+                    reject(
+                        transaction.error
+                    );
+
+                };
+
+        }
+    );
+}
+
+
+async function getSigmaImage(
+    imageId
+) {
+
+    const db =
+        await openSigmaImageDB();
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const transaction =
+                db.transaction(
+                    SIGMA_IMAGE_STORE,
+                    "readonly"
+                );
+
+            const request =
+                transaction
+                    .objectStore(
+                        SIGMA_IMAGE_STORE
+                    )
+                    .get(
+                        imageId
+                    );
+
+            request.onsuccess =
+                () => {
+
+                    db.close();
+
+                    resolve(
+                        request.result
+                    );
+
+                };
+
+            request.onerror =
+                () => {
+
+                    db.close();
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+}
+
+async function takeSigmaScreenshot() {
+
+    try {
+
+        const canvas =
+            await html2canvas(
+                document.getElementById(
+                    "desktop"
+                ),
+                {
+                    backgroundColor: null,
+                    useCORS: true,
+                    scale:
+                        window.devicePixelRatio || 1
+                }
+            );
+
+
+        const blob =
+            await new Promise(
+                resolve =>
+                    canvas.toBlob(
+                        resolve,
+                        "image/png"
+                    )
+            );
+
+
+        if (!blob) {
+
+            throw new Error(
+                "Could not create screenshot."
+            );
+
+        }
+
+
+        const picturesFolder =
+            getPicturesFolder();
+
+
+        if (!picturesFolder) {
+
+            throw new Error(
+                "Pictures folder not found."
+            );
+
+        }
+
+
+        const imageId =
+            "img_" +
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .slice(2);
+
+
+        const file = {
+
+            type:
+                "image",
+
+            name:
+                "Screenshot-" +
+                new Date()
+                    .toISOString()
+                    .replace(
+                        /[:.]/g,
+                        "-"
+                    ) +
+                ".png",
+
+            imageId:
+                imageId
+
+        };
+
+
+        await saveSigmaImage(
+            imageId,
+            blob
+        );
+
+
+        picturesFolder.children.push(
+            file
+        );
+
+
+        saveFileSystem();
+
+
+        openSigmaPhotosViewer(
+            file
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "SigmaOS Screenshot Error:",
+            error
+        );
+
+    }
+
+}
+
+async function openSigmaPhotosViewer(
+    imageFile
+) {
+
+    const image =
+        document.getElementById(
+            "sigmaPhotoImage"
+        );
+
+
+    try {
+
+        const blob =
+            await getSigmaImage(
+                imageFile.imageId
+            );
+
+
+        if (!blob) {
+
+            console.error(
+                "Image not found:",
+                imageFile.imageId
+            );
+
+            return;
+
+        }
+
+
+        const imageURL =
+            URL.createObjectURL(
+                blob
+            );
+
+
+        image.src =
+            imageURL;
+
+        image.style.display =
+            "block";
+
+
+        openWindow(
+            "sigmaPhotosViewer"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Could not open image:",
+            error
+        );
+
+    }
+
+}
+
+function getPicturesFolder() {
+
+    const localDrive =
+        fileSystem.children.find(
+            item =>
+                item.type === "drive" &&
+                item.name === "LocalDrive"
+        );
+
+    if (!localDrive) return null;
+
+    const users =
+        localDrive.children.find(
+            item =>
+                item.type === "folder" &&
+                item.name === "Users"
+        );
+
+    if (!users) return null;
+
+    const guest =
+        users.children.find(
+            item =>
+                item.type === "folder" &&
+                item.name === "Guest"
+        );
+
+    if (!guest) return null;
+
+    return guest.children.find(
+        item =>
+            item.type === "folder" &&
+            item.name === "Pictures"
+    );
+}
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.ctrlKey &&
+            event.altKey &&
+            event.key.toLowerCase() === "s"
+        ) {
+
+            event.preventDefault();
+
+            takeSigmaScreenshot();
+
+        }
+
+    }
+);
+
+let calculatorExpression = "";
+
+
+function calculatorInput(
+    value
+) {
+
+    calculatorExpression +=
+        value;
+
+    document.getElementById(
+        "calculatorDisplay"
+    ).textContent =
+        calculatorExpression;
+
+}
+
+
+function calculatorClear() {
+
+    calculatorExpression = "";
+
+    document.getElementById(
+        "calculatorDisplay"
+    ).textContent = "0";
+
+}
+
+
+function calculatorEquals() {
+
+    try {
+
+        const result =
+            Function(
+                `"use strict"; return (${calculatorExpression})`
+            )();
+
+        calculatorExpression =
+            String(result);
+
+        document.getElementById(
+            "calculatorDisplay"
+        ).textContent =
+            calculatorExpression;
+
+    } catch {
+
+        calculatorExpression = "";
+
+        document.getElementById(
+            "calculatorDisplay"
+        ).textContent =
+            "Error";
+
+    }
+
+}
+
+function toggleCalculatorInstall() {
+
+    let installedApps =
+        getInstalledApps();
+
+
+    const index =
+        installedApps.indexOf(
+            "calculator"
+        );
+
+
+    if (index === -1) {
+
+        // INSTALL
+
+        installedApps.push(
+            "calculator"
+        );
+
+        saveInstalledApps(
+            installedApps
+        );
+
+    } else {
+
+        // UNINSTALL
+
+        installedApps.splice(
+            index,
+            1
+        );
+
+        saveInstalledApps(
+            installedApps
+        );
+
+        closeWindow(
+            "calculator"
+        );
+
+    }
+
+
+    updateCalculatorStoreButton();
+
+    renderDesktopIcons();
+
+}
+
+function updateCalculatorStoreButton() {
+
+    const button =
+        document.getElementById(
+            "calculatorStoreButton"
+        );
+
+    if (!button) return;
+
+
+    const installedApps =
+        getInstalledApps();
+
+
+    if (
+        installedApps.includes(
+            "calculator"
+        )
+    ) {
+
+        button.textContent =
+            "Uninstall";
+
+    } else {
+
+        button.textContent =
+            "Install";
+
+    }
+
+}
 
 // =========================
 // SIGMAOS FIRST INSTALLATION
