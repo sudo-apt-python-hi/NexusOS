@@ -5097,6 +5097,204 @@ a {
 
 }
 
+.sigma-wallpaper-upload {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        10px 16px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.1
+        );
+
+    color: white;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        transform 0.1s ease;
+
+}
+
+
+.sigma-wallpaper-upload:hover {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.14
+        );
+
+}
+
+
+.sigma-wallpaper-upload:active {
+
+    transform:
+        scale(0.96);
+
+}
+
+/* =========================
+   SNAKE
+========================= */
+
+.snake-app {
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 18px;
+
+    box-sizing: border-box;
+
+    background:
+        #05080d;
+
+}
+
+
+.snake-header {
+
+    width: 500px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 12px;
+
+}
+
+
+.snake-title {
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+}
+
+
+.snake-score {
+
+    font-size: 13px;
+
+    color: #9aa8bb;
+
+}
+
+
+#snakeCanvas {
+
+    width: 500px;
+
+    height: 500px;
+
+    background:
+        #020509;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.1);
+
+    border-radius: 8px;
+
+    image-rendering:
+        pixelated;
+
+}
+
+
+.snake-game-over {
+
+    position: absolute;
+
+    display: none;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 25px 35px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(5,8,14,0.94);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,0.5);
+
+    font-size: 24px;
+
+    font-weight: 600;
+
+}
+
+
+.snake-game-over button {
+
+    padding: 9px 18px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+}
+
+
+.snake-game-over button:hover {
+
+    background: #3474f0;
+
+}
+
 </style>
 </head>
 
@@ -5829,6 +6027,40 @@ a {
 
             </div>
 
+            <div class="sigma-store-app-card">
+
+                <div class="sigma-store-app-icon">
+                    🐍
+                </div>
+
+
+                <div class="sigma-store-app-info">
+
+                    <div class="sigma-store-app-name">
+                        Snake
+                    </div>
+
+                    <div class="sigma-store-app-description">
+                        The classic Snake game.
+                    </div>
+
+                    <div class="sigma-store-app-version">
+                        Version 1.0
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="sigma-store-install-button"
+                    id="snakeStoreButton"
+                    onclick="toggleSnakeInstall()"
+                >
+                    Install
+                </button>
+
+            </div>
+
         </div>
 
     </div>
@@ -5956,6 +6188,93 @@ a {
 
     </div>
 
+    <div
+        class="window"
+        id="snake"
+        style="
+            width: 560px;
+            height: 620px;
+        "
+    >
+
+        <div
+            class="titlebar"
+            onmousedown="
+                startDrag(
+                    event,
+                    'snake'
+                )
+            "
+        >
+
+            <div class="title">
+                🐍 Snake
+            </div>
+
+            <div class="window-buttons">
+
+                <div
+                    class="window-button close"
+                    onclick="
+                        closeWindow(
+                            'snake'
+                        )
+                    "
+                >
+                    ×
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="snake-app">
+
+            <div class="snake-header">
+
+                <div class="snake-title">
+                    Snake
+                </div>
+
+                <div class="snake-score">
+                    Score:
+                    <span id="snakeScore">
+                        0
+                    </span>
+                </div>
+
+            </div>
+
+
+            <canvas
+                id="snakeCanvas"
+                width="500"
+                height="500"
+            ></canvas>
+
+
+            <div
+                class="snake-game-over"
+                id="snakeGameOver"
+            >
+
+                <div>
+                    Game Over
+                </div>
+
+                <button
+                    onclick="startSnakeGame()"
+                >
+                    Restart
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
 
     <!-- NOTEPAD -->
 
@@ -6071,6 +6390,19 @@ placeholder="Start typing..."></textarea>
                         </button>
 
                     </div>
+
+                    <label class="sigma-wallpaper-upload">
+
+                        🖼️ Choose Wallpaper
+
+                        <input
+                            type="file"
+                            id="sigmaWallpaperUpload"
+                            accept="image/*"
+                            hidden
+                        >
+
+                    </label>
 
                     <div class="grid-setting" id="gridSetting">
 
@@ -6981,12 +7313,22 @@ function openWindow(id) {
     }
 
     if (
+        id === "snake"
+    ) {
+
+        startSnakeGame();
+
+    }
+
+    if (
         id === "sigmaStore"
     ) {
 
         updateCalculatorStoreButton();
 
         updateSigmaPaintStoreButton();
+
+        updateSnakeStoreButton();
 
     }
 
@@ -8000,6 +8342,13 @@ const SIGMA_STORE_APPS = [
         name: "Sigma Paint",
         icon: "🎨",
         appId: "sigmaPaint"
+    },
+
+    {
+        id: "snake",
+        name: "Snake",
+        icon: "🐍",
+        appId: "snake"
     }
 
 ];
@@ -9104,11 +9453,18 @@ function setWallpaper(type) {
 // =========================
 
 
-
 function loadWallpaper() {
 
     const saved =
         localStorage.getItem("nexus_wallpaper");
+
+    if (saved === "custom") {
+
+        loadSigmaWallpaper();
+
+        return;
+
+    }
 
     if (saved) {
 
@@ -9118,9 +9474,39 @@ function loadWallpaper() {
 
 }
 
-const NEXUS_GRID_KEY = "nexus_grid_enabled";
+function applySigmaWallpaperFile(
+    file
+) {
 
-loadWallpaper();
+    const desktop =
+        document.getElementById(
+            "desktop"
+        );
+
+    if (!desktop) return;
+
+
+    const url =
+        URL.createObjectURL(
+            file
+        );
+
+
+    desktop.style.backgroundImage =
+        `url("${url}")`;
+
+    desktop.style.backgroundSize =
+        "cover";
+
+    desktop.style.backgroundPosition =
+        "center";
+
+    desktop.style.backgroundRepeat =
+        "no-repeat";
+
+}
+
+const NEXUS_GRID_KEY = "nexus_grid_enabled";
 
 function setWallpaper(type) {
 
@@ -9149,6 +9535,31 @@ function setWallpaper(type) {
     if (type === "sunset") {
         desktop.style.background =
             "linear-gradient(135deg, #24102e, #8c3f55, #d4774d, #25101c)";
+    }
+
+    else if (type === "custom") {
+
+        const customWallpaper =
+            localStorage.getItem(
+                "sigma_custom_wallpaper"
+            );
+
+        if (customWallpaper) {
+
+            desktop.style.background =
+                `url("${customWallpaper}")`;
+
+            desktop.style.backgroundSize =
+                "cover";
+
+            desktop.style.backgroundPosition =
+                "center";
+
+            desktop.style.backgroundRepeat =
+                "no-repeat";
+
+        }
+
     }
 
     localStorage.setItem("nexus_wallpaper", type);
@@ -11304,6 +11715,92 @@ function updateSigmaPaintStoreButton() {
 
 }
 
+function toggleSnakeInstall() {
+
+    let installedApps =
+        getInstalledApps();
+
+
+    const index =
+        installedApps.indexOf(
+            "snake"
+        );
+
+
+    if (index === -1) {
+
+        installedApps.push(
+            "snake"
+        );
+
+    }
+
+    else {
+
+        installedApps.splice(
+            index,
+            1
+        );
+
+
+        closeWindow(
+            "snake"
+        );
+
+    }
+
+
+    saveInstalledApps(
+        installedApps
+    );
+
+
+    updateSnakeStoreButton();
+
+    renderDesktopIcons();
+
+}
+
+
+/* =========================
+   STORE BUTTON
+========================= */
+
+function updateSnakeStoreButton() {
+
+    const button =
+        document.getElementById(
+            "snakeStoreButton"
+        );
+
+
+    if (!button) return;
+
+
+    const installedApps =
+        getInstalledApps();
+
+
+    if (
+        installedApps.includes(
+            "snake"
+        )
+    ) {
+
+        button.textContent =
+            "Uninstall";
+
+    }
+
+    else {
+
+        button.textContent =
+            "Install";
+
+    }
+
+}
+
 let sigmaPaintCanvas;
 
 let sigmaPaintContext;
@@ -11597,6 +12094,725 @@ function sigmaPaintClear() {
 }
 
 sigmaPaintInit();
+
+/* =========================
+   SNAKE GAME
+========================= */
+
+let snakeCanvas;
+let snakeContext;
+
+let snake = [];
+
+let snakeApple = {};
+
+let snakeDirection = {
+    x: 1,
+    y: 0
+};
+
+let snakeNextDirection = {
+    x: 1,
+    y: 0
+};
+
+let snakeScore = 0;
+
+let snakeGameLoop = null;
+
+const SNAKE_GRID_SIZE = 25;
+
+const SNAKE_TILE_SIZE = 20;
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+function initializeSnake() {
+
+    snakeCanvas =
+        document.getElementById(
+            "snakeCanvas"
+        );
+
+    snakeContext =
+        snakeCanvas.getContext(
+            "2d"
+        );
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+function startSnakeGame() {
+
+    if (!snakeContext) {
+        initializeSnake();
+    }
+
+
+    clearInterval(
+        snakeGameLoop
+    );
+
+
+    snake = [
+
+        {
+            x: 12,
+            y: 12
+        },
+
+        {
+            x: 11,
+            y: 12
+        },
+
+        {
+            x: 10,
+            y: 12
+        }
+
+    ];
+
+
+    snakeDirection = {
+        x: 1,
+        y: 0
+    };
+
+
+    snakeNextDirection = {
+        x: 1,
+        y: 0
+    };
+
+
+    snakeScore = 0;
+
+
+    document
+        .getElementById(
+            "snakeScore"
+        )
+        .textContent = "0";
+
+
+    document
+        .getElementById(
+            "snakeGameOver"
+        )
+        .style.display = "none";
+
+
+    spawnSnakeApple();
+
+    drawSnake();
+
+
+    snakeGameLoop =
+        setInterval(
+            updateSnake,
+            110
+        );
+
+}
+
+
+/* =========================
+   APPLE
+========================= */
+
+function spawnSnakeApple() {
+
+    let validPosition =
+        false;
+
+
+    while (!validPosition) {
+
+        snakeApple = {
+
+            x:
+                Math.floor(
+                    Math.random() *
+                    SNAKE_GRID_SIZE
+                ),
+
+            y:
+                Math.floor(
+                    Math.random() *
+                    SNAKE_GRID_SIZE
+                )
+
+        };
+
+
+        validPosition =
+            !snake.some(
+                segment =>
+                    segment.x ===
+                        snakeApple.x &&
+                    segment.y ===
+                        snakeApple.y
+            );
+
+    }
+
+}
+
+
+/* =========================
+   UPDATE
+========================= */
+
+function updateSnake() {
+
+    snakeDirection =
+        snakeNextDirection;
+
+
+    const head = snake[0];
+
+
+    const newHead = {
+
+        x:
+            head.x +
+            snakeDirection.x,
+
+        y:
+            head.y +
+            snakeDirection.y
+
+    };
+
+
+    /* WALL COLLISION */
+
+    if (
+
+        newHead.x < 0 ||
+
+        newHead.x >=
+            SNAKE_GRID_SIZE ||
+
+        newHead.y < 0 ||
+
+        newHead.y >=
+            SNAKE_GRID_SIZE
+
+    ) {
+
+        endSnakeGame();
+
+        return;
+
+    }
+
+
+    /* SNAKE COLLISION */
+
+    if (
+
+        snake.some(
+            segment =>
+                segment.x ===
+                    newHead.x &&
+                segment.y ===
+                    newHead.y
+        )
+
+    ) {
+
+        endSnakeGame();
+
+        return;
+
+    }
+
+
+    snake.unshift(
+        newHead
+    );
+
+
+    /* APPLE */
+
+    if (
+
+        newHead.x ===
+            snakeApple.x &&
+
+        newHead.y ===
+            snakeApple.y
+
+    ) {
+
+        snakeScore++;
+
+
+        document
+            .getElementById(
+                "snakeScore"
+            )
+            .textContent =
+                snakeScore;
+
+
+        /*
+           One apple eaten =
+           one new apple.
+        */
+
+        spawnSnakeApple();
+
+    }
+
+    else {
+
+        snake.pop();
+
+    }
+
+
+    drawSnake();
+
+}
+
+
+/* =========================
+   DRAW
+========================= */
+
+function drawSnake() {
+
+    snakeContext.clearRect(
+        0,
+        0,
+        snakeCanvas.width,
+        snakeCanvas.height
+    );
+
+
+    /*
+       Grid
+    */
+
+    snakeContext.strokeStyle =
+        "rgba(255,255,255,0.035)";
+
+    snakeContext.lineWidth =
+        1;
+
+
+    for (
+        let x = 0;
+        x <= SNAKE_GRID_SIZE;
+        x++
+    ) {
+
+        snakeContext.beginPath();
+
+        snakeContext.moveTo(
+            x * SNAKE_TILE_SIZE,
+            0
+        );
+
+        snakeContext.lineTo(
+            x * SNAKE_TILE_SIZE,
+            snakeCanvas.height
+        );
+
+        snakeContext.stroke();
+
+    }
+
+
+    for (
+        let y = 0;
+        y <= SNAKE_GRID_SIZE;
+        y++
+    ) {
+
+        snakeContext.beginPath();
+
+        snakeContext.moveTo(
+            0,
+            y * SNAKE_TILE_SIZE
+        );
+
+        snakeContext.lineTo(
+            snakeCanvas.width,
+            y * SNAKE_TILE_SIZE
+        );
+
+        snakeContext.stroke();
+
+    }
+
+
+    /* APPLE */
+
+    snakeContext.fillStyle =
+        "#ef4444";
+
+
+    snakeContext.fillRect(
+
+        snakeApple.x *
+            SNAKE_TILE_SIZE + 2,
+
+        snakeApple.y *
+            SNAKE_TILE_SIZE + 2,
+
+        SNAKE_TILE_SIZE - 4,
+
+        SNAKE_TILE_SIZE - 4
+
+    );
+
+
+    /* SNAKE */
+
+    snake.forEach(
+        (segment, index) => {
+
+            snakeContext.fillStyle =
+                index === 0
+                    ? "#6dffb0"
+                    : "#39c978";
+
+
+            snakeContext.fillRect(
+
+                segment.x *
+                    SNAKE_TILE_SIZE + 2,
+
+                segment.y *
+                    SNAKE_TILE_SIZE + 2,
+
+                SNAKE_TILE_SIZE - 4,
+
+                SNAKE_TILE_SIZE - 4
+
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   GAME OVER
+========================= */
+
+function endSnakeGame() {
+
+    clearInterval(
+        snakeGameLoop
+    );
+
+
+    snakeGameLoop =
+        null;
+
+
+    document
+        .getElementById(
+            "snakeGameOver"
+        )
+        .style.display =
+            "flex";
+
+}
+
+
+/* =========================
+   CONTROLS
+========================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "ArrowUp" ||
+            event.key.toLowerCase() === "w"
+        ) {
+
+            if (
+                snakeDirection.y !== 1
+            ) {
+
+                snakeNextDirection = {
+                    x: 0,
+                    y: -1
+                };
+
+            }
+
+        }
+
+
+        if (
+            event.key === "ArrowDown" ||
+            event.key.toLowerCase() === "s"
+        ) {
+
+            if (
+                snakeDirection.y !== -1
+            ) {
+
+                snakeNextDirection = {
+                    x: 0,
+                    y: 1
+                };
+
+            }
+
+        }
+
+
+        if (
+            event.key === "ArrowLeft" ||
+            event.key.toLowerCase() === "a"
+        ) {
+
+            if (
+                snakeDirection.x !== 1
+            ) {
+
+                snakeNextDirection = {
+                    x: -1,
+                    y: 0
+                };
+
+            }
+
+        }
+
+
+        if (
+            event.key === "ArrowRight" ||
+            event.key.toLowerCase() === "d"
+        ) {
+
+            if (
+                snakeDirection.x !== -1
+            ) {
+
+                snakeNextDirection = {
+                    x: 1,
+                    y: 0
+                };
+
+            }
+
+        }
+
+    }
+);
+
+const SIGMA_WALLPAPER_DB =
+    "sigmaos_wallpaper_db";
+
+const SIGMA_WALLPAPER_STORE =
+    "wallpaper";
+
+
+function saveSigmaWallpaper(
+    file
+) {
+
+    const request =
+        indexedDB.open(
+            SIGMA_WALLPAPER_DB,
+            1
+        );
+
+
+    request.onupgradeneeded =
+        event => {
+
+            const db =
+                event.target.result;
+
+            if (
+                !db.objectStoreNames.contains(
+                    SIGMA_WALLPAPER_STORE
+                )
+            ) {
+
+                db.createObjectStore(
+                    SIGMA_WALLPAPER_STORE
+                );
+
+            }
+
+        };
+
+
+    request.onsuccess =
+        event => {
+
+            const db =
+                event.target.result;
+
+            const transaction =
+                db.transaction(
+                    SIGMA_WALLPAPER_STORE,
+                    "readwrite"
+                );
+
+            const store =
+                transaction.objectStore(
+                    SIGMA_WALLPAPER_STORE
+                );
+
+            store.put(
+                file,
+                "current"
+            );
+
+
+            transaction.oncomplete =
+                () => {
+
+                    applySigmaWallpaperFile(
+                        file
+                    );
+
+                };
+
+        };
+
+}
+
+function loadSigmaWallpaper() {
+
+    const request =
+        indexedDB.open(
+            SIGMA_WALLPAPER_DB,
+            1
+        );
+
+    request.onupgradeneeded =
+        event => {
+
+            const db =
+                event.target.result;
+
+            if (
+                !db.objectStoreNames.contains(
+                    SIGMA_WALLPAPER_STORE
+                )
+            ) {
+
+                db.createObjectStore(
+                    SIGMA_WALLPAPER_STORE
+                );
+
+            }
+
+        };
+
+
+    request.onsuccess =
+        event => {
+
+            const db =
+                event.target.result;
+
+            const transaction =
+                db.transaction(
+                    SIGMA_WALLPAPER_STORE,
+                    "readonly"
+                );
+
+            const store =
+                transaction.objectStore(
+                    SIGMA_WALLPAPER_STORE
+                );
+
+            const getRequest =
+                store.get(
+                    "current"
+                );
+
+
+            getRequest.onsuccess =
+                () => {
+
+                    if (
+                        getRequest.result
+                    ) {
+
+                        applySigmaWallpaperFile(
+                            getRequest.result
+                        );
+
+                    }
+
+                };
+
+        };
+
+}
+
+loadWallpaper();
+
+
+document
+    .getElementById(
+        "sigmaWallpaperUpload"
+    )
+    .addEventListener(
+        "change",
+        event => {
+
+            const file =
+                event.target.files[0];
+
+            if (!file) return;
+
+
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
+                return;
+            }
+
+
+            saveSigmaWallpaper(
+                file
+            );
+
+
+            localStorage.setItem(
+                "nexus_wallpaper",
+                "custom"
+            );
+
+        }
+    );
+
+if (
+    localStorage.getItem(
+        "nexus_wallpaper"
+    ) === "custom"
+) {
+
+    loadSigmaWallpaper();
+
+}
 
 // =========================
 // SIGMAOS FIRST INSTALLATION
