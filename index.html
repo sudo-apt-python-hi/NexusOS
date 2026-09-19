@@ -141,7 +141,13 @@ body {
     top: 15%;
     left: 25%;
 
-    background: rgba(8, 13, 23, 0.94);
+    background:
+        rgba(
+            8,
+            13,
+            23,
+            var(--sigma-window-opacity, 0.94)
+        );
     border: 1px solid rgba(100, 180, 255, 0.25);
 
     border-radius: 12px;
@@ -752,7 +758,13 @@ body {
 
     padding: 0 12px;
 
-    background: rgba(5,9,16,0.85);
+    background:
+        rgba(
+            5,
+            9,
+            16,
+            var(--sigma-ui-opacity, 0.85)
+        );
 
     border-top: 1px solid rgba(255,255,255,0.08);
 
@@ -1308,7 +1320,13 @@ body {
     width: 360px;
     height: 470px;
 
-    background: rgba(8,13,23,0.96);
+    background:
+        rgba(
+            8,
+            13,
+            23,
+            var(--sigma-ui-opacity, 0.96)
+        );
 
     border: 1px solid rgba(120,180,255,0.18);
 
@@ -1416,8 +1434,7 @@ body {
     inset: 0;
 
     z-index: 999999;
-
-    background: #02050a;
+    background: transparent;
 
     display: flex;
     align-items: center;
@@ -5101,53 +5118,108 @@ a {
 
 .sigma-wallpaper-upload {
 
-    display: inline-flex;
+    display: flex;
 
     align-items: center;
 
     justify-content: center;
 
-    padding:
-        10px 16px;
+    gap: 10px;
 
-    border-radius: 10px;
+    width: 100%;
 
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            0.08
-        );
+    box-sizing: border-box;
+
+    margin-top: 12px;
+
+    padding: 14px;
 
     border:
         1px solid
         rgba(
+            120,
+            180,
             255,
-            255,
-            255,
-            0.1
+            0.18
         );
 
-    color: white;
+    border-radius: 10px;
 
-    cursor: pointer;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(
+                40,
+                80,
+                130,
+                0.25
+            ),
+            rgba(
+                10,
+                20,
+                35,
+                0.55
+            )
+        );
+
+    color:
+        #dcecff;
+
+    font-family:
+        inherit;
+
+    font-size:
+        13px;
+
+    cursor:
+        pointer;
 
     transition:
+        transform 0.15s ease,
         background 0.15s ease,
-        transform 0.1s ease;
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
 
 }
 
 
 .sigma-wallpaper-upload:hover {
 
+    transform:
+        translateY(-2px);
+
     background:
+        linear-gradient(
+            135deg,
+            rgba(
+                60,
+                130,
+                210,
+                0.35
+            ),
+            rgba(
+                20,
+                40,
+                70,
+                0.7
+            )
+        );
+
+    border-color:
         rgba(
+            120,
+            190,
             255,
+            0.5
+        );
+
+    box-shadow:
+        0 0 14px
+        rgba(
+            70,
+            150,
             255,
-            255,
-            0.14
+            0.18
         );
 
 }
@@ -5156,8 +5228,9 @@ a {
 .sigma-wallpaper-upload:active {
 
     transform:
-        scale(0.96);
+        scale(0.97);
 
+}
 }
 
 /* =========================
@@ -5165,48 +5238,111 @@ a {
 ========================= */
 
 .snake-app {
+    position: relative;
 
-    height: 100%;
+    height: calc(100% - 1px);
+    width: 100%;
 
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
 
-    padding: 18px;
+    padding: 18px 20px 20px;
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 18% 12%,
+            rgba(155, 124, 255, 0.13),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 82% 20%,
+            rgba(66, 217, 255, 0.10),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 55% 100%,
+            rgba(97, 255, 155, 0.055),
+            transparent 32%
+        ),
+        #05060a;
+
+    color: #f5f7ff;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.snake-header {
+    width: 100%;
+    max-width: 500px;
+
+    min-height: 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     box-sizing: border-box;
 
+    padding: 0 15px;
+    margin-bottom: 16px;
+
+    border-radius: 15px;
+
     background:
-        #05080d;
+        linear-gradient(
+            135deg,
+            rgba(22, 26, 39, 0.82),
+            rgba(9, 11, 17, 0.72)
+        );
 
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
+    backdrop-filter: blur(20px);
 }
-
 
 .snake-header {
 
-    width: 500px;
+    width: min(
+        500px,
+        calc(100% - 20px)
+    );
 
     display: flex;
 
-    justify-content: space-between;
+    justify-content: center;
 
     align-items: center;
 
-    margin-bottom: 12px;
+    gap: 24px;
+
+    margin: 0 auto 14px auto;
+
+    padding: 0;
 
 }
-
 
 .snake-title {
 
     font-size: 20px;
 
-    font-weight: 600;
+    font-weight: 700;
+
+    color: #f5f7ff;
+
+    letter-spacing: 0.2px;
 
 }
-
 
 .snake-score {
 
@@ -5214,88 +5350,648 @@ a {
 
     color: #9aa8bb;
 
-}
-
-
-#snakeCanvas {
-
-    width: 500px;
-
-    height: 500px;
-
-    background:
-        #020509;
-
-    border:
-        1px solid
-        rgba(255,255,255,0.1);
+    padding: 5px 10px;
 
     border-radius: 8px;
 
-    image-rendering:
-        pixelated;
+    background: rgba(255,255,255,0.045);
+
+    border: 1px solid rgba(255,255,255,0.06);
 
 }
 
 
-.snake-game-over {
+.snake-title {
+    font-size: 18px;
+    font-weight: 900;
+
+    letter-spacing: -0.4px;
+
+    color: #f5f7ff;
+}
+
+
+.snake-score {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 7px 10px;
+
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.045);
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+
+    color: #8f98ad;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+#snakeScore {
+    color: #ffffff;
+}
+
+
+/* =========================
+   GAME BOARD
+========================= */
+
+#snakeCanvas {
+    display: block;
+
+    /*
+       IMPORTANT:
+       Do NOT force this to 500px.
+       JavaScript changes the real canvas
+       size depending on board size.
+    */
+
+    width: min(
+        500px,
+        100%
+    );
+
+    height: auto;
+
+    max-width: 100%;
+    max-height: calc(100% - 90px);
+
+    aspect-ratio: 1 / 1;
+
+    box-sizing: border-box;
+
+    margin: 0 auto;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(155, 124, 255, 0.035),
+            transparent 65%
+        ),
+        #070a11;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 0 0 1px rgba(155, 124, 255, 0.025),
+        0 0 45px rgba(155, 124, 255, 0.08),
+        0 25px 60px rgba(0, 0, 0, 0.42),
+        inset 0 0 35px rgba(66, 217, 255, 0.025);
+
+    image-rendering: auto;
+
+    touch-action: none;
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+.snake-settings {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    width: min(
+        390px,
+        calc(100% - 40px)
+    );
+
+    padding: 28px;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(22, 26, 39, 0.96),
+            rgba(9, 11, 17, 0.96)
+        );
+
+    box-shadow:
+        0 30px 90px rgba(0, 0, 0, 0.55),
+        0 0 45px rgba(155, 124, 255, 0.08);
+
+    backdrop-filter: blur(24px);
+
+    z-index: 20;
+
+    animation:
+        snakePanelIn
+        0.28s
+        cubic-bezier(.2,.8,.2,1)
+        both;
+}
+
+
+@keyframes snakePanelIn {
+    from {
+        opacity: 0;
+        transform:
+            translate(-50%, -47%)
+            scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+}
+
+
+.snake-settings::before {
+    content: "";
 
     position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    top: -100px;
+    left: -90px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(155, 124, 255, 0.20),
+            transparent 68%
+        );
+
+    filter: blur(12px);
+
+    pointer-events: none;
+}
+
+
+.snake-settings-title {
+    position: relative;
+
+    margin-bottom: 25px;
+
+    font-size: 24px;
+    font-weight: 900;
+
+    letter-spacing: -0.8px;
+
+    color: #ffffff;
+}
+
+
+.snake-setting {
+    position: relative;
+
+    margin-bottom: 19px;
+}
+
+
+.snake-setting-label {
+    margin-bottom: 8px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+
+    color: #858fa5;
+}
+
+
+.snake-setting select {
+    width: 100%;
+
+    padding: 12px 13px;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.09);
+
+    border-radius: 11px;
+
+    background:
+        rgba(255, 255, 255, 0.045);
+
+    color: #f5f7ff;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    outline: none;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+.snake-setting select:hover,
+.snake-setting select:focus {
+    border-color:
+        rgba(155, 124, 255, 0.45);
+
+    background:
+        rgba(255, 255, 255, 0.065);
+
+    box-shadow:
+        0 0 20px
+        rgba(155, 124, 255, 0.08);
+}
+
+
+.snake-settings-start {
+    position: relative;
+
+    width: 100%;
+
+    margin-top: 5px;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            100deg,
+            #ffffff,
+            #dfe2ff 55%,
+            #b9f3ff
+        );
+
+    color: #090b11;
+
+    font-family: inherit;
+
+    font-size: 12px;
+    font-weight: 900;
+
+    letter-spacing: 0.8px;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 12px 32px
+        rgba(164, 184, 255, 0.16);
+
+    transition:
+        transform 0.16s ease,
+        box-shadow 0.16s ease,
+        filter 0.16s ease;
+}
+
+
+.snake-settings-start::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            110deg,
+            transparent 35%,
+            rgba(255, 255, 255, 0.75) 50%,
+            transparent 65%
+        );
+
+    transform: translateX(-130%);
+
+    animation:
+        snakeButtonSweep
+        4s
+        linear
+        infinite;
+}
+
+
+@keyframes snakeButtonSweep {
+    0%,
+    60% {
+        transform: translateX(-130%);
+    }
+
+    80%,
+    100% {
+        transform: translateX(130%);
+    }
+}
+
+
+.snake-settings-start:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 16px 36px
+        rgba(164, 184, 255, 0.25);
+
+    filter: brightness(1.04);
+}
+
+
+.snake-settings-start:active {
+    transform:
+        translateY(1px)
+        scale(0.995);
+}
+
+
+/* =========================
+   GAME OVER
+========================= */
+
+.snake-game-over {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
 
     display: none;
 
     flex-direction: column;
 
     align-items: center;
+    justify-content: center;
 
-    gap: 15px;
+    gap: 16px;
 
-    padding: 25px 35px;
+    width: min(
+        300px,
+        calc(100% - 50px)
+    );
 
-    border-radius: 14px;
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    border-radius: 22px;
 
     background:
-        rgba(5,8,14,0.94);
+        linear-gradient(
+            145deg,
+            rgba(22, 26, 39, 0.97),
+            rgba(8, 10, 16, 0.97)
+        );
 
     border:
         1px solid
-        rgba(255,255,255,0.12);
+        rgba(255, 255, 255, 0.10);
 
     box-shadow:
-        0 15px 45px
-        rgba(0,0,0,0.5);
+        0 30px 90px
+        rgba(0, 0, 0, 0.60),
+        0 0 40px
+        rgba(255, 94, 122, 0.07);
 
-    font-size: 24px;
+    backdrop-filter: blur(24px);
 
-    font-weight: 600;
+    font-size: 25px;
 
+    font-weight: 900;
+
+    letter-spacing: -0.8px;
+
+    z-index: 30;
+
+    animation:
+        snakePanelIn
+        0.25s
+        ease
+        both;
 }
 
 
 .snake-game-over button {
-
-    padding: 9px 18px;
+    padding: 11px 22px;
 
     border: none;
 
-    border-radius: 8px;
+    border-radius: 11px;
 
-    background: #2563eb;
+    background:
+        linear-gradient(
+            100deg,
+            #ffffff,
+            #dfe2ff
+        );
 
-    color: white;
+    color: #090b11;
 
     font-family: inherit;
 
+    font-size: 12px;
+    font-weight: 900;
+
+    letter-spacing: 0.5px;
+
     cursor: pointer;
 
+    box-shadow:
+        0 10px 28px
+        rgba(164, 184, 255, 0.14);
+
+    transition:
+        transform 0.16s ease,
+        box-shadow 0.16s ease;
 }
 
 
 .snake-game-over button:hover {
+    transform: translateY(-2px);
 
-    background: #3474f0;
+    box-shadow:
+        0 14px 32px
+        rgba(164, 184, 255, 0.24);
+}
+
+#systemSettings {
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px solid rgba(120, 180, 255, 0.15);
+    border-radius: 12px;
+    background: rgba(5, 10, 20, 0.45);
+    box-shadow:
+        0 0 25px rgba(40, 120, 255, 0.08),
+        inset 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+/* Base button styling */
+#displaySettings button, #systemSettings button {
+    position: relative;
+    padding: 13px 16px;
+    border: 1px solid rgba(120, 180, 255, 0.18);
+    border-radius: 9px;
+    background: linear-gradient(135deg, rgba(40, 80, 130, 0.25), rgba(10, 20, 35, 0.55));
+    color: #dcecff;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    overflow: hidden;
+}
+
+/* Hover effects */
+#displaySettings button:hover, #systemSettings button:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(60, 130, 210, 0.35), rgba(20, 40, 70, 0.7));
+    border-color: rgba(120, 190, 255, 0.5);
+    box-shadow: 0 0 14px rgba(70, 150, 255, 0.18);
+}
+
+/* Click effects */
+#displaySettings button:active, #systemSettings button:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 8px rgba(70, 150, 255, 0.15);
+}
+
+/* Little glow sweep */
+#displaySettings button::before, #systemSettings button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    transition: left 0.35s ease;
+}
+
+#displaySettings button:hover::before, #systemSettings button:hover::before {
+    left: 100%;
+}
+
+.setting {
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.settings > .setting:hover {
+
+    transform:
+        translateX(5px);
+
+    background:
+        rgba(
+            40,
+            100,
+            160,
+            0.18
+        );
+
+    border-color:
+        rgba(
+            100,
+            180,
+            255,
+            0.4
+        );
+
+    box-shadow:
+        0 0 18px
+        rgba(
+            60,
+            150,
+            255,
+            0.12
+        );
 
 }
+
+.settings > .setting:active {
+
+    transform:
+        translateX(3px)
+        scale(0.98);
+    cursor: pointer;
+
+}
+
+::-webkit-scrollbar {
+
+    width:
+        5px;
+
+}
+
+
+::-webkit-scrollbar-track {
+
+    background:
+        transparent;
+
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background:
+
+        rgba(
+            0,
+            180,
+            220,
+            0.3
+        );
+
+    border-radius:
+        10px;
+
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background:
+
+        rgba(
+            0,
+            220,
+            255,
+            0.6
+        );
+
+}
+
+
 
 </style>
 </head>
@@ -6195,7 +6891,7 @@ a {
         id="snake"
         style="
             width: 560px;
-            height: 620px;
+            height: 650px;
         "
     >
 
@@ -6245,6 +6941,84 @@ a {
                         0
                     </span>
                 </div>
+
+            </div>
+
+            <div
+                class="snake-settings"
+                id="snakeSettings"
+            >
+
+                <div class="snake-settings-title">
+                    ⚙️ Snake Settings
+                </div>
+
+
+                <div class="snake-setting">
+
+                    <div class="snake-setting-label">
+                        Apples per spawn
+                    </div>
+
+                    <select
+                        id="snakeAppleCount"
+                    >
+
+                        <option value="1">
+                            1
+                        </option>
+
+                        <option value="2">
+                            2
+                        </option>
+
+                        <option value="3">
+                            3
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="snake-setting">
+
+                    <div class="snake-setting-label">
+                        Board size
+                    </div>
+
+                    <select
+                        id="snakeBoardSize"
+                    >
+
+                        <option value="15">
+                            Small
+                        </option>
+
+                        <option
+                            value="20"
+                            selected
+                        >
+                            Mid
+                        </option>
+
+                        <option value="25">
+                            Large
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    class="snake-settings-start"
+                    onclick="
+                        applySnakeSettings()
+                    "
+                >
+                    Start Game
+                </button>
 
             </div>
 
@@ -6406,6 +7180,40 @@ placeholder="Start typing..."></textarea>
 
                     </label>
 
+                    <div
+                        class="transparency-setting"
+                        id="transparencySetting"
+                    >
+
+                        <label
+                            for="sigmaTransparencySlider"
+                        >
+                            <span>
+                                Window transparency
+                            </span>
+
+                            <span
+                                id="sigmaTransparencyValue"
+                            >
+                                6%
+                            </span>
+                        </label>
+
+
+                        <input
+                            id="sigmaTransparencySlider"
+                            type="range"
+                            min="0"
+                            max="50"
+                            value="6"
+                        >
+
+                        <p>
+                            Adjust how transparent SigmaOS windows appear.
+                        </p>
+
+                    </div>
+
                     <div class="grid-setting" id="gridSetting">
 
                         <label>
@@ -6431,14 +7239,103 @@ placeholder="Start typing..."></textarea>
                     <p>Configure your display.</p>
                 </div>
 
+                <div
+                    id="systemSettings"
+                    style="display: none;"
+                >
+
+                    <div class="display-header">
+
+                        <button
+                            class="display-back"
+                            onclick="closeSystemSettings()"
+                        >
+                            ← Back
+                        </button>
+
+                        <div>
+
+                            <h3>
+                                ℹ️ System
+                            </h3>
+
+                            <p>
+                                SIGMA OS information and credits.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="setting" id="hoverhoverpls">
+
+                        <h3>
+                            ℹ️ About SigmaOS
+                        </h3>
+
+                        <p>
+                            SIGMA OS v0.12 • Build 32
+                        </p>
+
+                    </div>
+
+                    <h3>
+                        Credits<br>
+                    </h3>
+
+
+                    <div class="setting">
+
+                        <h3>
+                            👤 Creator
+                        </h3>
+
+                        <p>
+                            Created by: <br>
+                            sudo-apt-python-hi (Github) <br>
+                            @spaminfinite (Youtube)
+                        </p>
+
+                    </div>
+
+
+                    <div class="setting">
+
+                        <h3>
+                            🤝 Development Assistance
+                        </h3>
+
+                        <p>
+                            Thanks to "mikeylovesgaming" (@SummerMLG on Youtube) for: <br>
+                            Proposing Update Ideas <br>
+                            Proposing App Ideas <br>
+                            Critiquing Updates <br>
+                            Overall Supporting the Development Process of SigmaOS. <br>
+                            <br>
+                            Dev note: if @SummerMLG anyone else helped, it's false.
+                        </p>
+
+                    </div>
+
+                </div>
+
                 <div class="setting">
                     <h3>🔊 Sound</h3>
                     <p>Manage system audio.</p>
                 </div>
 
-                <div class="setting">
+                <div
+                    class="setting"
+                    onclick="openSystemSettings()"
+                >
+
                     <h3>ℹ️ System</h3>
-                    <p>SIGMA OS v0.1 • Build 260817</p>
+
+                    <p>
+                        View SigmaOS information and credits.
+                    </p>
+
                 </div>
 
                 </div>
@@ -7318,7 +8215,7 @@ function openWindow(id) {
         id === "snake"
     ) {
 
-        startSnakeGame();
+        loadSnakeSettings();
 
     }
 
@@ -7344,6 +8241,58 @@ function openWindow(id) {
     window.style.zIndex = zIndex;
 
     updateTaskbarState(id);
+}
+
+/*quick break here*/
+
+function loadSnakeSettings() {
+
+    const savedApples =
+        localStorage.getItem(
+            "sigma_snake_apples"
+        );
+
+    const savedBoard =
+        localStorage.getItem(
+            "sigma_snake_board"
+        );
+
+
+    snakeApplesPerSpawn =
+        savedApples !== null
+            ? Number(savedApples)
+            : 1;
+
+
+    snakeBoardSize =
+        savedBoard !== null
+            ? Number(savedBoard)
+            : 20;
+
+
+    document
+        .getElementById(
+            "snakeAppleCount"
+        )
+        .value =
+            snakeApplesPerSpawn;
+
+
+    document
+        .getElementById(
+            "snakeBoardSize"
+        )
+        .value =
+            snakeBoardSize;
+
+
+    document
+        .getElementById(
+            "snakeSettings"
+        )
+        .style.display =
+            "block";
+
 }
 
 
@@ -7898,7 +8847,6 @@ function terminalCommand(event) {
             `Available commands:<br>
             help<br>
             clear<br>
-            systeminfo<br>
             echo [text]`;
 
     }
@@ -7906,17 +8854,6 @@ function terminalCommand(event) {
     else if (command === "clear") {
 
         terminal.innerHTML = "";
-
-    }
-
-    else if (command === "systeminfo") {
-
-        output.innerHTML =
-            `SIGMA OS v0.1<br>
-            CPU: Virtual Processor<br>
-            RAM: 12 GB<br>
-            Storage: 477 GB<br>
-            Status: ONLINE`;
 
     }
 
@@ -9405,48 +10342,73 @@ function setWallpaper(type) {
     const desktop =
         document.getElementById("desktop");
 
+    const bootScreen =
+        document.getElementById("bootScreen");
+
     if (!desktop) return;
+
+
+    let background = "";
+
 
     if (type === "default") {
 
-        desktop.style.background =
+        background =
             "radial-gradient(circle at center, #17233d 0%, #080c14 55%, #03050a 100%)";
 
     }
 
     else if (type === "blue") {
 
-        desktop.style.background =
+        background =
             "linear-gradient(135deg, #061a35, #0b4f78, #06101f)";
 
     }
 
     else if (type === "purple") {
 
-        desktop.style.background =
+        background =
             "linear-gradient(135deg, #18072e, #54258a, #0b0618)";
 
     }
 
     else if (type === "dark") {
 
-        desktop.style.background =
+        background =
             "linear-gradient(135deg, #050505, #111111, #020202)";
 
     }
 
     else if (type === "sunset") {
 
-        desktop.style.background =
+        background =
             "linear-gradient(135deg, #24102e, #8c3f55, #d4774d, #25101c)";
 
     }
+
+
+    if (background) {
+
+        desktop.style.background =
+            background;
+
+        if (bootScreen) {
+
+            bootScreen.style.background =
+                background;
+
+        }
+
+    }
+
 
     localStorage.setItem(
         "nexus_wallpaper",
         type
     );
 
+
+    loadGridSetting();
 }
 
 
@@ -9476,98 +10438,38 @@ function loadWallpaper() {
 
 }
 
-function applySigmaWallpaperFile(
-    file
-) {
+function applySigmaWallpaperFile(file) {
 
     const desktop =
-        document.getElementById(
-            "desktop"
-        );
+        document.getElementById("desktop");
+
+    const bootScreen =
+        document.getElementById("bootScreen");
 
     if (!desktop) return;
 
 
     const url =
-        URL.createObjectURL(
-            file
-        );
+        URL.createObjectURL(file);
+
+    const background =
+        `url("${url}") center / cover no-repeat`;
 
 
-    desktop.style.backgroundImage =
-        `url("${url}")`;
+    desktop.style.background =
+        background;
 
-    desktop.style.backgroundSize =
-        "cover";
 
-    desktop.style.backgroundPosition =
-        "center";
+    if (bootScreen) {
 
-    desktop.style.backgroundRepeat =
-        "no-repeat";
+        bootScreen.style.background =
+            background;
+
+    }
 
 }
 
 const NEXUS_GRID_KEY = "nexus_grid_enabled";
-
-function setWallpaper(type) {
-
-    const desktop = document.getElementById("desktop");
-
-    if (type === "default") {
-        desktop.style.background =
-            "radial-gradient(circle at center, #17233d 0%, #080c14 55%, #03050a 100%)";
-    }
-
-    if (type === "blue") {
-        desktop.style.background =
-            "linear-gradient(135deg, #061a35, #0b4f78, #06101f)";
-    }
-
-    if (type === "purple") {
-        desktop.style.background =
-            "linear-gradient(135deg, #18072e, #54258a, #0b0618)";
-    }
-
-    if (type === "dark") {
-        desktop.style.background =
-            "linear-gradient(135deg, #050505, #111111, #020202)";
-    }
-
-    if (type === "sunset") {
-        desktop.style.background =
-            "linear-gradient(135deg, #24102e, #8c3f55, #d4774d, #25101c)";
-    }
-
-    else if (type === "custom") {
-
-        const customWallpaper =
-            localStorage.getItem(
-                "sigma_custom_wallpaper"
-            );
-
-        if (customWallpaper) {
-
-            desktop.style.background =
-                `url("${customWallpaper}")`;
-
-            desktop.style.backgroundSize =
-                "cover";
-
-            desktop.style.backgroundPosition =
-                "center";
-
-            desktop.style.backgroundRepeat =
-                "no-repeat";
-
-        }
-
-    }
-
-    localStorage.setItem("nexus_wallpaper", type);
-
-    loadGridSetting();
-}
 
 function openDisplaySettings() {
 
@@ -9591,6 +10493,79 @@ function closeDisplaySettings() {
     document.querySelectorAll(".settings > .setting").forEach(setting => {
         setting.style.display = "block";
     });
+
+}
+
+function openSystemSettings() {
+
+    document
+        .querySelector(".settings")
+        .classList.add(
+            "display-page"
+        );
+
+
+    document
+        .querySelectorAll(
+            ".settings > .setting"
+        )
+        .forEach(
+            setting => {
+
+                setting.style.display =
+                    "none";
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "displaySettings"
+        )
+        .style.display =
+            "none";
+
+
+    document
+        .getElementById(
+            "systemSettings"
+        )
+        .style.display =
+            "block";
+
+}
+
+
+function closeSystemSettings() {
+
+    document
+        .querySelector(".settings")
+        .classList.remove(
+            "display-page"
+        );
+
+
+    document
+        .getElementById(
+            "systemSettings"
+        )
+        .style.display =
+            "none";
+
+
+    document
+        .querySelectorAll(
+            ".settings > .setting"
+        )
+        .forEach(
+            setting => {
+
+                setting.style.display =
+                    "block";
+
+            }
+        );
 
 }
 
@@ -10110,6 +11085,105 @@ function toggleBrightnessPopup() {
 updateSigmaBrightness(
     brightnessPopupSlider.value
 );
+
+const NEXUS_WINDOW_TRANSPARENCY_KEY =
+    "nexus_window_transparency";
+
+
+function updateSigmaWindowTransparency(
+    value
+) {
+
+    value =
+        Number(value);
+
+
+    const opacity =
+        1 -
+        (
+            value / 100
+        );
+
+    document.documentElement.style.setProperty(
+        "--sigma-window-opacity",
+        opacity
+    );
+
+    document.documentElement.style.setProperty(
+        "--sigma-ui-opacity",
+        opacity
+    );
+
+
+    const valueDisplay =
+        document.getElementById(
+            "sigmaTransparencyValue"
+        );
+
+
+    if (valueDisplay) {
+
+        valueDisplay.textContent =
+            value + "%";
+
+    }
+
+
+    localStorage.setItem(
+        NEXUS_WINDOW_TRANSPARENCY_KEY,
+        value
+    );
+
+}
+
+
+const sigmaTransparencySlider =
+    document.getElementById(
+        "sigmaTransparencySlider"
+    );
+
+
+if (sigmaTransparencySlider) {
+
+    sigmaTransparencySlider.addEventListener(
+        "input",
+        () => {
+
+            updateSigmaWindowTransparency(
+                sigmaTransparencySlider.value
+            );
+
+        }
+    );
+
+}
+
+const savedWindowTransparency =
+    localStorage.getItem(
+        NEXUS_WINDOW_TRANSPARENCY_KEY
+    );
+
+
+if (
+    savedWindowTransparency !== null
+) {
+
+    sigmaTransparencySlider.value =
+        savedWindowTransparency;
+
+    updateSigmaWindowTransparency(
+        savedWindowTransparency
+    );
+
+}
+
+else {
+
+    updateSigmaWindowTransparency(
+        6
+    );
+
+}
 
 
 volumePopupSlider.value =
@@ -12122,9 +13196,33 @@ let snakeScore = 0;
 
 let snakeGameLoop = null;
 
-const SNAKE_GRID_SIZE = 25;
+/*
+    Smooth visual movement.
+
+    The actual game still moves on the grid,
+    but the renderer animates between those positions.
+*/
+
+let snakePrevious = [];
+
+let snakeTickStart = 0;
+
+const SNAKE_TICK_TIME = 110;
+
+let snakeAnimationFrame = null;
+
+let snakeBlinkUntil = 0;
+
+let snakeNextBlink =
+    performance.now() +
+    2500 +
+    Math.random() * 2500;
 
 const SNAKE_TILE_SIZE = 20;
+
+let snakeBoardSize = 20;
+
+let snakeApplesPerSpawn = 1;
 
 
 /* =========================
@@ -12276,7 +13374,9 @@ function initializeSnake() {
 function startSnakeGame() {
 
     if (!snakeContext) {
+
         initializeSnake();
+
     }
 
 
@@ -12288,18 +13388,39 @@ function startSnakeGame() {
     snake = [
 
         {
-            x: 12,
-            y: 12
+            x:
+                Math.floor(
+                    snakeBoardSize / 2
+                ),
+
+            y:
+                Math.floor(
+                    snakeBoardSize / 2
+                )
         },
 
         {
-            x: 11,
-            y: 12
+            x:
+                Math.floor(
+                    snakeBoardSize / 2
+                ) - 1,
+
+            y:
+                Math.floor(
+                    snakeBoardSize / 2
+                )
         },
 
         {
-            x: 10,
-            y: 12
+            x:
+                Math.floor(
+                    snakeBoardSize / 2
+                ) - 2,
+
+            y:
+                Math.floor(
+                    snakeBoardSize / 2
+                )
         }
 
     ];
@@ -12331,10 +13452,39 @@ function startSnakeGame() {
         .getElementById(
             "snakeGameOver"
         )
-        .style.display = "none";
+        .style.display =
+            "none";
+
+
+    document
+        .getElementById(
+            "snakeSettings"
+        )
+        .style.display =
+            "none";
 
 
     spawnSnakeApple();
+
+    snakeCanvas.width =
+        snakeBoardSize *
+        SNAKE_TILE_SIZE;
+
+    snakeCanvas.height =
+        snakeBoardSize *
+        SNAKE_TILE_SIZE;
+
+
+snakePrevious =
+    snake.map(
+        segment => ({
+            x: segment.x,
+            y: segment.y
+        })
+    );
+
+    snakeTickStart =
+        performance.now();
 
     drawSnake();
 
@@ -12342,8 +13492,75 @@ function startSnakeGame() {
     snakeGameLoop =
         setInterval(
             updateSnake,
-            110
+            SNAKE_TICK_TIME
         );
+
+
+    if (
+        snakeAnimationFrame
+    ) {
+        cancelAnimationFrame(
+            snakeAnimationFrame
+        );
+    }
+
+    function animateSnake() {
+
+        drawSnake();
+
+        snakeAnimationFrame =
+            requestAnimationFrame(
+                animateSnake
+            );
+
+    }
+
+    animateSnake();
+
+}
+
+function applySnakeSettings() {
+
+    const appleCount =
+        Number(
+            document
+                .getElementById(
+                    "snakeAppleCount"
+                )
+                .value
+        );
+
+
+    const boardSize =
+        Number(
+            document
+                .getElementById(
+                    "snakeBoardSize"
+                )
+                .value
+        );
+
+
+    snakeApplesPerSpawn =
+        appleCount;
+
+    snakeBoardSize =
+        boardSize;
+
+
+    localStorage.setItem(
+        "sigma_snake_apples",
+        snakeApplesPerSpawn
+    );
+
+
+    localStorage.setItem(
+        "sigma_snake_board",
+        snakeBoardSize
+    );
+
+
+    startSnakeGame();
 
 }
 
@@ -12354,37 +13571,69 @@ function startSnakeGame() {
 
 function spawnSnakeApple() {
 
-    let validPosition =
-        false;
+    snakeApple = [];
 
 
-    while (!validPosition) {
+    for (
+        let i = 0;
+        i < snakeApplesPerSpawn;
+        i++
+    ) {
 
-        snakeApple = {
-
-            x:
-                Math.floor(
-                    Math.random() *
-                    SNAKE_GRID_SIZE
-                ),
-
-            y:
-                Math.floor(
-                    Math.random() *
-                    SNAKE_GRID_SIZE
-                )
-
-        };
+        let validPosition =
+            false;
 
 
-        validPosition =
-            !snake.some(
-                segment =>
-                    segment.x ===
-                        snakeApple.x &&
-                    segment.y ===
-                        snakeApple.y
-            );
+        let apple;
+
+
+        while (
+            !validPosition
+        ) {
+
+            apple = {
+
+                x:
+                    Math.floor(
+                        Math.random() *
+                        snakeBoardSize
+                    ),
+
+                y:
+                    Math.floor(
+                        Math.random() *
+                        snakeBoardSize
+                    )
+
+            };
+
+
+            validPosition =
+                !snake.some(
+                    segment =>
+                        segment.x ===
+                            apple.x &&
+                        segment.y ===
+                            apple.y
+                );
+
+
+            validPosition =
+                validPosition &&
+                !snakeApple.some(
+                    existing =>
+                        existing.x ===
+                            apple.x &&
+                        existing.y ===
+                            apple.y
+                );
+
+        }
+
+
+        snakeApple.push(
+            apple
+        );
 
     }
 
@@ -12396,6 +13645,17 @@ function spawnSnakeApple() {
 ========================= */
 
 function updateSnake() {
+
+    snakePrevious =
+        snake.map(
+            segment => ({
+                x: segment.x,
+                y: segment.y
+            })
+        );
+
+    snakeTickStart =
+        performance.now();
 
     snakeDirection =
         snakeNextDirection;
@@ -12424,12 +13684,12 @@ function updateSnake() {
         newHead.x < 0 ||
 
         newHead.x >=
-            SNAKE_GRID_SIZE ||
+            snakeBoardSize ||
 
         newHead.y < 0 ||
 
         newHead.y >=
-            SNAKE_GRID_SIZE
+            snakeBoardSize
 
     ) {
 
@@ -12465,17 +13725,20 @@ function updateSnake() {
         newHead
     );
 
+    /* APPLES */
 
-    /* APPLE */
+    const eatenAppleIndex =
+        snakeApple.findIndex(
+            apple =>
+                apple.x ===
+                    newHead.x &&
+                apple.y ===
+                    newHead.y
+        );
+
 
     if (
-
-        newHead.x ===
-            snakeApple.x &&
-
-        newHead.y ===
-            snakeApple.y
-
+        eatenAppleIndex !== -1
     ) {
 
         snakeScore++;
@@ -12489,15 +13752,60 @@ function updateSnake() {
                 snakeScore;
 
 
+        snakeApple.splice(
+            eatenAppleIndex,
+            1
+        );
+
+
         /*
-           One apple eaten =
-           one new apple.
+           Spawn the next apple.
         */
 
-        spawnSnakeApple();
+        let newApple;
+
+        let validPosition =
+            false;
+
+
+        while (
+            !validPosition
+        ) {
+
+            newApple = {
+
+                x:
+                    Math.floor(
+                        Math.random() *
+                        snakeBoardSize
+                    ),
+
+                y:
+                    Math.floor(
+                        Math.random() *
+                        snakeBoardSize
+                    )
+
+            };
+
+
+            validPosition =
+                !snake.some(
+                    segment =>
+                        segment.x ===
+                            newApple.x &&
+                        segment.y ===
+                            newApple.y
+                );
+
+        }
+
+
+        snakeApple.push(
+            newApple
+        );
 
     }
-
     else {
 
         snake.pop();
@@ -12516,7 +13824,69 @@ function updateSnake() {
 
 function drawSnake() {
 
-    snakeContext.clearRect(
+    if (
+        !snakeContext ||
+        !snakeCanvas
+    ) {
+        return;
+    }
+
+
+    const ctx =
+        snakeContext;
+
+    const tile =
+        SNAKE_TILE_SIZE;
+
+    const board =
+        snakeBoardSize * tile;
+
+
+    /*
+        SMOOTH MOVEMENT
+
+        The game itself updates every 110ms.
+
+        The renderer smoothly moves between
+        the previous grid position and the
+        current grid position.
+    */
+
+    const elapsed =
+        performance.now() -
+        snakeTickStart;
+
+    const rawProgress =
+        elapsed /
+        SNAKE_TICK_TIME;
+
+    const progress =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                rawProgress
+            )
+        );
+
+
+    /*
+        Smooth easing.
+
+        This is what makes the snake feel
+        less robotic.
+    */
+
+    const smooth =
+        progress *
+        progress *
+        (
+            3 -
+            2 * progress
+        );
+
+
+    ctx.clearRect(
         0,
         0,
         snakeCanvas.width,
@@ -12525,109 +13895,886 @@ function drawSnake() {
 
 
     /*
-       Grid
+        BACKGROUND
     */
 
-    snakeContext.strokeStyle =
+    const bg =
+        ctx.createRadialGradient(
+            board / 2,
+            board / 2,
+            0,
+            board / 2,
+            board / 2,
+            board * 0.72
+        );
+
+    bg.addColorStop(
+        0,
+        "rgba(155,124,255,0.055)"
+    );
+
+    bg.addColorStop(
+        0.55,
+        "rgba(66,217,255,0.018)"
+    );
+
+    bg.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+    ctx.fillStyle =
+        bg;
+
+    ctx.fillRect(
+        0,
+        0,
+        board,
+        board
+    );
+
+
+    /*
+        GRID
+    */
+
+    ctx.beginPath();
+
+    ctx.strokeStyle =
         "rgba(255,255,255,0.035)";
 
-    snakeContext.lineWidth =
-        1;
+    ctx.lineWidth = 1;
 
 
     for (
         let x = 0;
-        x <= SNAKE_GRID_SIZE;
+        x <= snakeBoardSize;
         x++
     ) {
 
-        snakeContext.beginPath();
+        const px =
+            x * tile + 0.5;
 
-        snakeContext.moveTo(
-            x * SNAKE_TILE_SIZE,
+        ctx.moveTo(
+            px,
             0
         );
 
-        snakeContext.lineTo(
-            x * SNAKE_TILE_SIZE,
-            snakeCanvas.height
+        ctx.lineTo(
+            px,
+            board
         );
-
-        snakeContext.stroke();
 
     }
 
 
     for (
         let y = 0;
-        y <= SNAKE_GRID_SIZE;
+        y <= snakeBoardSize;
         y++
     ) {
 
-        snakeContext.beginPath();
+        const py =
+            y * tile + 0.5;
 
-        snakeContext.moveTo(
+        ctx.moveTo(
             0,
-            y * SNAKE_TILE_SIZE
+            py
         );
 
-        snakeContext.lineTo(
-            snakeCanvas.width,
-            y * SNAKE_TILE_SIZE
+        ctx.lineTo(
+            board,
+            py
         );
-
-        snakeContext.stroke();
 
     }
 
-
-    /* APPLE */
-
-    snakeContext.fillStyle =
-        "#ef4444";
+    ctx.stroke();
 
 
-    snakeContext.fillRect(
+    /*
+        APPLES
+    */
 
-        snakeApple.x *
-            SNAKE_TILE_SIZE + 2,
+    snakeApple.forEach(
+        apple => {
 
-        snakeApple.y *
-            SNAKE_TILE_SIZE + 2,
+            const cx =
+                apple.x * tile +
+                tile / 2;
 
-        SNAKE_TILE_SIZE - 4,
+            const cy =
+                apple.y * tile +
+                tile / 2;
 
-        SNAKE_TILE_SIZE - 4
+            const radius =
+                Math.max(
+                    5,
+                    tile * 0.29
+                );
 
+
+            ctx.save();
+
+
+            /*
+                Apple glow
+            */
+
+            ctx.shadowColor =
+                "rgba(255,82,115,0.8)";
+
+            ctx.shadowBlur =
+                tile * 0.55;
+
+
+            const appleGradient =
+                ctx.createRadialGradient(
+                    cx - radius * 0.35,
+                    cy - radius * 0.4,
+                    radius * 0.15,
+                    cx,
+                    cy,
+                    radius
+                );
+
+            appleGradient.addColorStop(
+                0,
+                "#ffb0bd"
+            );
+
+            appleGradient.addColorStop(
+                0.32,
+                "#ff5e7a"
+            );
+
+            appleGradient.addColorStop(
+                1,
+                "#d92850"
+            );
+
+
+            ctx.fillStyle =
+                appleGradient;
+
+
+            ctx.beginPath();
+
+            ctx.arc(
+                cx,
+                cy + radius * 0.08,
+                radius,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+
+
+            /*
+                Apple shine
+            */
+
+            ctx.shadowBlur = 0;
+
+            ctx.fillStyle =
+                "rgba(255,255,255,0.78)";
+
+
+            ctx.beginPath();
+
+            ctx.arc(
+                cx - radius * 0.38,
+                cy - radius * 0.38,
+                radius * 0.18,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+
+
+            /*
+                Stem
+            */
+
+            ctx.strokeStyle =
+                "#8f6b4b";
+
+            ctx.lineWidth =
+                Math.max(
+                    1.5,
+                    tile * 0.07
+                );
+
+            ctx.lineCap =
+                "round";
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                cx,
+                cy - radius * 0.72
+            );
+
+            ctx.quadraticCurveTo(
+                cx + radius * 0.08,
+                cy - radius * 1.15,
+                cx + radius * 0.38,
+                cy - radius * 1.12
+            );
+
+            ctx.stroke();
+
+
+            /*
+                Leaf
+            */
+
+            ctx.fillStyle =
+                "#61ff9b";
+
+
+            ctx.beginPath();
+
+            ctx.ellipse(
+                cx + radius * 0.36,
+                cy - radius * 0.94,
+                radius * 0.27,
+                radius * 0.13,
+                -0.35,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+
+
+            ctx.restore();
+
+        }
     );
 
 
-    /* SNAKE */
+    /*
+        SNAKE BODY
+    */
 
     snake.forEach(
         (segment, index) => {
 
-            snakeContext.fillStyle =
-                index === 0
-                    ? "#6dffb0"
-                    : "#39c978";
+            const isHead =
+                index === 0;
 
 
-            snakeContext.fillRect(
+            /*
+                Find previous position.
 
-                segment.x *
-                    SNAKE_TILE_SIZE + 2,
+                New head segments don't have
+                a previous position, so they
+                simply begin at their current
+                position.
+            */
 
-                segment.y *
-                    SNAKE_TILE_SIZE + 2,
+            const previous =
+                snakePrevious[index] ||
+                segment;
 
-                SNAKE_TILE_SIZE - 4,
 
-                SNAKE_TILE_SIZE - 4
+            let gridX =
+                previous.x +
+                (
+                    segment.x -
+                    previous.x
+                ) * smooth;
 
+            let gridY =
+                previous.y +
+                (
+                    segment.y -
+                    previous.y
+                ) * smooth;
+
+
+            /*
+                BODY LAG
+
+                Each body segment gets a tiny
+                additional delay behind the
+                segment in front of it.
+
+                This creates that "alive" feeling.
+            */
+
+            if (
+                !isHead &&
+                snakePrevious[index - 1]
+            ) {
+
+                const lag =
+                    Math.min(
+                        0.13,
+                        index * 0.012
+                    );
+
+                const front =
+                    snake[index - 1];
+
+                gridX =
+                    gridX * (1 - lag) +
+                    (
+                        front.x -
+                        snakeDirection.x * 0.18
+                    ) * lag;
+
+                gridY =
+                    gridY * (1 - lag) +
+                    (
+                        front.y -
+                        snakeDirection.y * 0.18
+                    ) * lag;
+
+            }
+
+
+            const centerX =
+                gridX * tile +
+                tile / 2;
+
+            const centerY =
+                gridY * tile +
+                tile / 2;
+
+
+            /*
+                HEAD MOTION
+
+                Slight squash/stretch while moving.
+            */
+
+            let scaleX = 1;
+
+            let scaleY = 1;
+
+            let rotation = 0;
+
+
+            if (isHead) {
+
+                const motion =
+                    Math.sin(
+                        smooth * Math.PI
+                    );
+
+                scaleX =
+                    1 +
+                    motion * 0.07;
+
+                scaleY =
+                    1 -
+                    motion * 0.045;
+
+
+                /*
+                    Turn direction gives
+                    the head some personality.
+                */
+
+                rotation =
+                    snakeDirection.x !== 0
+                        ? snakeDirection.x *
+                          motion *
+                          0.08
+                        : snakeDirection.y *
+                          motion *
+                          0.08;
+
+            }
+
+
+            ctx.save();
+
+
+            ctx.translate(
+                centerX,
+                centerY
             );
 
+            ctx.rotate(
+                rotation
+            );
+
+            ctx.scale(
+                scaleX,
+                scaleY
+            );
+
+
+            const padding =
+                Math.max(
+                    2,
+                    tile * 0.10
+                );
+
+            const size =
+                tile -
+                padding * 2;
+
+            const x =
+                -size / 2;
+
+            const y =
+                -size / 2;
+
+
+            const radius =
+                Math.max(
+                    4,
+                    tile *
+                    (
+                        isHead
+                            ? 0.27
+                            : 0.22
+                    )
+                );
+
+
+            /*
+                GLOW
+            */
+
+            ctx.shadowColor =
+                isHead
+                    ? "rgba(155,124,255,0.85)"
+                    : "rgba(97,255,155,0.42)";
+
+            ctx.shadowBlur =
+                isHead
+                    ? tile * 0.46
+                    : tile * 0.25;
+
+
+            /*
+                BODY GRADIENT
+            */
+
+            const gradient =
+                ctx.createLinearGradient(
+                    x,
+                    y,
+                    x + size,
+                    y + size
+                );
+
+
+            if (isHead) {
+
+                gradient.addColorStop(
+                    0,
+                    "#ffffff"
+                );
+
+                gradient.addColorStop(
+                    0.25,
+                    "#ddd9ff"
+                );
+
+                gradient.addColorStop(
+                    0.60,
+                    "#9b7cff"
+                );
+
+                gradient.addColorStop(
+                    1,
+                    "#42d9ff"
+                );
+
+            } else {
+
+                gradient.addColorStop(
+                    0,
+                    "#c4ffe0"
+                );
+
+                gradient.addColorStop(
+                    0.35,
+                    "#61ff9b"
+                );
+
+                gradient.addColorStop(
+                    1,
+                    "#20b86b"
+                );
+
+            }
+
+
+            ctx.fillStyle =
+                gradient;
+
+
+            ctx.beginPath();
+
+            ctx.roundRect(
+                x,
+                y,
+                size,
+                size,
+                radius
+            );
+
+            ctx.fill();
+
+
+            /*
+                BODY HIGHLIGHT
+            */
+
+            ctx.shadowBlur = 0;
+
+
+            const highlight =
+                ctx.createLinearGradient(
+                    0,
+                    y,
+                    0,
+                    y + size
+                );
+
+
+            highlight.addColorStop(
+                0,
+                "rgba(255,255,255,0.45)"
+            );
+
+            highlight.addColorStop(
+                0.3,
+                "rgba(255,255,255,0.10)"
+            );
+
+            highlight.addColorStop(
+                0.65,
+                "rgba(255,255,255,0)"
+            );
+
+
+            ctx.fillStyle =
+                highlight;
+
+
+            ctx.beginPath();
+
+            ctx.roundRect(
+                x + 1,
+                y + 1,
+                size - 2,
+                size * 0.55,
+                radius * 0.8
+            );
+
+            ctx.fill();
+
+
+            /*
+                FACE
+            */
+
+            if (isHead) {
+
+                /*
+                    Blink occasionally.
+                */
+
+                const now =
+                    performance.now();
+
+
+                if (
+                    now >=
+                    snakeNextBlink
+                ) {
+
+                    snakeBlinkUntil =
+                        now + 120;
+
+                    snakeNextBlink =
+                        now +
+                        2200 +
+                        Math.random() * 3000;
+
+                }
+
+
+                const blinking =
+                    now <
+                    snakeBlinkUntil;
+
+
+                const eyeRadius =
+                    Math.max(
+                        1.6,
+                        tile * 0.075
+                    );
+
+
+                let eye1X =
+                    -size * 0.20;
+
+                let eye1Y =
+                    -size * 0.20;
+
+                let eye2X =
+                    -size * 0.20;
+
+                let eye2Y =
+                    size * 0.20;
+
+
+                /*
+                    Eyes are positioned relative
+                    to the CENTER of the head.
+                */
+
+                if (
+                    snakeDirection.x > 0
+                ) {
+
+                    eye1X =
+                        size * 0.20;
+
+                    eye2X =
+                        size * 0.20;
+
+                    eye1Y =
+                        -size * 0.20;
+
+                    eye2Y =
+                        size * 0.20;
+
+                }
+
+
+                if (
+                    snakeDirection.x < 0
+                ) {
+
+                    eye1X =
+                        -size * 0.20;
+
+                    eye2X =
+                        -size * 0.20;
+
+                    eye1Y =
+                        -size * 0.20;
+
+                    eye2Y =
+                        size * 0.20;
+
+                }
+
+
+                if (
+                    snakeDirection.y < 0
+                ) {
+
+                    eye1X =
+                        -size * 0.20;
+
+                    eye2X =
+                        size * 0.20;
+
+                    eye1Y =
+                        -size * 0.20;
+
+                    eye2Y =
+                        -size * 0.20;
+
+                }
+
+
+                if (
+                    snakeDirection.y > 0
+                ) {
+
+                    eye1X =
+                        -size * 0.20;
+
+                    eye2X =
+                        size * 0.20;
+
+                    eye1Y =
+                        size * 0.20;
+
+                    eye2Y =
+                        size * 0.20;
+
+                }
+
+
+                ctx.fillStyle =
+                    "#080b12";
+
+
+                if (blinking) {
+
+                    ctx.lineWidth =
+                        Math.max(
+                            1.5,
+                            tile * 0.07
+                        );
+
+                    ctx.strokeStyle =
+                        "#080b12";
+
+                    ctx.lineCap =
+                        "round";
+
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(
+                        eye1X -
+                        eyeRadius,
+                        eye1Y
+                    );
+
+                    ctx.lineTo(
+                        eye1X +
+                        eyeRadius,
+                        eye1Y
+                    );
+
+                    ctx.stroke();
+
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(
+                        eye2X -
+                        eyeRadius,
+                        eye2Y
+                    );
+
+                    ctx.lineTo(
+                        eye2X +
+                        eyeRadius,
+                        eye2Y
+                    );
+
+                    ctx.stroke();
+
+                } else {
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        eye1X,
+                        eye1Y,
+                        eyeRadius,
+                        0,
+                        Math.PI * 2
+                    );
+
+                    ctx.fill();
+
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        eye2X,
+                        eye2Y,
+                        eyeRadius,
+                        0,
+                        Math.PI * 2
+                    );
+
+                    ctx.fill();
+
+                }
+
+
+                /*
+                    Tiny smile.
+                */
+
+                ctx.strokeStyle =
+                    "rgba(8,11,18,0.8)";
+
+                ctx.lineWidth =
+                    Math.max(
+                        1,
+                        tile * 0.045
+                    );
+
+                ctx.lineCap =
+                    "round";
+
+
+                /* DIRECTION-AWARE MOUTH */
+
+                const mouthForward =
+                    size * 0.20;
+
+                const mouthX =
+                    snakeDirection.x *
+                    mouthForward;
+
+                const mouthY =
+                    snakeDirection.y *
+                    mouthForward;
+
+                ctx.save();
+
+                ctx.translate(
+                    mouthX,
+                    mouthY
+                );
+
+                ctx.rotate(
+                    Math.atan2(
+                        snakeDirection.y,
+                        snakeDirection.x
+                    ) + Math.PI / 2
+                );
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    0,
+                    0,
+                    size * 0.11,
+                    0.2,
+                    Math.PI - 0.2
+                );
+
+                ctx.stroke();
+
+ctx.restore();
+
+            }
+
+
+            ctx.restore();
+
         }
+    );
+
+
+    /*
+        BOARD EDGE
+    */
+
+    ctx.strokeStyle =
+        "rgba(155,124,255,0.18)";
+
+    ctx.lineWidth = 1;
+
+    ctx.strokeRect(
+        0.5,
+        0.5,
+        board - 1,
+        board - 1
     );
 
 }
@@ -13089,10 +15236,18 @@ function initializeSigmaOS() {
 
     // First launch
     runInstallation();
+    installScreen.style.display = "none";
+bootScreen.style.opacity = "1";
+
+
 }
 
 
 initializeSigmaOS();
+
+
+
+
 
 </script>
 
